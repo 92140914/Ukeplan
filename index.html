@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
   <meta charset="UTF-8">
-  <title>Skoleplan – Live</title>
+  <title>Skoleplan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -14,15 +14,24 @@
       padding: 20px;
     }
 
-    h1 {
-      text-align: center;
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      font-weight: bold;
     }
 
     .card {
       background: #1e293b;
       padding: 15px;
       border-radius: 10px;
-      margin-bottom: 15px;
     }
 
     #popup {
@@ -33,48 +42,75 @@
       padding: 15px;
       border-radius: 10px;
       display: none;
-      z-index: 1000;
     }
 
     button {
-      background: #22c55e;
+      margin-top: 10px;
+      padding: 6px 10px;
       border: none;
-      padding: 8px 12px;
       border-radius: 6px;
-      cursor: pointer;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <h1>📚 Ukeplan</h1>
-
-  <div class="card" id="ukeplan">
-    Laster ukeplan...
+  <div class="top">
+    <h2>📚 Ukeplan</h2>
+    <select id="klasse">
+      <option value="8A">8A</option>
+      <option value="8B">8B</option>
+      <option value="8C">8C</option>
+      <option value="8D">8D</option>
+      <option value="8E">8E</option>
+    </select>
   </div>
 
+  <div class="card" id="ukeplan">Laster...</div>
+
   <div id="popup">
-    <span id="popup-text"></span><br><br>
+    <span id="popup-text"></span>
     <button onclick="lukkPopup()">OK</button>
   </div>
 
-  <audio id="ringelyd" src="ring.mp3"></audio>
+  <audio id="ring" src="ring.mp3"></audio>
 
   <script>
-    fetch("ukeplan.json")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("ukeplan").innerHTML = data.html;
-        sjekkRingetider(data.ringetider);
-      })
-      .catch(() => {
-        document.getElementById("ukeplan").innerText =
-          "Kunne ikke laste ukeplan.";
-      });
+    const select = document.getElementById("klasse");
+    const lagretKlasse = localStorage.getItem("klasse");
+    if (lagretKlasse) select.value = lagretKlasse;
 
-    function visPopup(tekst) {
-      document.getElementById("popup-text").innerText = tekst;
+    function lastUkeplan() {
+      const klasse = select.value;
+      localStorage.setItem("klasse", klasse);
+
+      fetch(`ukeplan-${klasse}.json`)
+        .then(r => r.json())
+        .then(d => {
+          document.getElementById("ukeplan").innerHTML = d.html;
+          ring50(d.tider);
+        })
+        .catch(() => {
+          document.getElementById("ukeplan").innerText =
+            "Fant ikke ukeplan for " + klasse;
+        });
+    }
+
+    select.addEventListener("change", lastUkeplan);
+
+    function ring50(tider) {
+      const nå = new Date();
+      tider.forEach(t => {
+        const [h, m] = t.split(":");
+        const d = new Date();
+        d.setHours(h, m, 50);
+        const diff = d - nå;
+        if (diff > 0) setTimeout(() => document.getElementById("ring").play(), diff);
+      });
+    }
+
+    function visPopup(t) {
+      document.getElementById("popup-text").innerText = t;
       document.getElementById("popup").style.display = "block";
     }
 
@@ -82,31 +118,10 @@
       document.getElementById("popup").style.display = "none";
     }
 
-    setTimeout(() => {
-      visPopup("📌 Husk lekse til i morgen!");
-    }, 3000);
+    setTimeout(() => visPopup("Husk lekse til i morgen"), 3000);
 
-    function sjekkRingetider(tider) {
-      const now = new Date();
-
-      tider.forEach(tid => {
-        const [h, m] = tid.split(":");
-        const ringTid = new Date();
-        ringTid.setHours(h);
-        ringTid.setMinutes(m);
-        ringTid.setSeconds(50);
-
-        const diff = ringTid - now;
-
-        if (diff > 0) {
-          setTimeout(() => {
-            document.getElementById("ringelyd").play();
-          }, diff);
-        }
-      });
-    }
+    lastUkeplan();
   </script>
 
 </body>
 </html>
-
