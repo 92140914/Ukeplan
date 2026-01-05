@@ -14,10 +14,32 @@
       padding: 20px;
     }
 
-    .top {
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    button.settings-btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #settings-panel {
+      display: none;
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
       margin-bottom: 20px;
     }
 
@@ -44,84 +66,96 @@
       display: none;
     }
 
-    button {
+    #popup button {
       margin-top: 10px;
       padding: 6px 10px;
       border: none;
       border-radius: 6px;
       font-weight: bold;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <div class="top">
-    <h2>📚 Ukeplan</h2>
-    <select id="klasse">
-      <option value="8A">8A</option>
-      <option value="8B">8B</option>
-      <option value="8C">8C</option>
-      <option value="8D">8D</option>
-      <option value="8E">8E</option>
-    </select>
-  </div>
+<header>
+  <h1>📚 Ukeplan</h1>
+  <button class="settings-btn" onclick="toggleSettings()">⚙️ Innstillinger</button>
+</header>
 
-  <div class="card" id="ukeplan">Laster...</div>
+<div id="settings-panel">
+  Velg klasse: 
+  <select id="klasse">
+    <option value="8A">8A</option>
+    <option value="8B">8B</option>
+    <option value="8C">8C</option>
+    <option value="8D">8D</option>
+    <option value="8E">8E</option>
+  </select>
+</div>
 
-  <div id="popup">
-    <span id="popup-text"></span>
-    <button onclick="lukkPopup()">OK</button>
-  </div>
+<div class="card" id="ukeplan">Laster ukeplan...</div>
 
-  <audio id="ring" src="ring.mp3"></audio>
+<div id="popup">
+  <span id="popup-text"></span><br>
+  <button onclick="lukkPopup()">OK</button>
+</div>
 
-  <script>
-    const select = document.getElementById("klasse");
-    const lagretKlasse = localStorage.getItem("klasse");
-    if (lagretKlasse) select.value = lagretKlasse;
+<audio id="ring" src="ring.mp3"></audio>
 
-    function lastUkeplan() {
-      const klasse = select.value;
-      localStorage.setItem("klasse", klasse);
+<script>
+  const select = document.getElementById("klasse");
+  const settingsPanel = document.getElementById("settings-panel");
 
-      fetch(`ukeplan-${klasse}.json`)
-        .then(r => r.json())
-        .then(d => {
-          document.getElementById("ukeplan").innerHTML = d.html;
-          ring50(d.tider);
-        })
-        .catch(() => {
-          document.getElementById("ukeplan").innerText =
-            "Fant ikke ukeplan for " + klasse;
-        });
-    }
+  // Sett lagret klasse hvis finnes
+  const lagretKlasse = localStorage.getItem("klasse");
+  if (lagretKlasse) select.value = lagretKlasse;
 
-    select.addEventListener("change", lastUkeplan);
+  function toggleSettings() {
+    settingsPanel.style.display = settingsPanel.style.display === "none" ? "block" : "none";
+  }
 
-    function ring50(tider) {
-      const nå = new Date();
-      tider.forEach(t => {
-        const [h, m] = t.split(":");
-        const d = new Date();
-        d.setHours(h, m, 50);
-        const diff = d - nå;
-        if (diff > 0) setTimeout(() => document.getElementById("ring").play(), diff);
+  function lastUkeplan() {
+    const klasse = select.value;
+    localStorage.setItem("klasse", klasse);
+
+    fetch(`ukeplan-${klasse}.json`)
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById("ukeplan").innerHTML = d.html;
+        ring50(d.tider);
+      })
+      .catch(() => {
+        document.getElementById("ukeplan").innerText = "Fant ikke ukeplan for " + klasse;
       });
-    }
+  }
 
-    function visPopup(t) {
-      document.getElementById("popup-text").innerText = t;
-      document.getElementById("popup").style.display = "block";
-    }
+  select.addEventListener("change", lastUkeplan);
 
-    function lukkPopup() {
-      document.getElementById("popup").style.display = "none";
-    }
+  function ring50(tider) {
+    const nå = new Date();
+    tider.forEach(t => {
+      const [h, m] = t.split(":");
+      const d = new Date();
+      d.setHours(h, m, 50);
+      const diff = d - nå;
+      if (diff > 0) setTimeout(() => document.getElementById("ring").play(), diff);
+    });
+  }
 
-    setTimeout(() => visPopup("Husk lekse til i morgen"), 3000);
+  function visPopup(t) {
+    document.getElementById("popup-text").innerText = t;
+    document.getElementById("popup").style.display = "block";
+  }
 
-    lastUkeplan();
-  </script>
+  function lukkPopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+
+  setTimeout(() => visPopup("📌 Husk lekse til i morgen"), 3000);
+
+  lastUkeplan();
+</script>
 
 </body>
 </html>
