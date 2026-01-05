@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Skoleplan – Live</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    #popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ef4444;
+      padding: 15px;
+      border-radius: 10px;
+      display: none;
+      z-index: 1000;
+    }
+
+    button {
+      background: #22c55e;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📚 Ukeplan</h1>
+
+  <div class="card" id="ukeplan">
+    Laster ukeplan...
+  </div>
+
+  <div id="popup">
+    <span id="popup-text"></span><br><br>
+    <button onclick="lukkPopup()">OK</button>
+  </div>
+
+  <audio id="ringelyd" src="ring.mp3"></audio>
+
+  <script>
+    fetch("ukeplan.json")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("ukeplan").innerHTML = data.html;
+        sjekkRingetider(data.ringetider);
+      })
+      .catch(() => {
+        document.getElementById("ukeplan").innerText =
+          "Kunne ikke laste ukeplan.";
+      });
+
+    function visPopup(tekst) {
+      document.getElementById("popup-text").innerText = tekst;
+      document.getElementById("popup").style.display = "block";
+    }
+
+    function lukkPopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    setTimeout(() => {
+      visPopup("📌 Husk lekse til i morgen!");
+    }, 3000);
+
+    function sjekkRingetider(tider) {
+      const now = new Date();
+
+      tider.forEach(tid => {
+        const [h, m] = tid.split(":");
+        const ringTid = new Date();
+        ringTid.setHours(h);
+        ringTid.setMinutes(m);
+        ringTid.setSeconds(50);
+
+        const diff = ringTid - now;
+
+        if (diff > 0) {
+          setTimeout(() => {
+            document.getElementById("ringelyd").play();
+          }, diff);
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
 
