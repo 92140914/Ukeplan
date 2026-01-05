@@ -7,9 +7,8 @@
   "scripts": {
     "start": "node hentUkeplan.js"
   },
-  "author": "Ditt Navn",
-  "license": "MIT",
-  "dependencies": {
+  "author": "Mateo, Marcus, Leon",
+   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "node-fetch": "^3.3.2"
   }
