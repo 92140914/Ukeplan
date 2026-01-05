@@ -1,0 +1,16 @@
+{
+  "name": "Ukeplan",
+  "version": "v1",
+  "description": "Henter ukeplaner og annen info",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "start": "node hentUkeplan.js"
+  },
+  "author": "Ditt Navn",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^3.3.2"
+  }
+}
