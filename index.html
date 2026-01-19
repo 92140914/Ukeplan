@@ -1,161 +1,101 @@
-<!DOCTYPE html>
-<html lang="no">
-<head>
-  <meta charset="UTF-8">
-  <title>Skoleplan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+// Ukeplan
+const schedule = {
+    1: [
+        {start: "08:20", end: "09:20", subject: "Engelsk"},
+        {start: "09:30", end: "10:30", subject: "Naturfag"},
+        {start: "10:30", end: "11:00", subject: "Lunsj"},
+        {start: "11:00", end: "12:00", subject: "Norsk"},
+        {start: "12:10", end: "13:10", subject: "KRLE / Valgfag"},
+        {start: "13:20", end: "14:20", subject: "Valgfag"},
+    ],
+    2: [
+        {start: "08:20", end: "09:20", subject: "ALF"},
+        {start: "09:30", end: "10:30", subject: "ALF / Språk"},
+        {start: "10:30", end: "11:00", subject: "Lunsj"},
+        {start: "11:00", end: "12:00", subject: "Norsk / Samfunnsfag"},
+        {start: "12:10", end: "13:10", subject: "Matematikk"},
+        {start: "13:20", end: "14:20", subject: "Naturfag"},
+    ],
+    3: [
+        {start: "08:20", end: "09:20", subject: "Kunst og håndverk"},
+        {start: "09:30", end: "10:30", subject: "Kunst og høndverk"},
+        {start: "10:30", end: "11:00", subject: "Lunsj"},
+        {start: "11:00", end: "12:00", subject: "Kroppsøving"},
+        {start: "12:10", end: "13:10", subject: "Matematikk"},
+        {start: "13:20", end: "14:20", subject: "Språk"},
+    ],
+    4: [
+        {start: "08:20", end: "09:20", subject: "Samfunnsfag"},
+        {start: "09:30", end: "10:30", subject: "Norsk"},
+        {start: "10:30", end: "11:00", subject: "Lunsj"},
+        {start: "11:00", end: "12:00", subject: "Kroppsøving"},
+        {start: "12:10", end: "13:10", subject: "Matematikk"},
+        {start: "13:20", end: "14:20", subject: "Utdanningsvalg"},
+    ],
+    5: [
+        {start: "08:20", end: "09:20", subject: "KRLE"},
+        {start: "09:30", end: "10:30", subject: "Norsk"},
+        {start: "10:30", end: "11:00", subject: "Lunsj"},
+        {start: "11:00", end: "12:00", subject: "Samfunnsfag"},
+        {start: "12:10", end: "13:10", subject: "marEngelsk"},
+    ]
+};
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      margin: 0;
-      padding: 20px;
+// Clock + next class
+function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2,'0');
+    const minutes = String(now.getMinutes()).padStart(2,'0');
+    const date = String(now.getDate()).padStart(2,'0') + '.' + 
+                 String(now.getMonth()+1).padStart(2,'0') + '.' +
+                 now.getFullYear();
+    document.getElementById('time').textContent = hours + ':' + minutes;
+    document.getElementById('date').textContent = date;
+
+    const day = now.getDay(); // 0=Sunday
+    const todaySchedule = schedule[day] || [];
+    let nextClass = "--";
+    for (let cls of todaySchedule) {
+        let [h,m] = cls.start.split(":").map(Number);
+        let classTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+        if(now < classTime) {
+            nextClass = cls.subject;
+            break;
+        }
     }
+    document.getElementById('nextClass').textContent = "Neste time: " + nextClass;
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+// Calculator
+let calcValue = '';
+function press(val) {
+    calcValue += val;
+    document.getElementById('calcDisplay').value = calcValue;
+}
+function calculate() {
+    try {
+        calcValue = eval(calcValue).toString();
+        document.getElementById('calcDisplay').value = calcValue;
+    } catch {
+        calcValue = '';
+        document.getElementById('calcDisplay').value = 'Error';
     }
+}
 
-    h1 {
-      margin: 0;
-    }
+// Notes
+const notes = document.getElementById('notes');
+notes.value = localStorage.getItem('notes') || '';
+notes.addEventListener('input', () => {
+    localStorage.setItem('notes', notes.value);
+});
 
-    button.settings-btn {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    #settings-panel {
-      display: none;
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    select {
-      padding: 6px;
-      border-radius: 6px;
-      border: none;
-      font-weight: bold;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-    }
-
-    #popup {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #ef4444;
-      padding: 15px;
-      border-radius: 10px;
-      display: none;
-    }
-
-    #popup button {
-      margin-top: 10px;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-<header>
-  <h1>📚 Ukeplan</h1>
-  <button class="settings-btn" onclick="toggleSettings()">⚙️ Innstillinger</button>
-</header>
-
-<div id="settings-panel">
-  Velg klasse: 
-  <select id="klasse">
-    <option value="8A">8A</option>
-    <option value="8B">8B</option>
-    <option value="8C">8C</option>
-    <option value="8D">8D</option>
-    <option value="8E">8E</option>
-  </select>
-</div>
-
-<div class="card" id="ukeplan">Laster ukeplan...</div>
-
-<div id="popup">
-  <span id="popup-text"></span><br>
-  <button onclick="lukkPopup()">OK</button>
-</div>
-
-<audio id="ring" src="ring.mp3"></audio>
-
-<script>
-  const select = document.getElementById("klasse");
-  const settingsPanel = document.getElementById("settings-panel");
-
-  // Sett lagret klasse hvis finnes
-  const lagretKlasse = localStorage.getItem("klasse");
-  if (lagretKlasse) select.value = lagretKlasse;
-
-  function toggleSettings() {
-    settingsPanel.style.display = settingsPanel.style.display === "none" ? "block" : "none";
-  }
-
-  function lastUkeplan() {
-    const klasse = select.value;
-    localStorage.setItem("klasse", klasse);
-
-    fetch(`ukeplan-${klasse}.json`)
-      .then(r => r.json())
-      .then(d => {
-        document.getElementById("ukeplan").innerHTML = d.html;
-        ring50(d.tider);
-      })
-      .catch(() => {
-        document.getElementById("ukeplan").innerText = "Fant ikke ukeplan for " + klasse;
-      });
-  }
-
-  select.addEventListener("change", lastUkeplan);
-
-  function ring50(tider) {
-    const nå = new Date();
-    tider.forEach(t => {
-      const [h, m] = t.split(":");
-      const d = new Date();
-      d.setHours(h, m, 50);
-      const diff = d - nå;
-      if (diff > 0) setTimeout(() => document.getElementById("ring").play(), diff);
+// Soundboard
+const circles = document.querySelectorAll('.circle');
+circles.forEach((circle, idx) => {
+    circle.addEventListener('click', () => {
+        const audio = new Audio(`sounds/lyd${idx+1}.mp3`);
+        audio.play();
     });
-  }
-
-  function visPopup(t) {
-    document.getElementById("popup-text").innerText = t;
-    document.getElementById("popup").style.display = "block";
-  }
-
-  function lukkPopup() {
-    document.getElementById("popup").style.display = "none";
-  }
-
-  setTimeout(() => visPopup("📌 Husk lekse til i morgen"), 3000);
-
-  lastUkeplan();
-</script>
-
-</body>
-</html>
+});
