@@ -1,3 +1,185 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Dashboard</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 250px 150px 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+}
+
+/* Clock */
+.clock {
+    background-color: #111;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-row: 1 / 2;
+}
+
+.clock h1 {
+    margin: 0;
+    font-size: 48px;
+}
+
+.clock p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Calculator */
+.calculator {
+    display: grid;
+    grid-template-rows: 50px repeat(4, 50px);
+    grid-template-columns: repeat(4, 50px);
+    gap: 5px;
+    background-color: #111;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.calculator input {
+    grid-column: 1 / 5;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #111;
+    color: white;
+}
+
+.calculator button {
+    background-color: #111;
+    border: 1px solid #444;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+}
+
+.calculator button:hover {
+    background-color: #333;
+}
+
+/* Notes */
+.notes {
+    background-color: #111;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 250px;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.notes textarea {
+    width: 100%;
+    height: 100%;
+    background-color: #111;
+    color: white;
+    border: none;
+    resize: none;
+    font-size: 14px;
+}
+
+/* Circles / Soundboard */
+.circles {
+    grid-column: 1 / 4;
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    grid-template-rows: repeat(3, 50px);
+    gap: 10px;
+    background-color: #111;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.circle {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+    <!-- Clock -->
+    <div class="clock">
+        <h1 id="time">--:--</h1>
+        <p id="date">--.--.----</p>
+        <p id="nextClass">Neste time: --</p>
+    </div>
+
+    <!-- Calculator -->
+    <div class="calculator">
+        <input type="text" id="calcDisplay" placeholder="" readonly>
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button onclick="press('+')">+</button>
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button onclick="press('-')">-</button>
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button onclick="press('*')">*</button>
+        <button onclick="press('0')">0</button>
+        <button onclick="press('.')">.</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="press('/')">/</button>
+    </div>
+
+    <!-- Notes -->
+    <div class="notes">
+        <textarea id="notes" placeholder="Skriv notater her..."></textarea>
+    </div>
+
+    <!-- Circles / Soundboard -->
+    <div class="circles">
+        <div class="circle" data-sound="lyd1.mp3"></div>
+        <div class="circle" data-sound="lyd2.mp3"></div>
+        <div class="circle" data-sound="lyd3.mp3"></div>
+        <div class="circle" data-sound="lyd4.mp3"></div>
+        <div class="circle" data-sound="lyd5.mp3"></div>
+        <div class="circle" data-sound="lyd6.mp3"></div>
+        <div class="circle" data-sound="lyd7.mp3"></div>
+        <div class="circle" data-sound="lyd8.mp3"></div>
+        <div class="circle" data-sound="lyd9.mp3"></div>
+        <div class="circle" data-sound="lyd10.mp3"></div>
+        <div class="circle" data-sound="lyd11.mp3"></div>
+        <div class="circle" data-sound="lyd12.mp3"></div>
+        <div class="circle" data-sound="lyd13.mp3"></div>
+        <div class="circle" data-sound="lyd14.mp3"></div>
+        <div class="circle" data-sound="lyd15.mp3"></div>
+    </div>
+</div>
+
+<script>
 // Ukeplan
 const schedule = {
     1: [
@@ -95,7 +277,10 @@ notes.addEventListener('input', () => {
 const circles = document.querySelectorAll('.circle');
 circles.forEach((circle, idx) => {
     circle.addEventListener('click', () => {
-        const audio = new Audio(`sounds/lyd${idx+1}.mp3`);
+        const audio = new Audio(`lyd${idx+1}.mp3`);
         audio.play();
     });
 });
+</script>
+</body>
+</html>
