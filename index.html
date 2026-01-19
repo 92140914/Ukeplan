@@ -223,7 +223,7 @@ const schedule = {
     ]
 };
 
-// Clock + next class
+// Klokke og neste time
 function updateClock() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2,'0');
@@ -234,9 +234,9 @@ function updateClock() {
     document.getElementById('time').textContent = hours + ':' + minutes;
     document.getElementById('date').textContent = date;
 
-    const day = now.getDay(); // 0=Sunday
+    const day = now.getDay(); // 0=Søndag
     const todaySchedule = schedule[day] || [];
-    let nextClass = "--";
+    let nextClass = "Ingen flere timer i dag";
     for (let cls of todaySchedule) {
         let [h,m] = cls.start.split(":").map(Number);
         let classTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
