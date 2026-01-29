@@ -8,7 +8,6 @@ from datetime import date, datetime
 from PyPDF2 import PdfReader
 from docx import Document
 
-# -------------- CONFIG ----------------
 BASE_URL = "https://www.bergen.kommune.no"
 START_URL = BASE_URL + "/omkommunen/avdelinger/mjolkeraen-skole/arbeidsplaner"
 OUT_FILE = "ukeplan-8E.json"
@@ -26,12 +25,8 @@ UKEDAGER = {
     "mandag": 1, "tirsdag": 2, "onsdag": 3, "torsdag": 4, "fredag": 5, "lørdag": 6, "lordag": 6, "søndag": 7, "sondag": 7
 }
 
-KLASSE_MØNSTER_URL = [r"\b8e\b", r"\b8\.?e\b", r"\b8\s*e\b", r"pdf8e"]
-
 PAGE_REF_RE = re.compile(r"(?:side|s\.?)\s*[:]?\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?", re.IGNORECASE)
-DATE_TOKEN_RE = re.compile(r"(\d{1,2}[./-]\d{1,2}(?:[./-]\d{2,4})?)")
 
-# -------------- HENT FILER ----------------
 def hent_html(url):
     r = requests.get(url, timeout=REQ_TIMEOUT)
     r.raise_for_status()
@@ -43,10 +38,7 @@ def hent_fil_data(url):
     return r.headers.get("content-type", ""), r.content
 
 def les_pdf(data):
-    try:
-        reader = PdfReader(BytesIO(data))
-    except:
-        return []
+    reader = PdfReader(BytesIO(data))
     lines = []
     for p in reader.pages:
         t = p.extract_text()
@@ -55,13 +47,9 @@ def les_pdf(data):
     return lines
 
 def les_docx(data):
-    try:
-        doc = Document(BytesIO(data))
-    except:
-        return []
+    doc = Document(BytesIO(data))
     return [p.text.strip() for p in doc.paragraphs if p.text.strip()]
 
-# -------------- UKEDAG / DATO ----------------
 def date_from_week_and_weekday(year_guess, uke_nummer, weekday_index):
     for y in (year_guess, year_guess-1, year_guess+1):
         try:
@@ -69,17 +57,6 @@ def date_from_week_and_weekday(year_guess, uke_nummer, weekday_index):
         except: pass
     return None
 
-def try_parse_date_str(s):
-    s = s.strip()
-    m = re.match(r"^(\d{1,2})[./](\d{1,2})$", s)
-    if m:
-        d, mo = int(m[1]), int(m[2])
-        y = date.today().year
-        try: return date(y, mo, d)
-        except: return None
-    return None
-
-# -------------- PARSING ----------------
 def join_lines(lines):
     out = []
     i = 0
@@ -109,7 +86,7 @@ def split_into_day_blocks(lines):
                 found_day = dag
                 break
         if found_day:
-            if buf:
+            if buf and current_day:
                 blocks.append((current_day, " ".join(buf).strip()))
                 buf = []
             current_day = found_day.capitalize()
@@ -149,24 +126,27 @@ def process_block(day, text, uke_nummer):
         "fag": find_subject(text)
     }]
 
-# -------------- FINN FIL ----------------
 def finn_best_match(filer):
     for url in filer:
-        for pat in KLASSE_MØNSTER_URL:
-            if re.search(pat, url.lower()):
-                ctype, data = hent_fil_data(url)
-                if "pdf" in ctype or url.lower().endswith(".pdf"):
-                    lines = les_pdf(data)
-                else:
-                    lines = les_docx(data)
+        try:
+            ctype, data = hent_fil_data(url)
+            if "pdf" in ctype or url.lower().endswith(".pdf"):
+                lines = les_pdf(data)
+            elif url.lower().endswith((".doc",".docx")):
+                lines = les_docx(data)
+            else:
+                continue
+            combined_text = " ".join(lines).lower()
+            if re.search(r"\b8\.?\s*e\b", combined_text):
                 return url, lines
+        except:
+            continue
     return None, None
 
 def main():
     index_html = hent_html(START_URL)
     index_soup = BeautifulSoup(index_html, "html.parser")
 
-    # finn uke-lenker
     uke_lenker = []
     for a in index_soup.find_all("a", href=True):
         tekst = a.get_text(" ", strip=True).lower()
