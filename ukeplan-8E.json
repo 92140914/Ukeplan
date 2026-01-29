@@ -4,7 +4,13 @@
   "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027",
   "lekser": [
     {
-      "tekst": "Tirsdag  Norsk  Les i leseboken din i 15 minutter. Oppdater leseloggen i Classroom etter at du har les t.",
+      "tekst": "norsk  les i leseboken din i 15 minutter. oppdater",
+      "dato": "2026-01-27",
+      "ukedag": "Tirsdag",
+      "side_eller_oppgave": null
+    },
+    {
+      "tekst": "leseloggen i classroom etter at du har les t. Matematikk  Du må sørge for at du vet hvordan du multipliserer (ganger sammen) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
       "side_eller_oppgave": null
@@ -13,34 +19,21 @@
       "tekst": "Spansk  Les s. 48 – 49 i boken",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
-      "side_eller_oppgave": null
+      "side_eller_oppgave": "side 48-49"
     },
     {
-      "tekst": "andre ikke. Leksen til i dag er i tillegg",
+      "tekst": "leksen til i dag er i tillegg til å lese sidene over å gjøre ferdig",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
       "side_eller_oppgave": null
     },
     {
-      "tekst": "til å lese sidene over å gjøre ferdig s.",
-      "dato": "2026-01-29",
-      "ukedag": "Torsdag",
-      "side_eller_oppgave": null
-    },
-    {
-      "tekst": "Fransk  Se leksen i  Classroom  Se leksen i Classroom",
+      "tekst": "leksen i  Classroom  Se leksen i Classroom Tysk  Se på",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
       "side_eller_oppgave": null
     }
   ],
-  "prover": [
-    {
-      "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
-      "dato": "2026-01-29",
-      "ukedag": "Torsdag",
-      "side_eller_oppgave": null
-    }
-  ],
-  "hentet": "2026-01-29T20:26:11.678414Z"
+  "prover": [],
+  "hentet": "2026-01-29T20:34:35.644664Z"
 }
