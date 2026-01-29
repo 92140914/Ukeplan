@@ -14,7 +14,7 @@ OUT_FILE = "ukeplan-8E.json"
 KLASSE = "8E"
 REQ_TIMEOUT = 25
 
-# Fagkart med separate språkfag
+# Fagkart med språkfag separat
 SUBJECT_MAP = {
     "norsk": ["norsk"], 
     "matematikk": ["matematikk", "matte", "math"], 
@@ -38,6 +38,9 @@ UKEDAGER = {
 }
 
 PAGE_REF_RE = re.compile(r"(?:side|s\.?)\s*[:]?\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?", re.IGNORECASE)
+
+LEKSE_KEYWORDS = ["lekse","les","innlever","assignment","practice","presentasjon","presentere","video","øve","øving"]
+PROVE_KEYWORDS = ["prøve","test"]
 
 def hent_html(url):
     r = requests.get(url, timeout=REQ_TIMEOUT)
@@ -85,7 +88,7 @@ def find_subject(text):
     low = text.lower()
     for key, variants in SUBJECT_MAP.items():
         for v in variants:
-            if v in low:
+            if re.search(r"\b"+re.escape(v)+r"\b", low):
                 return key
     return None
 
@@ -100,47 +103,70 @@ def extract_page(text):
 def split_into_day_fag_blocks(lines):
     blocks = []
     current_day = None
-    current_fag = None
     buf = []
-    started = False
 
     for ln in lines:
         low = ln.lower()
-        if not started:
-            if "dag fag lekser" in low:
-                started = True
-            continue
-
-        # hopp over overskrifter
-        if ln.startswith("ARBEIDSPLAN") or "mjølkeråen skole" in ln.lower():
+        # start parsing etter overskrift
+        if "dag fag lekser" in low:
             continue
 
         # finn dag
         found_day = None
         for dag in UKEDAGER.keys():
             if dag in low:
-                found_day = dag
+                found_day = dag.capitalize()
                 break
         if found_day:
-            if buf and current_day and current_fag:
-                blocks.append((current_day, current_fag, " ".join(buf).strip()))
-            current_day = found_day.capitalize()
-            current_fag = None
+            if buf and current_day:
+                blocks.extend(split_fag_blocks(buf, current_day))
+            current_day = found_day
             buf = []
             continue
+        buf.append(ln)
 
-        # finn fag
+    if buf and current_day:
+        blocks.extend(split_fag_blocks(buf, current_day))
+    return blocks
+
+def split_fag_blocks(lines, day):
+    """Splitter linjer per fag ved å bruke SUBJECT_MAP AI-lignende."""
+    blocks = []
+    current_fag = None
+    buf = []
+
+    for ln in lines:
         found_fag = find_subject(ln)
         if found_fag:
             if buf and current_fag:
-                blocks.append((current_day, current_fag, " ".join(buf).strip()))
+                blocks.append((day, current_fag, " ".join(buf).strip()))
                 buf = []
             current_fag = found_fag
-        buf.append(ln)
+            # Hvis flere fag på samme linje, splitter vi etter ord
+            remainder = ln
+            while True:
+                for key, variants in SUBJECT_MAP.items():
+                    for v in variants:
+                        match = re.search(r"\b"+re.escape(v)+r"\b", remainder.lower())
+                        if match:
+                            if current_fag != key:
+                                if buf:
+                                    blocks.append((day, current_fag, " ".join(buf).strip()))
+                                    buf = []
+                                current_fag = key
+                            remainder = remainder[match.end():].strip()
+                            break
+                    else:
+                        continue
+                    break
+                else:
+                    break
+            buf.append(ln)
+        else:
+            buf.append(ln)
 
-    if buf and current_day and current_fag:
-        blocks.append((current_day, current_fag, " ".join(buf).strip()))
-
+    if buf and current_fag:
+        blocks.append((day, current_fag, " ".join(buf).strip()))
     return blocks
 
 def process_block(day, text, uke_nummer, fag):
@@ -215,8 +241,8 @@ def main():
     for day, fag, txt in day_fag_blocks:
         all_tasks.extend(process_block(day, txt, uke_nummer, fag))
 
-    lekser = [t for t in all_tasks if any(k in t["tekst"].lower() for k in ["lekse","les","innlever","assignment","practice","presentasjon","presentere","video","øve","øving"])]
-    prover = [t for t in all_tasks if any(k in t["tekst"].lower() for k in ["prøve","test"])]
+    lekser = [t for t in all_tasks if any(k in t["tekst"].lower() for k in LEKSE_KEYWORDS)]
+    prover = [t for t in all_tasks if any(k in t["tekst"].lower() for k in PROVE_KEYWORDS)]
 
     output = {
         "uke": uke_nummer,
