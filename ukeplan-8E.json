@@ -5,25 +5,25 @@
   "lekser": [
     {
       "tekst": "Dag Fag Lekser",
-      "dato": null
+      "dato": "09.30"
     },
     {
       "tekst": "andre ikke. Leksen til i dag er i tillegg",
-      "dato": null
+      "dato": "09.30"
     },
     {
       "tekst": "Fransk  Se leksen i  Classroom  Se leksen i Classroom",
-      "dato": null
+      "dato": "09.30"
     }
   ],
   "prover": [
     {
       "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
-      "dato": null
+      "dato": "30.1"
     },
     {
       "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
-      "dato": null
+      "dato": "09.30"
     }
   ]
 }
