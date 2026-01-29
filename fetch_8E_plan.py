@@ -14,15 +14,27 @@ OUT_FILE = "ukeplan-8E.json"
 KLASSE = "8E"
 REQ_TIMEOUT = 25
 
+# Fagkart med separate språkfag
 SUBJECT_MAP = {
-    "norsk": ["norsk"], "matematikk": ["matematikk", "matte", "math"], "engelsk": ["engelsk", "english"],
-    "spansk": ["spansk", "spanish"], "fransk": ["fransk", "french"], "tysk": ["tysk", "german"],
-    "naturfag": ["naturfag", "science"], "krle": ["krle", "religion"], "samfunnsfag": ["samfunnsfag", "social"],
-    "kroppsøving": ["kroppsøving", "gym", "pe"], "kunst": ["kunst", "art"], "valgfag": ["valgfag"], "språk": ["språk"]
+    "norsk": ["norsk"], 
+    "matematikk": ["matematikk", "matte", "math"], 
+    "engelsk": ["engelsk"],  
+    "engelsk_fordypning": ["engelsk fordypning"],  
+    "spansk": ["spansk", "spanish"], 
+    "fransk": ["fransk", "french"], 
+    "tysk": ["tysk", "german"], 
+    "alf": ["alf", "arbeidslivsfag"], 
+    "naturfag": ["naturfag", "science"], 
+    "krle": ["krle", "religion"], 
+    "samfunnsfag": ["samfunnsfag", "social"], 
+    "kroppsøving": ["kroppsøving", "gym", "pe"], 
+    "kunst": ["kunst", "art", "k&h", "kunst & håndverk", "k / h"], 
+    "valgfag": ["valgfag"]
 }
 
 UKEDAGER = {
-    "mandag": 1, "tirsdag": 2, "onsdag": 3, "torsdag": 4, "fredag": 5, "lørdag": 6, "lordag": 6, "søndag": 7, "sondag": 7
+    "mandag": 1, "tirsdag": 2, "onsdag": 3, "torsdag": 4, "fredag": 5, 
+    "lørdag": 6, "lordag": 6, "søndag": 7, "sondag": 7
 }
 
 PAGE_REF_RE = re.compile(r"(?:side|s\.?)\s*[:]?\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?", re.IGNORECASE)
@@ -69,32 +81,13 @@ def join_lines(lines):
         i += 1
     return out
 
-def split_into_day_blocks(lines):
-    blocks = []
-    current_day = None
-    buf = []
-    started = False
-    for ln in lines:
-        low = ln.lower()
-        if not started:
-            if "dag fag lekser" in low:
-                started = True
-            continue
-        found_day = None
-        for dag in UKEDAGER.keys():
-            if dag in low:
-                found_day = dag
-                break
-        if found_day:
-            if buf and current_day:
-                blocks.append((current_day, " ".join(buf).strip()))
-                buf = []
-            current_day = found_day.capitalize()
-            continue
-        buf.append(ln)
-    if buf:
-        blocks.append((current_day, " ".join(buf).strip()))
-    return blocks
+def find_subject(text):
+    low = text.lower()
+    for key, variants in SUBJECT_MAP.items():
+        for v in variants:
+            if v in low:
+                return key
+    return None
 
 def extract_page(text):
     m = PAGE_REF_RE.search(text)
@@ -104,15 +97,53 @@ def extract_page(text):
         return f"side {m.group(1)}"
     return None
 
-def find_subject(text):
-    low = text.lower()
-    for key, variants in SUBJECT_MAP.items():
-        for v in variants:
-            if v in low:
-                return key
-    return None
+def split_into_day_fag_blocks(lines):
+    blocks = []
+    current_day = None
+    current_fag = None
+    buf = []
+    started = False
 
-def process_block(day, text, uke_nummer):
+    for ln in lines:
+        low = ln.lower()
+        if not started:
+            if "dag fag lekser" in low:
+                started = True
+            continue
+
+        # hopp over overskrifter
+        if ln.startswith("ARBEIDSPLAN") or "mjølkeråen skole" in ln.lower():
+            continue
+
+        # finn dag
+        found_day = None
+        for dag in UKEDAGER.keys():
+            if dag in low:
+                found_day = dag
+                break
+        if found_day:
+            if buf and current_day and current_fag:
+                blocks.append((current_day, current_fag, " ".join(buf).strip()))
+            current_day = found_day.capitalize()
+            current_fag = None
+            buf = []
+            continue
+
+        # finn fag
+        found_fag = find_subject(ln)
+        if found_fag:
+            if buf and current_fag:
+                blocks.append((current_day, current_fag, " ".join(buf).strip()))
+                buf = []
+            current_fag = found_fag
+        buf.append(ln)
+
+    if buf and current_day and current_fag:
+        blocks.append((current_day, current_fag, " ".join(buf).strip()))
+
+    return blocks
+
+def process_block(day, text, uke_nummer, fag):
     year = date.today().year
     idx = UKEDAGER.get(day.lower(), None)
     dt = None
@@ -123,7 +154,7 @@ def process_block(day, text, uke_nummer):
         "dato": dt.isoformat() if dt else None,
         "ukedag": day,
         "side_eller_oppgave": extract_page(text),
-        "fag": find_subject(text)
+        "fag": fag
     }]
 
 def finn_best_match(filer):
@@ -178,11 +209,11 @@ def main():
         raise RuntimeError("Fant ingen fil for klasse " + KLASSE)
 
     lines = join_lines(raw_lines)
-    blocks = split_into_day_blocks(lines)
+    day_fag_blocks = split_into_day_fag_blocks(lines)
 
     all_tasks = []
-    for day, txt in blocks:
-        all_tasks.extend(process_block(day, txt, uke_nummer))
+    for day, fag, txt in day_fag_blocks:
+        all_tasks.extend(process_block(day, txt, uke_nummer, fag))
 
     lekser = [t for t in all_tasks if any(k in t["tekst"].lower() for k in ["lekse","les","innlever","assignment","practice","presentasjon","presentere","video","øve","øving"])]
     prover = [t for t in all_tasks if any(k in t["tekst"].lower() for k in ["prøve","test"])]
