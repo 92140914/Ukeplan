@@ -20,25 +20,24 @@ REQ_TIMEOUT = 25
 
 # Regex-mønstre for filnavn eller lenketekst
 KLASSE_MØNSTER_URL = [
-    r"\b8e\b",         # 8E
-    r"\b8\.?e\b",      # 8.E
-    r"\b8\s*e\b",      # 8 E
-    r"8e[-_ ]",        # 8E-uke5, 8E_Uke5
-    r"8e.*uke",        # 8E Uke 5
-    r"8e.*\d{1,2}",    # 8E5, 8E-5
-    r"8e\s*-\s*uke",   # 8E - Uke 5
-    r"klasse\s*8e",    # Klasse 8E
-    r"8e_uk[e]?",      # 8E_uke5 eller 8E_uk5
-    r"8e\.pdf",        # pdf8E.pdf
-    r"pdf8e",          # pdf8E
+    r"\b8e\b",
+    r"\b8\.?e\b",
+    r"\b8\s*e\b",
+    r"8e[-_ ]",
+    r"8e.*uke",
+    r"8e.*\d{1,2}",
+    r"8e\s*-\s*uke",
+    r"klasse\s*8e",
+    r"8e_uk[e]?",
+    r"8e\.pdf",
+    r"pdf8e",
+    r".*8e.*"
 ]
-
 
 def hent_html(url):
     resp = requests.get(url, timeout=REQ_TIMEOUT)
     resp.raise_for_status()
     return resp.text
-
 
 def finn_uke_lenker(soup):
     funn = []
@@ -56,13 +55,11 @@ def finn_uke_lenker(soup):
             if url.startswith("/"):
                 url = BASE_URL + url
             funn.append((uke, url))
-    # Fjern duplikater
     unique = {}
     for uke, url in funn:
         if uke not in unique:
             unique[uke] = url
     return [(u, unique[u]) for u in unique]
-
 
 def velg_uke_auto(uke_lenker):
     current_week = date.today().isocalendar()[1]
@@ -74,7 +71,6 @@ def velg_uke_auto(uke_lenker):
     nærmeste = min(uke_lenker, key=lambda x: abs(x[0] - current_week))
     print(f"Nåværende uke ikke funnet, velger nærmeste: {nærmeste[0]}")
     return nærmeste
-
 
 def finn_filer_paa_uke_siden(soup):
     filer = []
@@ -89,13 +85,11 @@ def finn_filer_paa_uke_siden(soup):
                 filer.append(url)
     return filer
 
-
 def hent_fil_data(url):
     resp = requests.get(url, timeout=REQ_TIMEOUT)
     resp.raise_for_status()
     ctype = resp.headers.get("content-type", "").lower()
     return ctype, resp.content
-
 
 def les_pdf(data):
     try:
@@ -111,14 +105,12 @@ def les_pdf(data):
                     linjer.append(line.strip())
     return linjer
 
-
 def les_docx(data):
     try:
         doc = Document(BytesIO(data))
     except Exception:
         return []
     return [p.text.strip() for p in doc.paragraphs if p.text.strip()]
-
 
 def dokument_inneholder_klasse(linjer):
     samlet = " ".join(linjer).lower()
@@ -127,9 +119,7 @@ def dokument_inneholder_klasse(linjer):
             return True
     return False
 
-
 def finn_best_match_for_klasse(filer, klasse):
-    # Sjekk først filnavn med regex
     for url in filer:
         url_lav = url.lower()
         for pat in KLASSE_MØNSTER_URL:
@@ -140,7 +130,7 @@ def finn_best_match_for_klasse(filer, klasse):
                 else:
                     linjer = les_docx(data)
                 return url, linjer
-    # Fallback: sjekk innhold
+    # fallback på innhold
     for url in filer:
         ctype, data = hent_fil_data(url)
         if "pdf" in ctype or url.lower().endswith(".pdf"):
@@ -151,20 +141,22 @@ def finn_best_match_for_klasse(filer, klasse):
             return url, linjer
     return None, None
 
-
-def ekstraher_oppgaver(linjer):
+def ekstraher_oppgaver_med_dato(linjer):
     oppgaver = []
-    date_re = re.compile(r"\b(\d{1,2}[./-]\d{1,2}(?:[./-]\d{2,4})?)\b")
+    current_dato = None
+    date_re = re.compile(r"(\d{1,2}[./-]\d{1,2}(?:[./-]\d{2,4})?)")  # dd.mm eller dd.mm.åååå
+
     for linje in linjer:
+        # Sjekk om linje inneholder dato
+        m = date_re.search(linje)
+        if m:
+            current_dato = m.group(1)
+
         lav = linje.lower()
         if any(k in lav for k in STIKKORD):
-            dato = None
-            m = date_re.search(linje)
-            if m:
-                dato = m.group(1)
-            oppgaver.append({"tekst": linje.strip(), "dato": dato})
-    return oppgaver
+            oppgaver.append({"tekst": linje.strip(), "dato": current_dato})
 
+    return oppgaver
 
 def main():
     print("Starter fetch for klasse", DEFAULT_KLASSE)
@@ -185,6 +177,8 @@ def main():
     if not filer:
         raise RuntimeError("Fant ingen filer på uke-siden")
     print("Fant", len(filer), "filer på uke-siden")
+    for f in filer:
+        print(" -", f)
 
     fil_url, linjer = finn_best_match_for_klasse(filer, DEFAULT_KLASSE)
     if not fil_url:
@@ -199,7 +193,7 @@ def main():
         else:
             linjer = les_docx(data)
 
-    oppgaver = ekstraher_oppgaver(linjer)
+    oppgaver = ekstraher_oppgaver_med_dato(linjer)
     lekser = [o for o in oppgaver if "lekse" in o["tekst"].lower()]
     prover = [o for o in oppgaver if "prøve" in o["tekst"].lower() or "test" in o["tekst"].lower()]
 
@@ -215,7 +209,6 @@ def main():
         json.dump(resultat, f, ensure_ascii=False, indent=2)
 
     print("Ferdig. JSON skrevet til", UTDATA_FIL)
-
 
 if __name__ == "__main__":
     try:
