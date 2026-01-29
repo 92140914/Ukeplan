@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard with Toggle Settings</title>
+<title>Dashboard med Neste Time</title>
 <style>
 body{
     margin:0;
@@ -30,7 +30,7 @@ body{
 /* CLOCK */
 .clock h1{ font-size:44px; text-align:center; margin:0; }
 .clock p{ text-align:center; color:#aaa; margin:6px 0; }
-/* CALC */
+/* CALCULATOR */
 .calculator{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
 .calculator input{ grid-column:1/5; background:#111; border:1px solid #444; color:white; font-size:20px; padding:10px; border-radius:8px; text-align:right; }
 .calculator button{ background:#222; border:none; border-radius:8px; padding:14px; font-size:18px; color:#eee; cursor:pointer; }
@@ -47,8 +47,8 @@ body{
 .bar{ height:8px; background:#333; border-radius:6px; overflow:hidden; margin-bottom:10px; }
 .fill{ height:100%; background:#777; }
 /* SOUND */
-.circles{ grid-column:1/4; background:#111; padding:15px; border-radius:14px; display:grid; grid-template-columns:repeat(8,1fr); gap:12px; }
-.circle{ background:#222; border-radius:10px; height:50px; display:flex; justify-content:center; align-items:center; color:#ccc; cursor:pointer; }
+.circles{ grid-column:1/4; background:#111; padding:15px; border-radius:14px; display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+.circle{ background:#222; border-radius:10px; height:50px; display:flex; justify-content:center; align-items:center; color:#ccc; cursor:pointer; font-weight:bold; }
 .circle:active{transform:scale(.92);}
 /* SETTINGS */
 .settings label{ display:block; margin:6px 0; }
@@ -64,14 +64,14 @@ body{
 <body id="body">
 <button id="settingsBtn">⚙️ Innstillinger</button>
 <div class="dashboard">
+
 <!-- CLOCK -->
 <div class="card clock">
     <h1 id="time"></h1>
+    <p id="nextClass"><b>Neste time: -</b></p>
     <p id="date"></p>
     <p id="quote"></p>
     <p>🔥 Streak: <b id="streak"></b></p>
-    <p>🎲 <span id="ascii"></span></p>
-    <p id="nextClass">Neste time: -</p>
 </div>
 
 <!-- CALCULATOR -->
@@ -104,12 +104,6 @@ body{
     CPU<div class="bar"><div id="cpu" class="fill"></div></div>
     RAM<div class="bar"><div id="ram" class="fill"></div></div>
     NET<div class="bar"><div id="net" class="fill"></div></div>
-</div>
-
-<!-- MOUSE / KEY -->
-<div class="card">
-    🖱️ X:<span id="mx">0</span> Y:<span id="my">0</span><br><br>
-    ⌨️ Siste tast: <b id="key">-</b>
 </div>
 
 <!-- SOUND -->
@@ -166,29 +160,6 @@ const schedule = {
         {start:"11:00", end:"12:00", subject:"Kroppsøving"},
         {start:"12:10", end:"13:10", subject:"Matematikk"},
         {start:"13:20", end:"14:20", subject:"Naturfag"}
-    ],
-    3: [ // Onsdag
-        {start:"08:20", end:"09:20", subject:"Kunst og håndverk"},
-        {start:"09:30", end:"10:30", subject:"Kunst og håndverk"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Kroppsøving"},
-        {start:"12:10", end:"13:10", subject:"Matematikk"},
-        {start:"13:20", end:"14:20", subject:"Språk"}
-    ],
-    4: [ // Torsdag
-        {start:"08:20", end:"09:20", subject:"Samfunnsfag"},
-        {start:"09:30", end:"10:30", subject:"Norsk"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Kroppsøving"},
-        {start:"12:10", end:"13:10", subject:"Matematikk"},
-        {start:"13:20", end:"14:20", subject:"Utdanningsvalg"}
-    ],
-    5: [ // Fredag
-        {start:"08:20", end:"09:20", subject:"KRLE"},
-        {start:"09:30", end:"10:30", subject:"Norsk"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Samfunnsfag"},
-        {start:"12:10", end:"13:10", subject:"Engelsk"}
     ]
 };
 
@@ -206,14 +177,12 @@ function getNextClass(){
         const startTime = new Date();
         startTime.setHours(sh, sm, 0, 0);
         if(now < startTime){
-            let subject = period.subject || 
-                          (day===1 ? (isOddWeek ? period.subjectOdd : period.subjectEven) : 
-                          (day===2 ? (isOddWeek ? period.subjectOdd : period.subjectEven) : period.subject));
-            nextClassEl.textContent = `Neste time: ${subject} (${period.start}-${period.end})`;
+            let subject = period.subject || (day===1 ? (isOddWeek ? period.subjectOdd : period.subjectEven) : (day===2 ? (isOddWeek ? period.subjectOdd : period.subjectEven) : period.subject));
+            nextClassEl.innerHTML = `<b>Neste time: ${subject} (${period.start}-${period.end})</b>`;
             return;
         }
     }
-    nextClassEl.textContent = "Ingen flere timer i dag";
+    nextClassEl.innerHTML = `<b>Ingen flere timer i dag</b>`;
 }
 
 // KLØKKE
@@ -227,12 +196,6 @@ function tick(){
 }
 setInterval(tick,1000);
 tick();
-
-/* QUOTES & ASCII */
-const quotes=["Små steg slår store planer.","Hold det enkelt.","Konsistens vinner.","Bygg først, optimaliser senere."];
-document.getElementById("quote").textContent=quotes[Math.floor(Math.random()*quotes.length)];
-const asciiEl=["▲","■","◆","●","✖","☰","⚙","⌁"][Math.floor(Math.random()*8)];
-document.getElementById("ascii").textContent=asciiEl;
 
 /* STREAK */
 const today=new Date().toDateString();
@@ -267,8 +230,13 @@ setInterval(()=>{cpu.style.width=Math.random()*100+"%"; ram.style.width=Math.ran
 /* MOUSE */
 document.onmousemove=e=>{mx.textContent=e.clientX; my.textContent=e.clientY;}
 
-/* SOUND */
-document.querySelectorAll(".circle").forEach(b=>{b.onclick=()=>new Audio(b.dataset.sound).play();});
+/* SOUNDBOARD */
+document.querySelectorAll(".circle").forEach(b=>{
+    b.addEventListener("click",()=>{
+        const audio = new Audio(b.dataset.sound);
+        audio.play();
+    });
+});
 
 /* UPTIME */
 let start=Date.now();
