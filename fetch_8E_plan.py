@@ -16,8 +16,22 @@ UTDATA_FIL = "ukeplan-8E.json"
 DEFAULT_KLASSE = "8E"
 
 STIKKORD = ["lekse", "prøve", "innlevering", "presentasjon", "framføring", "øvelse", "øving"]
-KLASSE_MØNSTER = [r"\b8\s*e\b", r"\b8e\b", r"klasse\s*8e", r"8\.?\s*e"]
 REQ_TIMEOUT = 25
+
+# Regex-mønstre for filnavn eller lenketekst
+KLASSE_MØNSTER_URL = [
+    r"\b8e\b",         # 8E
+    r"\b8\.?e\b",      # 8.E
+    r"\b8\s*e\b",      # 8 E
+    r"8e[-_ ]",        # 8E-uke5, 8E_Uke5
+    r"8e.*uke",        # 8E Uke 5
+    r"8e.*\d{1,2}",    # 8E5, 8E-5
+    r"8e\s*-\s*uke",   # 8E - Uke 5
+    r"klasse\s*8e",    # Klasse 8E
+    r"8e_uk[e]?",      # 8E_uke5 eller 8E_uk5
+    r"8e\.pdf",        # pdf8E.pdf
+    r"pdf8e",          # pdf8E
+]
 
 
 def hent_html(url):
@@ -42,6 +56,7 @@ def finn_uke_lenker(soup):
             if url.startswith("/"):
                 url = BASE_URL + url
             funn.append((uke, url))
+    # Fjern duplikater
     unique = {}
     for uke, url in funn:
         if uke not in unique:
@@ -107,18 +122,17 @@ def les_docx(data):
 
 def dokument_inneholder_klasse(linjer):
     samlet = " ".join(linjer).lower()
-    for pat in KLASSE_MØNSTER:
+    for pat in KLASSE_MØNSTER_URL:
         if re.search(pat, samlet):
             return True
     return False
 
 
 def finn_best_match_for_klasse(filer, klasse):
-    # Eksakt klasse i filnavn først
-    klasse_mønster_url = [r"\b8\.?e\b", r"\b8e\b"]
+    # Sjekk først filnavn med regex
     for url in filer:
         url_lav = url.lower()
-        for pat in klasse_mønster_url:
+        for pat in KLASSE_MØNSTER_URL:
             if re.search(pat, url_lav):
                 ctype, data = hent_fil_data(url)
                 if "pdf" in ctype or url.lower().endswith(".pdf"):
