@@ -4,18 +4,25 @@
   "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027",
   "lekser": [
     {
-      "tekst": "norsk  les i leseboken din i 15 minutter. oppdater",
+      "tekst": "Matematikk  Du må sørge for at du vet hvordan du multipliserer (ganger sammen) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å øve på. Det er fasit bak i heftet/boken, sånn at du sjekker at d u gjør det riktig.",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
       "side_eller_oppgave": null,
-      "fag": "norsk"
+      "fag": "matematikk"
     },
     {
-      "tekst": "leseloggen i classroom etter at du har les t.",
-      "dato": "2026-01-27",
-      "ukedag": "Tirsdag",
+      "tekst": "Kroppsøvi ng Matematikk  Du må sørge for at du vet hvordan du dividerer (deler) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å øve på. Det er fasit bak i heftet/boken, sånn at du sjekker at du gjør det r iktig. Naturfag",
+      "dato": "2026-01-28",
+      "ukedag": "Onsdag",
       "side_eller_oppgave": null,
-      "fag": null
+      "fag": "matematikk"
+    },
+    {
+      "tekst": "Norsk Kroppsøving ARBEIDSPLAN for 8E uke 5 Mjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30 Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
+      "dato": "2026-01-29",
+      "ukedag": "Torsdag",
+      "side_eller_oppgave": null,
+      "fag": "norsk"
     },
     {
       "tekst": "Spansk  Les s. 48 – 49 i boken",
@@ -25,20 +32,21 @@
       "fag": "spansk"
     },
     {
-      "tekst": "leksen til i dag er i tillegg til å lese sidene over å gjøre ferdig",
+      "tekst": "38 i oppgaveboken.  Jobb 15 min med presentasjon. Se classroom.  Fremføring av presentasjon Fransk  Se leksen i  Classroom  Se leksen i Classroom Tysk  Se på s. 36 i arbeidsboken.ø Velg 10 av ordene og skriv dem ned i ubestemt for entall og flertall. Du kan sjekke flertall i ordboken på skolenmin. Eksempel:ein Schiff – Schiffe  Gjør oppgave 1 s. 43 i arbeidsboken.  Se på s. 48 i læreboken. Skriv ned 10 ting fra denne siden som man kan ha som hobbe og pugg ordene. Engelsk for. ALF Valgfag",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
-      "side_eller_oppgave": null,
-      "fag": null
-    },
-    {
-      "tekst": "leksen i  Classroom  Se leksen i Classroom",
-      "dato": "2026-01-29",
-      "ukedag": "Torsdag",
-      "side_eller_oppgave": null,
-      "fag": null
+      "side_eller_oppgave": "side 36",
+      "fag": "engelsk"
     }
   ],
-  "prover": [],
-  "hentet": "2026-01-29T20:41:26.412331Z"
+  "prover": [
+    {
+      "tekst": "Norsk Kroppsøving ARBEIDSPLAN for 8E uke 5 Mjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30 Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
+      "dato": "2026-01-29",
+      "ukedag": "Torsdag",
+      "side_eller_oppgave": null,
+      "fag": "norsk"
+    }
+  ],
+  "hentet": "2026-01-29T20:52:07.196683Z"
 }
