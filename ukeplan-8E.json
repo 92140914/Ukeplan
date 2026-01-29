@@ -7,33 +7,38 @@
       "tekst": "norsk  les i leseboken din i 15 minutter. oppdater",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
-      "side_eller_oppgave": null
+      "side_eller_oppgave": null,
+      "fag": "norsk"
     },
     {
-      "tekst": "leseloggen i classroom etter at du har les t. Matematikk  Du må sørge for at du vet hvordan du multipliserer (ganger sammen) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å",
+      "tekst": "leseloggen i classroom etter at du har les t.",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
-      "side_eller_oppgave": null
+      "side_eller_oppgave": null,
+      "fag": null
     },
     {
       "tekst": "Spansk  Les s. 48 – 49 i boken",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
-      "side_eller_oppgave": "side 48-49"
+      "side_eller_oppgave": "side 48-49",
+      "fag": "spansk"
     },
     {
       "tekst": "leksen til i dag er i tillegg til å lese sidene over å gjøre ferdig",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
-      "side_eller_oppgave": null
+      "side_eller_oppgave": null,
+      "fag": null
     },
     {
-      "tekst": "leksen i  Classroom  Se leksen i Classroom Tysk  Se på",
+      "tekst": "leksen i  Classroom  Se leksen i Classroom",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
-      "side_eller_oppgave": null
+      "side_eller_oppgave": null,
+      "fag": null
     }
   ],
   "prover": [],
-  "hentet": "2026-01-29T20:34:35.644664Z"
+  "hentet": "2026-01-29T20:41:26.412331Z"
 }
