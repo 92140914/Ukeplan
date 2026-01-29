@@ -2,285 +2,375 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Dashboard</title>
+<title>Dashboard with Toggle Settings</title>
+
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 50px;
+body{
+    margin:0;
+    font-family:Consolas, Arial, sans-serif;
+    background:#f0f0f0;
+    color:#111;
+    display:flex;
+    justify-content:center;
+    padding:20px;
+    transition: background 0.3s, color 0.3s;
 }
 
-.dashboard {
-    display: grid;
-    grid-template-columns: 250px 150px 1fr;
-    grid-template-rows: auto auto;
-    gap: 20px;
+.dashboard{
+    display:grid;
+    grid-template-columns:280px 320px 1fr;
+    gap:20px;
+    width:1400px;
 }
 
-/* Clock */
-.clock {
-    background-color: #111;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    grid-row: 1 / 2;
+.card{
+    background:#111;
+    color:#eee;
+    padding:18px;
+    border-radius:14px;
+    transition: background 0.3s, color 0.3s;
 }
 
-.clock h1 {
-    margin: 0;
-    font-size: 48px;
+/* CLOCK */
+.clock h1{
+    font-size:44px;
+    text-align:center;
+    margin:0;
+}
+.clock p{
+    text-align:center;
+    color:#aaa;
+    margin:6px 0;
 }
 
-.clock p {
-    margin: 5px 0;
-    font-size: 14px;
-    text-align: center;
+/* CALC */
+.calculator{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+.calculator input{
+    grid-column:1/5;
+    background:#111;
+    border:1px solid #444;
+    color:white;
+    font-size:20px;
+    padding:10px;
+    border-radius:8px;
+    text-align:right;
+}
+.calculator button{
+    background:#222;
+    border:none;
+    border-radius:8px;
+    padding:14px;
+    font-size:18px;
+    color:#eee;
+    cursor:pointer;
+}
+.calculator button:hover{background:#333;}
+.clear{grid-column:1/3;}
+.back{grid-column:3/5;}
+
+/* NOTES */
+.notes textarea{
+    width:100%;
+    height:160px;
+    background:#111;
+    color:#eee;
+    border:none;
+    resize:none;
 }
 
-/* Calculator */
-.calculator {
-    display: grid;
-    grid-template-rows: 50px repeat(4, 50px);
-    grid-template-columns: repeat(4, 50px);
-    gap: 5px;
-    background-color: #111;
-    padding: 10px;
-    border-radius: 10px;
+/* TODO */
+.todo input{
+    width:100%;
+    background:#111;
+    color:#eee;
+    border:1px solid #444;
+    padding:8px;
+    border-radius:6px;
+}
+.todo ul{
+    list-style:none;
+    padding:0;
+    margin:10px 0 0;
+}
+.todo li{
+    padding:6px;
+    border-bottom:1px solid #333;
+    cursor:pointer;
 }
 
-.calculator input {
-    grid-column: 1 / 5;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background-color: #111;
-    color: white;
+/* SYSTEM */
+.bar{
+    height:8px;
+    background:#333;
+    border-radius:6px;
+    overflow:hidden;
+    margin-bottom:10px;
+}
+.fill{
+    height:100%;
+    background:#777;
 }
 
-.calculator button {
-    background-color: #111;
-    border: 1px solid #444;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    color: white;
+/* SOUND */
+.circles{
+    grid-column:1/4;
+    background:#111;
+    padding:15px;
+    border-radius:14px;
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    gap:12px;
 }
-
-.calculator button:hover {
-    background-color: #333;
+.circle{
+    background:#222;
+    border-radius:10px;
+    height:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#ccc;
+    cursor:pointer;
 }
+.circle:active{transform:scale(.92);}
 
-/* Notes */
-.notes {
-    background-color: #111;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    min-height: 250px;
-    grid-row: 1 / 2;
-    display: flex;
-    flex-direction: column;
+/* SETTINGS */
+.settings label{
+    display:block;
+    margin:6px 0;
 }
-
-.notes textarea {
-    width: 100%;
-    height: 100%;
-    background-color: #111;
-    color: white;
-    border: none;
-    resize: none;
-    font-size: 14px;
+.settings input[type=checkbox], .settings input[type=color]{
+    margin-right:6px;
 }
+.settings{display:none;} /* hidden by default */
 
-/* Circles / Soundboard */
-.circles {
-    grid-column: 1 / 4;
-    display: grid;
-    grid-template-columns: repeat(5, 50px);
-    grid-template-rows: repeat(3, 50px);
-    gap: 10px;
-    background-color: #111;
-    padding: 10px;
-    border-radius: 10px;
+/* SETTINGS TOGGLE BUTTON */
+#settingsBtn{
+    position:fixed;
+    top:10px;
+    right:10px;
+    padding:12px 18px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    background:#222;
+    color:#eee;
+    cursor:pointer;
+    z-index:1000;
 }
+#settingsBtn:hover{background:#333;}
 
-.circle {
-    width: 50px;
-    height: 50px;
-    background-color: white;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.2s;
+/* FOOTER */
+.footer{
+    grid-column:1/4;
+    background:#111;
+    padding:10px;
+    border-radius:14px;
+    display:flex;
+    justify-content:space-between;
+    color:#aaa;
+    font-size:13px;
 }
 </style>
 </head>
-<body>
+
+<body id="body">
+
+<button id="settingsBtn">⚙️ Innstillinger</button>
+
 <div class="dashboard">
-    <!-- Clock -->
-    <div class="clock">
-        <h1 id="time">--:--</h1>
-        <p id="date">--.--.----</p>
-        <p id="nextClass">Neste time: --</p>
-    </div>
 
-    <!-- Calculator -->
-    <div class="calculator">
-        <input type="text" id="calcDisplay" placeholder="" readonly>
-        <button onclick="press('1')">1</button>
-        <button onclick="press('2')">2</button>
-        <button onclick="press('3')">3</button>
-        <button onclick="press('+')">+</button>
-        <button onclick="press('4')">4</button>
-        <button onclick="press('5')">5</button>
-        <button onclick="press('6')">6</button>
-        <button onclick="press('-')">-</button>
-        <button onclick="press('7')">7</button>
-        <button onclick="press('8')">8</button>
-        <button onclick="press('9')">9</button>
-        <button onclick="press('*')">*</button>
-        <button onclick="press('0')">0</button>
-        <button onclick="press('.')">.</button>
-        <button onclick="calculate()">=</button>
-        <button onclick="press('/')">/</button>
-    </div>
+<!-- CLOCK -->
+<div class="card clock">
+    <h1 id="time"></h1>
+    <p id="date"></p>
+    <p id="quote"></p>
+    <p>🔥 Streak: <b id="streak"></b></p>
+    <p>🎲 <span id="ascii"></span></p>
+</div>
 
-    <!-- Notes -->
-    <div class="notes">
-        <textarea id="notes" placeholder="Skriv notater her..."></textarea>
-    </div>
+<!-- CALCULATOR -->
+<div class="card calculator">
+    <input id="calc" readonly>
+    <button onclick="p('7')">7</button><button onclick="p('8')">8</button><button onclick="p('9')">9</button><button onclick="p('/')">÷</button>
+    <button onclick="p('4')">4</button><button onclick="p('5')">5</button><button onclick="p('6')">6</button><button onclick="p('*')">×</button>
+    <button onclick="p('1')">1</button><button onclick="p('2')">2</button><button onclick="p('3')">3</button><button onclick="p('-')">−</button>
+    <button onclick="p('0')">0</button><button onclick="p('.')">.</button><button onclick="res()">=</button><button onclick="p('+')">+</button>
+    <button class="clear" onclick="clr()">C</button>
+    <button class="back" onclick="bk()">←</button>
+</div>
 
-    <!-- Circles / Soundboard -->
-    <div class="circles">
-        <div class="circle" data-sound="lyd1.mp3"></div>
-        <div class="circle" data-sound="lyd2.mp3"></div>
-        <div class="circle" data-sound="lyd3.mp3"></div>
-        <div class="circle" data-sound="lyd4.mp3"></div>
-        <div class="circle" data-sound="lyd5.mp3"></div>
-        <div class="circle" data-sound="lyd6.mp3"></div>
-        <div class="circle" data-sound="lyd7.mp3"></div>
-        <div class="circle" data-sound="lyd8.mp3"></div>
-        <div class="circle" data-sound="lyd9.mp3"></div>
-        <div class="circle" data-sound="lyd10.mp3"></div>
-        <div class="circle" data-sound="lyd11.mp3"></div>
-        <div class="circle" data-sound="lyd12.mp3"></div>
-        <div class="circle" data-sound="lyd13.mp3"></div>
-        <div class="circle" data-sound="lyd14.mp3"></div>
-        <div class="circle" data-sound="lyd15.mp3"></div>
-    </div>
+<!-- NOTES -->
+<div class="card notes">
+    <h3>📝 Notater</h3>
+    <textarea id="notes"></textarea>
+</div>
+
+<!-- TODO -->
+<div class="card todo">
+    <h3>✅ Todo</h3>
+    <input id="todoInput" placeholder="Legg til...">
+    <ul id="todoList"></ul>
+</div>
+
+<!-- SYSTEM -->
+<div class="card">
+    <h3>📊 System</h3>
+    CPU<div class="bar"><div id="cpu" class="fill"></div></div>
+    RAM<div class="bar"><div id="ram" class="fill"></div></div>
+    NET<div class="bar"><div id="net" class="fill"></div></div>
+</div>
+
+<!-- MOUSE / KEY -->
+<div class="card">
+    🖱️ X:<span id="mx">0</span> Y:<span id="my">0</span><br><br>
+    ⌨️ Siste tast: <b id="key">-</b>
+</div>
+
+<!-- SOUND -->
+<div class="circles">
+    <div class="circle" data-sound="lyd1.mp3">1</div>
+    <div class="circle" data-sound="lyd2.mp3">2</div>
+    <div class="circle" data-sound="lyd3.mp3">3</div>
+    <div class="circle" data-sound="lyd4.mp3">4</div>
+    <div class="circle" data-sound="lyd5.mp3">5</div>
+</div>
+
+<!-- SETTINGS -->
+<div class="card settings">
+    <h3>⚙️ Innstillinger & Theme Editor</h3>
+    <label><input type="checkbox" id="darkMode"> Dark Mode</label>
+    <label><input type="checkbox" id="clock12"> 12h klokke</label>
+    <label><input type="checkbox" id="showSoundboard" checked> Vis Soundboard</label>
+    <label><input type="checkbox" id="showNotes" checked> Vis Notater</label>
+    <hr>
+    <label>Body bakgrunn: <input type="color" id="bodyBg"></label>
+    <label>Kort bakgrunn: <input type="color" id="cardBg"></label>
+    <label>Knapp farge: <input type="color" id="btnBg"></label>
+    <label>Tekst farge: <input type="color" id="textColor"></label>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <span>Status: ONLINE</span>
+    <span id="uptime"></span>
+</div>
+
 </div>
 
 <script>
-// Ukeplan
-const schedule = {
-    1: [
-        {start: "08:20", end: "09:20", subject: "Engelsk"},
-        {start: "09:30", end: "10:30", subject: "Naturfag"},
-        {start: "10:30", end: "11:00", subject: "Lunsj"},
-        {start: "11:00", end: "12:00", subject: "Norsk"},
-        {start: "12:10", end: "13:10", subject: "KRLE / Valgfag"},
-        {start: "13:20", end: "14:20", subject: "Valgfag"},
-    ],
-    2: [
-        {start: "08:20", end: "09:20", subject: "ALF"},
-        {start: "09:30", end: "10:30", subject: "ALF / Språk"},
-        {start: "10:30", end: "11:00", subject: "Lunsj"},
-        {start: "11:00", end: "12:00", subject: "Norsk / Samfunnsfag"},
-        {start: "12:10", end: "13:10", subject: "Matematikk"},
-        {start: "13:20", end: "14:20", subject: "Naturfag"},
-    ],
-    3: [
-        {start: "08:20", end: "09:20", subject: "Kunst og håndverk"},
-        {start: "09:30", end: "10:30", subject: "Kunst og høndverk"},
-        {start: "10:30", end: "11:00", subject: "Lunsj"},
-        {start: "11:00", end: "12:00", subject: "Kroppsøving"},
-        {start: "12:10", end: "13:10", subject: "Matematikk"},
-        {start: "13:20", end: "14:20", subject: "Språk"},
-    ],
-    4: [
-        {start: "08:20", end: "09:20", subject: "Samfunnsfag"},
-        {start: "09:30", end: "10:30", subject: "Norsk"},
-        {start: "10:30", end: "11:00", subject: "Lunsj"},
-        {start: "11:00", end: "12:00", subject: "Kroppsøving"},
-        {start: "12:10", end: "13:10", subject: "Matematikk"},
-        {start: "13:20", end: "14:20", subject: "Utdanningsvalg"},
-    ],
-    5: [
-        {start: "08:20", end: "09:20", subject: "KRLE"},
-        {start: "09:30", end: "10:30", subject: "Norsk"},
-        {start: "10:30", end: "11:00", subject: "Lunsj"},
-        {start: "11:00", end: "12:00", subject: "Samfunnsfag"},
-        {start: "12:10", end: "13:10", subject: "marEngelsk"},
-    ]
+// SETTINGS TOGGLE
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsCard = document.querySelector(".settings");
+settingsBtn.addEventListener("click",()=>{settingsCard.style.display = settingsCard.style.display==="block"?"none":"block";});
+
+/* CLOCK */
+function tick(){
+    const d=new Date();
+    let h=d.getHours();
+    if(localStorage.getItem("clock12")==="true"){h=(h%12)||12;}
+    time.textContent=h.toString().padStart(2,'0')+":"+d.getMinutes().toString().padStart(2,'0')+":"+d.getSeconds().toString().padStart(2,'0');
+    date.textContent=d.toLocaleDateString("no-NO");
+}
+setInterval(tick,1000);tick();
+
+/* QUOTES & ASCII */
+const quotes=["Små steg slår store planer.","Hold det enkelt.","Konsistens vinner.","Bygg først, optimaliser senere."];
+quote.textContent=quotes[Math.floor(Math.random()*quotes.length)];
+asciiEl=["▲","■","◆","●","✖","☰","⚙","⌁"][Math.floor(Math.random()*8)];
+document.getElementById("ascii").textContent=asciiEl;
+
+/* STREAK */
+const today=new Date().toDateString();
+let s=+localStorage.getItem("streak")||0;
+const last=localStorage.getItem("last");
+const y=new Date();y.setDate(y.getDate()-1);
+if(last!==today){ s=(last===y.toDateString())?s+1:1; localStorage.setItem("streak",s); localStorage.setItem("last",today);}
+streak.textContent=s;
+
+/* CALC */
+let v="";
+function p(x){v+=x;calc.value=v;}
+function clr(){v="";calc.value="";}
+function bk(){v=v.slice(0,-1);calc.value=v;}
+function res(){try{v=Function("return "+v)();calc.value=v;}catch{clr();calc.value="Err";}}
+document.onkeydown=e=>{
+ if("0123456789.+-*/".includes(e.key))p(e.key);
+ if(e.key==="Enter")res();
+ if(e.key==="Backspace")bk();
+ key.textContent=e.key;
 };
 
-// Klokke og neste time
-function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2,'0');
-    const minutes = String(now.getMinutes()).padStart(2,'0');
-    const date = String(now.getDate()).padStart(2,'0') + '.' + 
-                 String(now.getMonth()+1).padStart(2,'0') + '.' +
-                 now.getFullYear();
-    document.getElementById('time').textContent = hours + ':' + minutes;
-    document.getElementById('date').textContent = date;
+/* NOTES */
+notes.value=localStorage.getItem("notes")||"";
+notes.oninput=()=>localStorage.setItem("notes",notes.value);
 
-    const day = now.getDay(); // 0=Søndag
-    const todaySchedule = schedule[day] || [];
-    let nextClass = "Ingen flere timer i dag";
-    for (let cls of todaySchedule) {
-        let [h,m] = cls.start.split(":").map(Number);
-        let classTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
-        if(now < classTime) {
-            nextClass = cls.subject;
-            break;
-        }
-    }
-    document.getElementById('nextClass').textContent = "Neste time: " + nextClass;
+/* TODO */
+let todos=JSON.parse(localStorage.getItem("todos")||"[]");
+function drawTodos(){todoList.innerHTML=""; todos.forEach((t,i)=>{const li=document.createElement("li"); li.textContent=t; li.onclick=()=>{todos.splice(i,1);saveTodos();}; todoList.appendChild(li);});}
+function saveTodos(){localStorage.setItem("todos",JSON.stringify(todos)); drawTodos();}
+todoInput.onkeydown=e=>{if(e.key==="Enter" && todoInput.value){todos.push(todoInput.value); todoInput.value=""; saveTodos();}}
+drawTodos();
+
+/* SYSTEM */
+setInterval(()=>{cpu.style.width=Math.random()*100+"%"; ram.style.width=Math.random()*100+"%"; net.style.width=Math.random()*100+"%";},1200);
+
+/* MOUSE */
+document.onmousemove=e=>{mx.textContent=e.clientX; my.textContent=e.clientY;}
+
+/* SOUND */
+document.querySelectorAll(".circle").forEach(b=>{b.onclick=()=>new Audio(b.dataset.sound).play();});
+
+/* UPTIME */
+let start=Date.now();
+setInterval(()=>{let s=Math.floor((Date.now()-start)/1000); uptime.textContent=`Uptime: ${s}s`;},1000);
+
+/* SETTINGS & THEME */
+const darkMode=document.getElementById("darkMode");
+const clock12=document.getElementById("clock12");
+const showSoundboard=document.getElementById("showSoundboard");
+const showNotes=document.getElementById("showNotes");
+const bodyBg=document.getElementById("bodyBg");
+const cardBg=document.getElementById("cardBg");
+const btnBg=document.getElementById("btnBg");
+const textColor=document.getElementById("textColor");
+
+function loadSettings(){
+    darkMode.checked=localStorage.getItem("darkMode")==="true";
+    clock12.checked=localStorage.getItem("clock12")==="true";
+    showSoundboard.checked=localStorage.getItem("showSoundboard")!=="false";
+    showNotes.checked=localStorage.getItem("showNotes")!=="false";
+    bodyBg.value=localStorage.getItem("bodyBg")||"#f0f0f0";
+    cardBg.value=localStorage.getItem("cardBg")||"#111111";
+    btnBg.value=localStorage.getItem("btnBg")||"#222222";
+    textColor.value=localStorage.getItem("textColor")||"#eee";
+    applySettings();
 }
-setInterval(updateClock, 1000);
-updateClock();
+function applySettings(){
+    document.body.classList.toggle("dark", darkMode.checked);
+    document.body.classList.toggle("light", !darkMode.checked);
+    document.querySelector(".circles").style.display=showSoundboard.checked?"grid":"none";
+    document.querySelector(".notes").style.display=showNotes.checked?"block":"none";
+    document.body.style.background=bodyBg.value;
+    document.querySelectorAll(".card").forEach(c=>c.style.background=cardBg.value);
+    document.querySelectorAll(".calculator button").forEach(b=>b.style.background=btnBg.value);
+    document.body.style.color=textColor.value;
 
-// Calculator
-let calcValue = '';
-function press(val) {
-    calcValue += val;
-    document.getElementById('calcDisplay').value = calcValue;
+    localStorage.setItem("darkMode", darkMode.checked);
+    localStorage.setItem("clock12", clock12.checked);
+    localStorage.setItem("showSoundboard", showSoundboard.checked);
+    localStorage.setItem("showNotes", showNotes.checked);
+    localStorage.setItem("bodyBg", bodyBg.value);
+    localStorage.setItem("cardBg", cardBg.value);
+    localStorage.setItem("btnBg", btnBg.value);
+    localStorage.setItem("textColor", textColor.value);
 }
-function calculate() {
-    try {
-        calcValue = eval(calcValue).toString();
-        document.getElementById('calcDisplay').value = calcValue;
-    } catch {
-        calcValue = '';
-        document.getElementById('calcDisplay').value = 'Error';
-    }
-}
 
-// Notes
-const notes = document.getElementById('notes');
-notes.value = localStorage.getItem('notes') || '';
-notes.addEventListener('input', () => {
-    localStorage.setItem('notes', notes.value);
-});
-
-// Soundboard
-const circles = document.querySelectorAll('.circle');
-circles.forEach((circle, idx) => {
-    circle.addEventListener('click', () => {
-        const audio = new Audio(`lyd${idx+1}.mp3`);
-        audio.play();
-    });
-});
+[darkMode, clock12, showSoundboard, showNotes, bodyBg, cardBg, btnBg, textColor].forEach(el=>el.addEventListener("input",applySettings));
+loadSettings();
 </script>
 </body>
 </html>
