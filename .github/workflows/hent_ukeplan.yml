@@ -1,28 +1,40 @@
-name: Hent ukeplan 8E
+name: Hent Ukeplan 8E
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'  # kjør mandag kl 06:00
+  workflow_dispatch:      # lar deg kjøre manuelt
+
+permissions:
+  contents: write  # gir tillatelse til å pushe filer tilbake
 
 jobs:
-  hent:
+  hent_ukeplan:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Sjekk ut repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - name: Sett opp Python
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: "3.11"
 
-      - run: |
+      - name: Installer avhengigheter
+        run: |
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 PyPDF2 python-docx
 
-      - run: python fetch_8E_plan.py
-      - name: Commit ukeplan-8E.json
-  run: |
-    git config --local user.name "github-actions"
-    git config --local user.email "github-actions@github.com"
-    git add ukeplan-8E.json
-    git commit -m "Oppdater ukeplan-8E.json"
-    git push
+      - name: Kjør fetch-script
+        run: python fetch_8E_plan.py
 
+      - name: Commit ukeplan-8E.json
+        run: |
+          git config --local user.name "github-actions"
+          git config --local user.email "github-actions@github.com"
+          git add ukeplan-8E.json
+          git diff --cached --quiet || git commit -m "Oppdater ukeplan-8E.json"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
