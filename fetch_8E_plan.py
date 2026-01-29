@@ -11,13 +11,14 @@ from docx import Document
 BASE_URL = "https://www.bergen.kommune.no"
 START_URL = BASE_URL + "/omkommunen/avdelinger/mjolkeraen-skole/arbeidsplaner"
 
+KLASSE = "8E"
+UTDATA_FIL = "ukeplan-8E.json"
+
 KLASSE_MØNSTER = [
     r"\b8e\b",
-    r"8\s*e",
+    r"8\.?\s*e",
     r"klasse\s*8e"
 ]
-
-UTDATA_FIL = "ukeplan-8E.json"
 
 
 def hent_html(url):
@@ -26,16 +27,22 @@ def hent_html(url):
     return r.text
 
 
+def hent_fil(url):
+    r = requests.get(url, timeout=20)
+    r.raise_for_status()
+    return r.content
+
+
 def finn_nyeste_uke_url(soup):
     uker = []
 
     for a in soup.find_all("a", href=True):
         tekst = a.get_text(" ").lower()
-        match = re.search(r"uke\s*(\d{1,2})", tekst)
-        if not match:
+        m = re.search(r"uke\s*(\d{1,2})", tekst)
+        if not m:
             continue
 
-        uke = int(match.group(1))
+        uke = int(m.group(1))
         href = a["href"]
 
         if href.startswith("/"):
@@ -47,106 +54,117 @@ def finn_nyeste_uke_url(soup):
         raise RuntimeError("Fant ingen uker")
 
     uker.sort(key=lambda x: x[0], reverse=True)
-    return uker[0][1], uker[0][0]
+    return uker[0][0], uker[0][1]
 
 
-def finn_klasse_fil_url(soup):
+def finn_alle_filer(soup):
+    filer = []
+
     for a in soup.find_all("a", href=True):
-        tekst = a.get_text(" ").lower()
-        href = a["href"].lower()
+        href = a["href"]
 
-        if not any(re.search(m, tekst) for m in KLASSE_MØNSTER):
-            continue
-
-        if not any(ext in href for ext in [".pdf", ".doc", ".docx"]):
+        lav = href.lower()
+        if not any(ext in lav for ext in [".pdf", ".doc", ".docx"]):
             continue
 
         if href.startswith("/"):
             href = BASE_URL + href
 
-        return href
+        filer.append(href)
 
-    raise RuntimeError("Fant ikke klasse 8E")
+    if not filer:
+        raise RuntimeError("Fant ingen filer på uke-siden")
 
-
-def hent_fil(url):
-    r = requests.get(url, timeout=20)
-    r.raise_for_status()
-    return r.content
+    return filer
 
 
 def les_pdf(data):
     reader = PdfReader(BytesIO(data))
-    tekst = []
+    linjer = []
 
     for side in reader.pages:
         t = side.extract_text()
         if t:
-            tekst.extend(t.splitlines())
+            linjer.extend(t.splitlines())
 
-    return tekst
+    return linjer
 
 
 def les_docx(data):
     doc = Document(BytesIO(data))
-    tekst = []
+    linjer = []
 
     for p in doc.paragraphs:
         if p.text.strip():
-            tekst.append(p.text.strip())
+            linjer.append(p.text.strip())
 
-    return tekst
+    return linjer
 
 
-def filtrer_lekser_og_prover(linjer):
+def finn_8e_fil(fil_urler):
+    for url in fil_urler:
+        lav = url.lower()
+        if "8e" in lav:
+            return url
+
+    for url in fil_urler:
+        data = hent_fil(url)
+
+        if url.lower().endswith(".pdf"):
+            tekst = les_pdf(data)
+        else:
+            tekst = les_docx(data)
+
+        samlet = " ".join(tekst).lower()
+        if any(re.search(m, samlet) for m in KLASSE_MØNSTER):
+            return url
+
+    raise RuntimeError("Fant ingen ukeplan for 8E")
+
+
+def filtrer_innhold(linjer):
     lekser = []
     prover = []
 
     for linje in linjer:
-        l = linje.lower()
+        lav = linje.lower()
 
-        if "lekse" in l:
+        if "lekse" in lav:
             lekser.append(linje)
 
-        if "prøve" in l or "test" in l:
+        if "prøve" in lav or "test" in lav:
             prover.append(linje)
 
-    return {
-        "lekser": lekser,
-        "prover": prover
-    }
+    return lekser, prover
 
 
 def main():
     start_html = hent_html(START_URL)
     start_soup = BeautifulSoup(start_html, "html.parser")
 
-    uke_url, uke_nummer = finn_nyeste_uke_url(start_soup)
+    uke_nummer, uke_url = finn_nyeste_uke_url(start_soup)
 
     uke_html = hent_html(uke_url)
     uke_soup = BeautifulSoup(uke_html, "html.parser")
 
-    fil_url = finn_klasse_fil_url(uke_soup)
+    fil_urler = finn_alle_filer(uke_soup)
+    fil_url = finn_8e_fil(fil_urler)
 
     fil_data = hent_fil(fil_url)
 
-    if fil_url.endswith(".pdf"):
+    if fil_url.lower().endswith(".pdf"):
         linjer = les_pdf(fil_data)
     else:
         linjer = les_docx(fil_data)
 
-    samlet = " ".join(linjer).lower()
-    if not any(re.search(m, samlet) for m in KLASSE_MØNSTER):
-        raise RuntimeError("Dokument matcher ikke 8E")
-
-    innhold = filtrer_lekser_og_prover(linjer)
+    lekser, prover = filtrer_innhold(linjer)
 
     resultat = {
         "uke": uke_nummer,
-        "klasse": "8E",
+        "klasse": KLASSE,
         "kilde": fil_url,
-        "lekser": innhold["lekser"],
-        "prover": innhold["prover"]
+        "lekser": lekser,
+        "prover": prover
     }
 
     with open(UTDATA_FIL, "w", encoding="utf-8") as f:
