@@ -4,7 +4,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from io import BytesIO
-from datetime import datetime
+from datetime import datetime, date
 
 from PyPDF2 import PdfReader
 from docx import Document
@@ -15,110 +15,64 @@ START_URL = BASE_URL + "/omkommunen/avdelinger/mjolkeraen-skole/arbeidsplaner"
 UTDATA_FIL = "ukeplan-8E.json"
 DEFAULT_KLASSE = "8E"
 
-# Stikkord for å finne lekser og prøver
 STIKKORD = ["lekse", "prøve", "innlevering", "presentasjon", "framføring", "øvelse", "øving"]
-
-# Regex for klasse-identifikasjon i tekst
 KLASSE_MØNSTER = [r"\b8\s*e\b", r"\b8e\b", r"klasse\s*8e", r"8\.?\s*e"]
-
-# Timeout for requests
 REQ_TIMEOUT = 25
 
 
-def load_config():
-    """
-    Optional config.json support.
-    If config.json exists, it may contain:
-      { "uke": 5, "klasse": "8E" }
-    uke null or missing -> auto nyeste uke
-    klasse optional
-    """
-    try:
-        with open("config.json", "r", encoding="utf-8") as f:
-            cfg = json.load(f)
-            uke = cfg.get("uke")
-            klasse = cfg.get("klasse", DEFAULT_KLASSE)
-            return uke, klasse
-    except FileNotFoundError:
-        return None, DEFAULT_KLASSE
-    except Exception as e:
-        print("Warning: failed to load config.json:", e)
-        return None, DEFAULT_KLASSE
-
-
 def hent_html(url):
-    print("Henter HTML:", url)
     resp = requests.get(url, timeout=REQ_TIMEOUT)
     resp.raise_for_status()
     return resp.text
 
 
 def finn_uke_lenker(soup):
-    """
-    Finn alle lenker som ser ut som uke-lenker.
-    Returnerer liste av (uke_nummer, url).
-    Matcher både link-tekst og href-mønster.
-    """
+    """Finn alle lenker som ser ut som uke-lenker. Returnerer liste av (uke_nummer, url)."""
     funn = []
     for a in soup.find_all("a", href=True):
         tekst = (a.get_text(" ", strip=True) or "").lower()
         href = a["href"]
 
-        # Prøv å finne uke i tekst først
         m = re.search(r"uke\s*(\d{1,2})", tekst)
+        if not m:
+            m2 = re.search(r"uke[-_/ ]?(\d{1,2})", href.lower())
+            if m2:
+                m = m2
+
         if m:
             uke = int(m.group(1))
             url = href
             if url.startswith("/"):
                 url = BASE_URL + url
             funn.append((uke, url))
-            continue
 
-        # Sjekk href for mønster
-        href_l = href.lower()
-        m2 = re.search(r"uke[-_/ ]?(\d{1,2})", href_l)
-        if m2:
-            uke = int(m2.group(1))
-            url = href
-            if url.startswith("/"):
-                url = BASE_URL + url
-            funn.append((uke, url))
-            continue
-
-    # Unike urler per uke, behold maks per uke
+    # Fjern duplikater: behold første per uke
     unique = {}
     for uke, url in funn:
         if uke not in unique:
             unique[uke] = url
-    result = [(u, unique[u]) for u in unique]
-    return result
+    return [(u, unique[u]) for u in unique]
 
 
-def velg_uke(uke_override, uke_lenker):
-    """
-    Hvis uke_override gitt, prøv finne den. Ellers velg høyeste uke.
-    """
-    if uke_override is not None:
-        for u, url in uke_lenker:
-            if u == int(uke_override):
-                print("Bruker uke fra config:", u)
-                return u, url
-        raise RuntimeError(f"Konfigurert uke {uke_override} ikke funnet på index")
-    if not uke_lenker:
-        raise RuntimeError("Ingen uke-lenker funnet")
-    uke_lenker.sort(key=lambda x: x[0], reverse=True)
-    print("Valgt nyeste uke:", uke_lenker[0][0])
-    return uke_lenker[0][0], uke_lenker[0][1]
+def velg_uke_auto(uke_lenker):
+    """Velger nåværende uke basert på dato. Hvis ikke funnet, nærmeste."""
+    current_week = date.today().isocalendar()[1]
+    print("Nåværende uke:", current_week)
+
+    # Hvis nøyaktig match
+    for uke, url in uke_lenker:
+        if uke == current_week:
+            print("Fant nåværende uke på siden:", uke)
+            return uke, url
+
+    # Ellers nærmeste uke
+    nærmeste = min(uke_lenker, key=lambda x: abs(x[0] - current_week))
+    print(f"Nåværende uke ikke funnet, velger nærmeste: {nærmeste[0]}")
+    return nærmeste
 
 
 def finn_filer_paa_uke_siden(soup):
-    """
-    Hent alle fil-URLer fra uke-siden.
-    Mønstre:
-      * href inneholder /api/rest/filer/
-      * eller href slutter med .pdf .doc .docx
-    Returnerer liste av fulle URLer.
-    """
+    """Hent alle fil-URLer fra uke-siden."""
     filer = []
     for a in soup.find_all("a", href=True):
         href = a["href"]
@@ -130,37 +84,25 @@ def finn_filer_paa_uke_siden(soup):
                 url = BASE_URL + url
             if url not in filer:
                 filer.append(url)
-
     return filer
 
 
 def hent_fil_data(url):
-    print("Laster ned fil:", url)
     resp = requests.get(url, timeout=REQ_TIMEOUT)
     resp.raise_for_status()
     ctype = resp.headers.get("content-type", "").lower()
-    data = resp.content
-    return ctype, data
+    return ctype, resp.content
 
 
 def les_pdf(data):
-    """
-    Hent tekstlinjer fra PDF.
-    Hvis PDF er skannet og mangler tekst, returnerer tom liste.
-    """
     try:
         reader = PdfReader(BytesIO(data))
-    except Exception as e:
-        print("PdfReader feilet:", e)
+    except Exception:
         return []
     linjer = []
     for side in reader.pages:
-        try:
-            txt = side.extract_text()
-        except Exception:
-            txt = None
+        txt = side.extract_text()
         if txt:
-            # split på newline for bedre linjehåndtering
             for line in txt.splitlines():
                 if line.strip():
                     linjer.append(line.strip())
@@ -170,80 +112,45 @@ def les_pdf(data):
 def les_docx(data):
     try:
         doc = Document(BytesIO(data))
-    except Exception as e:
-        print("Docx-lesing feilet:", e)
+    except Exception:
         return []
-    linjer = []
-    for p in doc.paragraphs:
-        t = p.text.strip()
-        if t:
-            linjer.append(t)
+    linjer = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
     return linjer
 
 
-def dokument_inneholder_klasse(linjer, klasse_pattern_list):
+def dokument_inneholder_klasse(linjer):
     samlet = " ".join(linjer).lower()
-    for pat in klasse_pattern_list:
+    for pat in KLASSE_MØNSTER:
         if re.search(pat, samlet):
             return True
     return False
 
 
 def finn_best_match_for_klasse(filer, klasse):
-    """
-    Først sjekk href for '8e' eller 'pdf8e' i url.
-    Hvis ikke funnet, last ned og sjekk innhold.
-    Returnerer valgt fil-URL og tekstlinjer.
-    """
-    # Prioriter filer med klasse i url
+    # Først sjekk href for klasse
     for url in filer:
         if klasse.lower().replace(" ", "") in url.lower().replace(" ", ""):
-            try:
-                ctype, data = hent_fil_data(url)
-            except Exception as e:
-                print("Feil ved nedlasting av prioritert fil:", e)
-                continue
-
+            ctype, data = hent_fil_data(url)
             if "pdf" in ctype or url.lower().endswith(".pdf"):
                 linjer = les_pdf(data)
             else:
                 linjer = les_docx(data)
+            return url, linjer
 
-            # Hvis fil har tekst eller klasse i url, aksepter den
-            if linjer or klasse.lower() in url.lower():
-                return url, linjer
-
-    # Fallback: sjekk innhold i alle filer
+    # Fallback: sjekk innhold
     for url in filer:
-        try:
-            ctype, data = hent_fil_data(url)
-        except Exception as e:
-            print("Feil ved nedlasting fil:", e)
-            continue
-
+        ctype, data = hent_fil_data(url)
         if "pdf" in ctype or url.lower().endswith(".pdf"):
             linjer = les_pdf(data)
         else:
             linjer = les_docx(data)
-
-        if not linjer:
-            # Ingen tekst funnet i fil. Kan være skannet PDF.
-            print("Ingen tekst funnet i fil:", url)
-            continue
-
-        if dokument_inneholder_klasse(linjer, KLASSE_MØNSTER):
+        if dokument_inneholder_klasse(linjer):
             return url, linjer
-
-    # Hvis ingen match
     return None, None
 
 
 def ekstraher_oppgaver(linjer):
-    """
-    Gå gjennom linjer og finn linjer med stikkord.
-    Returnerer liste av objekter med tekst og evt dato.
-    """
-    funn = []
+    oppgaver = []
     date_re = re.compile(r"\b(\d{1,2}[./-]\d{1,2}(?:[./-]\d{2,4})?)\b")
     for linje in linjer:
         lav = linje.lower()
@@ -252,83 +159,59 @@ def ekstraher_oppgaver(linjer):
             m = date_re.search(linje)
             if m:
                 dato = m.group(1)
-            funn.append({"tekst": linje.strip(), "dato": dato})
-    return funn
+            oppgaver.append({"tekst": linje.strip(), "dato": dato})
+    return oppgaver
 
 
 def main():
-    uke_override, klasse_from_cfg = load_config()
-    klasse = klasse_from_cfg or DEFAULT_KLASSE
-    print("Starter. Klasse:", klasse, "Uke overstyring:", uke_override)
-
-    # Hent index
+    print("Starter fetch for klasse", DEFAULT_KLASSE)
     index_html = hent_html(START_URL)
     index_soup = BeautifulSoup(index_html, "html.parser")
 
     uke_lenker = finn_uke_lenker(index_soup)
     if not uke_lenker:
-        raise RuntimeError("Fant ingen uke-lenker på index")
+        raise RuntimeError("Fant ingen uke-lenker")
 
-    uke_nummer, uke_url = velg_uke(uke_override, uke_lenker)
-    print("Går til uke-side:", uke_url)
+    uke_nummer, uke_url = velg_uke_auto(uke_lenker)
+    print("Valgt uke:", uke_nummer, "URL:", uke_url)
 
     uke_html = hent_html(uke_url)
     uke_soup = BeautifulSoup(uke_html, "html.parser")
 
     filer = finn_filer_paa_uke_siden(uke_soup)
-    print("Filer funnet på uke-siden:", len(filer))
     if not filer:
-        raise RuntimeError("Fant ingen fil-lenker på uke-siden")
+        raise RuntimeError("Fant ingen filer på uke-siden")
+    print("Fant", len(filer), "filer på uke-siden")
 
-    valgt_url, linjer = finn_best_match_for_klasse(filer, klasse)
-    if not valgt_url:
-        raise RuntimeError("Fant ingen fil for klasse " + klasse)
+    fil_url, linjer = finn_best_match_for_klasse(filer, DEFAULT_KLASSE)
+    if not fil_url:
+        raise RuntimeError("Fant ingen fil for klasse " + DEFAULT_KLASSE)
 
-    print("Valgt fil for klasse:", valgt_url)
+    print("Valgt fil:", fil_url)
 
-    # Hvis linjer ikke allerede er lastet, last fil på nytt og hent linjer
-    if linjer is None:
-        ctype, data = hent_fil_data(valgt_url)
-        if "pdf" in ctype or valgt_url.lower().endswith(".pdf"):
+    if linjer is None or not linjer:
+        ctype, data = hent_fil_data(fil_url)
+        if "pdf" in ctype or fil_url.lower().endswith(".pdf"):
             linjer = les_pdf(data)
         else:
             linjer = les_docx(data)
 
-    # Hvis fortsatt ingen tekst, varsle
-    if not linjer:
-        print("Valgt fil mangler tekst. Fil mulig skannet PDF. OCR nødvendig for å hente innhold.")
-        # Lag tom JSON med kilde info
-        resultat = {
-            "uke": uke_nummer,
-            "klasse": klasse,
-            "kilde": valgt_url,
-            "lekser": [],
-            "prover": [],
-            "warning": "fil har ingen utvinnbar tekst, OCR nødvendig"
-        }
-        with open(UTDATA_FIL, "w", encoding="utf-8") as f:
-            json.dump(resultat, f, ensure_ascii=False, indent=2)
-        print("Ferdig, skrev JSON med warning")
-        return
-
     oppgaver = ekstraher_oppgaver(linjer)
-    # Del oppgaver i lekser og prøver
-    lekser = [o for o in oppgaver if any(k in o["tekst"].lower() for k in ["lekse", "innlevering"])]
-    prover = [o for o in oppgaver if any(k in o["tekst"].lower() for k in ["prøve", "test"])]
+    lekser = [o for o in oppgaver if "lekse" in o["tekst"].lower()]
+    prover = [o for o in oppgaver if "prøve" in o["tekst"].lower() or "test" in o["tekst"].lower()]
 
     resultat = {
         "uke": uke_nummer,
-        "klasse": klasse,
-        "kilde": valgt_url,
+        "klasse": DEFAULT_KLASSE,
+        "kilde": fil_url,
         "lekser": lekser,
-        "prover": prover,
-        "hentet": datetime.utcnow().isoformat() + "Z"
+        "prover": prover
     }
 
     with open(UTDATA_FIL, "w", encoding="utf-8") as f:
         json.dump(resultat, f, ensure_ascii=False, indent=2)
 
-    print("Ferdig. Skriver", UTDATA_FIL, "oppføringer lekser:", len(lekser), "prøver:", len(prover))
+    print("Ferdig. JSON skrevet til", UTDATA_FIL)
 
 
 if __name__ == "__main__":
