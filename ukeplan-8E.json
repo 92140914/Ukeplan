@@ -4,70 +4,49 @@
   "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027",
   "lekser": [
     {
-      "tekst": "− Utviklingssamtalene starter denne uken. Se melding og oversikt i Vigilo over når dere skal ha utviklingssamtale Emne:  Mål: Norsk  Sammensatte tekst er Bruke norskfaglige begrep i samtaler om tekst Lese og øve på å skrive filmanmeldelse",
+      "tekst": "Sammensatte tekst er Bruke norskfaglige begrep i samtaler om tekst Lese og øve på å skrive filmanmeldelse",
       "dato": "2026-01-30",
       "ukedag": "Fredag",
       "side_eller_oppgave": null,
       "fag": "norsk"
     },
     {
-      "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
+      "tekst": "Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
       "dato": "2026-01-30",
       "ukedag": "Fredag",
       "side_eller_oppgave": null,
       "fag": "matematikk"
     },
     {
-      "tekst": "12:00  Norsk  Samfunnsfag /Norsk  Kroppsøving",
-      "dato": "2026-01-26",
-      "ukedag": "Mandag",
+      "tekst": "les i leseboken din i 15 minutter. oppdater leseloggen i classroom etter at du har les t.",
+      "dato": "2026-01-27",
+      "ukedag": "Tirsdag",
       "side_eller_oppgave": null,
-      "fag": "kroppsøving"
+      "fag": "norsk"
     },
     {
-      "tekst": "Kroppsøving",
-      "dato": "2026-01-26",
-      "ukedag": "Mandag",
-      "side_eller_oppgave": null,
-      "fag": "kroppsøving"
-    },
-    {
-      "tekst": "Matematikk  Du må sørge for at du vet hvordan du multipliserer (ganger sammen) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å øve på. Det er fasit bak i heftet/boken, sånn at du sjekker at d u gjør det riktig.",
+      "tekst": "Du må sørge for at du vet hvordan du multipliserer (ganger sammen) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å øve på. Det er fasit bak i heftet/boken, sånn at du sjekker at d u gjør det riktig.",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
       "side_eller_oppgave": null,
       "fag": "matematikk"
     },
     {
-      "tekst": "Kroppsøvi ng Matematikk  Du må sørge for at du vet hvordan du dividerer (deler) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å øve på. Det er fasit bak i heftet/boken, sånn at du sjekker at du gjør det r iktig.",
+      "tekst": "du må sørge for at du vet hvordan du dividerer (deler) brøker. utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. plukk oppgaver som du tenker er lurt å øve på. det er fasit bak i heftet/boken, sånn at du sjekker at du gjør det r iktig.",
       "dato": "2026-01-28",
       "ukedag": "Onsdag",
       "side_eller_oppgave": null,
       "fag": "matematikk"
     },
     {
-      "tekst": "Kroppsøving ARBEIDSPLAN for 8E uke 5 Mjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "tekst": "forbered dere til å vise frem presentasjonen/videoen om en selvvalgt sak/person. 38 i oppgaveboken.  Jobb 15 min med presentasjon. Se classroom.  Fremføring av presentasjon",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
       "side_eller_oppgave": null,
-      "fag": "kroppsøving"
+      "fag": "samfunnsfag"
     },
     {
-      "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
-      "dato": "2026-01-29",
-      "ukedag": "Torsdag",
-      "side_eller_oppgave": null,
-      "fag": "matematikk"
-    },
-    {
-      "tekst": "Spansk  Les s. 48 – 49 i boken",
-      "dato": "2026-01-27",
-      "ukedag": "Tirsdag",
-      "side_eller_oppgave": "side 48-49",
-      "fag": "spansk"
-    },
-    {
-      "tekst": "38 i oppgaveboken.  Jobb 15 min med presentasjon. Se classroom.  Fremføring av presentasjon Fransk  Se leksen i  Classroom  Se leksen i Classroom",
+      "tekst": "Se leksen i  Classroom  Se leksen i Classroom",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
       "side_eller_oppgave": null,
@@ -76,26 +55,19 @@
   ],
   "prover": [
     {
-      "tekst": "KRLE  Det gamle testamente  Jeg kjenner til ulike pakter i Bibelen",
+      "tekst": "Det gamle testamente  Jeg kjenner til ulike pakter i Bibelen",
       "dato": "2026-01-30",
       "ukedag": "Fredag",
       "side_eller_oppgave": null,
       "fag": "krle"
     },
     {
-      "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
+      "tekst": "Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
       "dato": "2026-01-30",
       "ukedag": "Fredag",
       "side_eller_oppgave": null,
       "fag": "matematikk"
-    },
-    {
-      "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
-      "dato": "2026-01-29",
-      "ukedag": "Torsdag",
-      "side_eller_oppgave": null,
-      "fag": "matematikk"
     }
   ],
-  "hentet": "2026-01-29T21:06:42.142499Z"
+  "hentet": "2026-01-29T21:15:48.707819Z"
 }
