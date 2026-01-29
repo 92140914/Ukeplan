@@ -5,25 +5,31 @@
   "lekser": [
     {
       "tekst": "Dag Fag Lekser",
-      "dato": "09.30"
+      "dato": "2026-01-26",
+      "ukedag": "Mandag"
     },
     {
       "tekst": "andre ikke. Leksen til i dag er i tillegg",
-      "dato": "09.30"
+      "dato": "2026-01-29",
+      "ukedag": "Torsdag"
     },
     {
       "tekst": "Fransk  Se leksen i  Classroom  Se leksen i Classroom",
-      "dato": "09.30"
+      "dato": "2026-01-29",
+      "ukedag": "Torsdag"
     }
   ],
   "prover": [
     {
       "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
-      "dato": "30.1"
+      "dato": "2026-01-30",
+      "ukedag": "Friday"
     },
     {
       "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
-      "dato": "09.30"
+      "dato": "2026-01-29",
+      "ukedag": "Torsdag"
     }
-  ]
+  ],
+  "hentet": "2026-01-29T20:15:29.313853Z"
 }
