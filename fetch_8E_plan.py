@@ -9,44 +9,32 @@ from datetime import date, datetime
 from PyPDF2 import PdfReader
 from docx import Document
 
-# Konfig
+# ------------------ KONFIG ------------------
 BASE_URL = "https://www.bergen.kommune.no"
 START_URL = BASE_URL + "/omkommunen/avdelinger/mjolkeraen-skole/arbeidsplaner"
 UTDATA_FIL = "ukeplan-8E.json"
 DEFAULT_KLASSE = "8E"
 
-STIKKORD = ["lekse", "prøve", "innlevering", "presentasjon", "framføring", "øvelse", "øving"]
-REQ_TIMEOUT = 25
-
-# Mønstre for å finne 8E i url eller tekst
-KLASSE_MØNSTER_URL = [
-    r"\b8e\b",
-    r"\b8\.?e\b",
-    r"\b8\s*e\b",
-    r"8e[-_ ]",
-    r"8e.*uke",
-    r"8e.*\d{1,2}",
-    r"8e\s*-\s*uke",
-    r"klasse\s*8e",
-    r"8e_uk[e]?",
-    r"8e\.pdf",
-    r"pdf8e",
-    r".*8e.*"
+STIKKORD = [
+    "lekse", "innlevering", "prøve", "test", "presentasjon", "framføring",
+    "øvelse", "øving", "assignment", "lesson", "classroom", "les", "presentere",
+    "presentation", "video", "practice", "øve"
 ]
 
-# Ukedager på norsk -> ISO weekday nummer (mandag=1)
+KLASSE_MØNSTER_URL = [
+    r"\b8e\b", r"\b8\.?e\b", r"\b8\s*e\b", r"8e[-_ ]", r"8e.*uke",
+    r"8e.*\d{1,2}", r"8e\s*-\s*uke", r"klasse\s*8e", r"8e_uk[e]?", r"8e\.pdf",
+    r"pdf8e", r".*8e.*"
+]
+
 UKEDAGER = {
-    "mandag": 1,
-    "tirsdag": 2,
-    "onsdag": 3,
-    "torsdag": 4,
-    "fredag": 5,
-    "lørdag": 6,
-    "lordag": 6,
-    "søndag": 7,
-    "sondag": 7
+    "mandag": 1, "tirsdag": 2, "onsdag": 3, "torsdag": 4,
+    "fredag": 5, "lørdag": 6, "lordag": 6, "søndag": 7, "sondag": 7
 }
 
+REQ_TIMEOUT = 25
+
+# ------------------ HJELPEFUNKSJONER ------------------
 def hent_html(url):
     resp = requests.get(url, timeout=REQ_TIMEOUT)
     resp.raise_for_status()
@@ -76,14 +64,10 @@ def finn_uke_lenker(soup):
 
 def velg_uke_auto(uke_lenker):
     current_week = date.today().isocalendar()[1]
-    print("Nåværende uke:", current_week)
     for uke, url in uke_lenker:
         if uke == current_week:
-            print("Fant nåværende uke på siden:", uke)
             return uke, url
-    nærmeste = min(uke_lenker, key=lambda x: abs(x[0] - current_week))
-    print(f"Nåværende uke ikke funnet, velger nærmeste: {nærmeste[0]}")
-    return nærmeste
+    return min(uke_lenker, key=lambda x: abs(x[0] - current_week))
 
 def finn_filer_paa_uke_siden(soup):
     filer = []
@@ -126,54 +110,34 @@ def les_docx(data):
     return [p.text.strip() for p in doc.paragraphs if p.text.strip()]
 
 def try_parse_date_str(s):
-    """
-    Forsøk å parse dato-streng til datetime.date.
-    Aksepterer dd.mm, dd.mm.yyyy, dd/mm, dd/mm/yyyy, yyyy-mm-dd.
-    Returnerer date eller None.
-    Avviser sannsynlig tid-format som 09.30 fordi måned > 12.
-    """
     s = s.strip()
-    # yyyy-mm-dd
     m = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})$", s)
     if m:
         y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
         try:
             return date(y, mo, d)
-        except Exception:
-            return None
-    # dd.mm.yyyy eller dd/mm/yyyy
+        except: return None
     m = re.match(r"^(\d{1,2})[./](\d{1,2})[./](\d{2,4})$", s)
     if m:
         d, mo, yy = int(m.group(1)), int(m.group(2)), int(m.group(3))
-        if yy < 100:
-            yy += 2000
-        try:
-            return date(yy, mo, d)
-        except Exception:
-            return None
-    # dd.mm or dd/mm, assume current year but validate month
+        if yy < 100: yy += 2000
+        try: return date(yy, mo, d)
+        except: return None
     m = re.match(r"^(\d{1,2})[./](\d{1,2})$", s)
     if m:
         d, mo = int(m.group(1)), int(m.group(2))
-        if not (1 <= mo <= 12 and 1 <= d <= 31):
-            return None
+        if not (1 <= mo <= 12 and 1 <= d <= 31): return None
         y = date.today().year
-        try:
-            return date(y, mo, d)
-        except Exception:
-            return None
+        try: return date(y, mo, d)
+        except: return None
     return None
 
 def date_from_week_and_weekday(year_guess, uke_nummer, weekday_index):
-    """
-    Prøv fraisocalendar for år i [year_guess-1, year_guess, year_guess+1].
-    Returnerer date eller None.
-    """
     for y in (year_guess, year_guess-1, year_guess+1):
         try:
             dt = date.fromisocalendar(y, uke_nummer, weekday_index)
             return dt
-        except Exception:
+        except:
             continue
     return None
 
@@ -185,7 +149,6 @@ def dokument_inneholder_klasse(linjer):
     return False
 
 def finn_best_match_for_klasse(filer, klasse):
-    # Sjekk filnavn med regex
     for url in filer:
         url_lav = url.lower()
         for pat in KLASSE_MØNSTER_URL:
@@ -196,7 +159,6 @@ def finn_best_match_for_klasse(filer, klasse):
                 else:
                     linjer = les_docx(data)
                 return url, linjer
-    # fallback: sjekk innhold
     for url in filer:
         ctype, data = hent_fil_data(url)
         if "pdf" in ctype or url.lower().endswith(".pdf"):
@@ -207,26 +169,23 @@ def finn_best_match_for_klasse(filer, klasse):
             return url, linjer
     return None, None
 
-def ekstraher_oppgaver_med_dato(linjer, uke_nummer):
-    """
-    Går gjennom tekstradene. Når en linje inneholder ukedag,
-    regner vi ut dato for den ukedagen i uke_nummer.
-    Når en linje inneholder gyldig dato, bruker vi den.
-    Når en linje inneholder et ord fra STIKKORD, lagres oppgave med dato og ukedag.
-    """
+# ------------------ EKSTRAHERING ------------------
+def ekstraher_oppgaver_med_dato_og_stikkord(linjer, uke_nummer):
     oppgaver = []
     current_date = None
     current_weekday_name = None
-    # regex for candidate date tokens
     date_token_re = re.compile(r"(\d{1,4}[./-]\d{1,4}(?:[./-]\d{2,4})?)")
-
-    # årsgjetning for fromisocalendar
     year_guess = date.today().year
+    started = False
 
     for linje in linjer:
-        lav = linje.lower()
+        lav = linje.lower().strip()
+        if not started:
+            if "dag fag lekser" in lav:
+                started = True
+            continue
 
-        # finn ukedag i linja først
+        # Finn ukedag
         found_weekday = None
         for navn, idx in UKEDAGER.items():
             if navn in lav:
@@ -237,13 +196,12 @@ def ekstraher_oppgaver_med_dato(linjer, uke_nummer):
             dt = date_from_week_and_weekday(year_guess, uke_nummer, idx)
             if dt:
                 current_date = dt
-                # format dato
                 current_weekday_name = navn.capitalize()
             else:
                 current_date = None
                 current_weekday_name = navn.capitalize()
 
-        # finn gyldige dato-tokener i linja
+        # Finn dato
         for tok in date_token_re.findall(linje):
             parsed = try_parse_date_str(tok)
             if parsed:
@@ -251,17 +209,21 @@ def ekstraher_oppgaver_med_dato(linjer, uke_nummer):
                 current_weekday_name = parsed.strftime("%A").capitalize()
                 break
 
-        # hvis linja inneholder en oppgave-stikkord, lagre med current_date
+        # Sjekk stikkord
         if any(k in lav for k in STIKKORD):
             dato_str = current_date.isoformat() if isinstance(current_date, date) else None
+            sidetall = None
+            m = re.search(r"(side|oppgave|task)\s*(\d+)", lav)
+            if m: sidetall = m.group(0)
             oppgaver.append({
                 "tekst": linje.strip(),
                 "dato": dato_str,
-                "ukedag": current_weekday_name
+                "ukedag": current_weekday_name,
+                "side_eller_oppgave": sidetall
             })
-
     return oppgaver
 
+# ------------------ MAIN ------------------
 def main():
     print("Starter fetch for klasse", DEFAULT_KLASSE)
     index_html = hent_html(START_URL)
@@ -281,13 +243,10 @@ def main():
     if not filer:
         raise RuntimeError("Fant ingen filer på uke-siden")
     print("Filer funnet:", len(filer))
-    for f in filer:
-        print(" -", f)
 
     fil_url, linjer = finn_best_match_for_klasse(filer, DEFAULT_KLASSE)
     if not fil_url:
         raise RuntimeError("Fant ingen fil for klasse " + DEFAULT_KLASSE)
-
     print("Valgt fil:", fil_url)
 
     if linjer is None or not linjer:
@@ -297,10 +256,10 @@ def main():
         else:
             linjer = les_docx(data)
 
-    oppgaver = ekstraher_oppgaver_med_dato(linjer, uke_nummer)
+    oppgaver = ekstraher_oppgaver_med_dato_og_stikkord(linjer, uke_nummer)
 
-    lekser = [o for o in oppgaver if "lekse" in o["tekst"].lower() or "innlever" in o["tekst"].lower()]
-    prover = [o for o in oppgaver if "prøve" in o["tekst"].lower() or "test" in o["tekst"].lower()]
+    lekser = [o for o in oppgaver if any(k in o["tekst"].lower() for k in ["lekse", "innlever", "assignment", "lesson", "les"])]
+    prover = [o for o in oppgaver if any(k in o["tekst"].lower() for k in ["prøve", "test"])]
 
     resultat = {
         "uke": uke_nummer,
