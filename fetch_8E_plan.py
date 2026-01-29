@@ -4,7 +4,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from io import BytesIO
-from datetime import datetime, date
+from datetime import date
 
 from PyPDF2 import PdfReader
 from docx import Document
@@ -27,26 +27,21 @@ def hent_html(url):
 
 
 def finn_uke_lenker(soup):
-    """Finn alle lenker som ser ut som uke-lenker. Returnerer liste av (uke_nummer, url)."""
     funn = []
     for a in soup.find_all("a", href=True):
         tekst = (a.get_text(" ", strip=True) or "").lower()
         href = a["href"]
-
         m = re.search(r"uke\s*(\d{1,2})", tekst)
         if not m:
             m2 = re.search(r"uke[-_/ ]?(\d{1,2})", href.lower())
             if m2:
                 m = m2
-
         if m:
             uke = int(m.group(1))
             url = href
             if url.startswith("/"):
                 url = BASE_URL + url
             funn.append((uke, url))
-
-    # Fjern duplikater: behold første per uke
     unique = {}
     for uke, url in funn:
         if uke not in unique:
@@ -55,29 +50,22 @@ def finn_uke_lenker(soup):
 
 
 def velg_uke_auto(uke_lenker):
-    """Velger nåværende uke basert på dato. Hvis ikke funnet, nærmeste."""
     current_week = date.today().isocalendar()[1]
     print("Nåværende uke:", current_week)
-
-    # Hvis nøyaktig match
     for uke, url in uke_lenker:
         if uke == current_week:
             print("Fant nåværende uke på siden:", uke)
             return uke, url
-
-    # Ellers nærmeste uke
     nærmeste = min(uke_lenker, key=lambda x: abs(x[0] - current_week))
     print(f"Nåværende uke ikke funnet, velger nærmeste: {nærmeste[0]}")
     return nærmeste
 
 
 def finn_filer_paa_uke_siden(soup):
-    """Hent alle fil-URLer fra uke-siden."""
     filer = []
     for a in soup.find_all("a", href=True):
         href = a["href"]
         href_l = href.lower()
-
         if "/api/rest/filer/" in href_l or any(href_l.endswith(ext) for ext in [".pdf", ".doc", ".docx", ".docm"]):
             url = href
             if url.startswith("/"):
@@ -114,8 +102,7 @@ def les_docx(data):
         doc = Document(BytesIO(data))
     except Exception:
         return []
-    linjer = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
-    return linjer
+    return [p.text.strip() for p in doc.paragraphs if p.text.strip()]
 
 
 def dokument_inneholder_klasse(linjer):
@@ -127,16 +114,18 @@ def dokument_inneholder_klasse(linjer):
 
 
 def finn_best_match_for_klasse(filer, klasse):
-    # Først sjekk href for klasse
+    # Eksakt klasse i filnavn først
+    klasse_mønster_url = [r"\b8\.?e\b", r"\b8e\b"]
     for url in filer:
-        if klasse.lower().replace(" ", "") in url.lower().replace(" ", ""):
-            ctype, data = hent_fil_data(url)
-            if "pdf" in ctype or url.lower().endswith(".pdf"):
-                linjer = les_pdf(data)
-            else:
-                linjer = les_docx(data)
-            return url, linjer
-
+        url_lav = url.lower()
+        for pat in klasse_mønster_url:
+            if re.search(pat, url_lav):
+                ctype, data = hent_fil_data(url)
+                if "pdf" in ctype or url.lower().endswith(".pdf"):
+                    linjer = les_pdf(data)
+                else:
+                    linjer = les_docx(data)
+                return url, linjer
     # Fallback: sjekk innhold
     for url in filer:
         ctype, data = hent_fil_data(url)
@@ -144,7 +133,7 @@ def finn_best_match_for_klasse(filer, klasse):
             linjer = les_pdf(data)
         else:
             linjer = les_docx(data)
-        if dokument_inneholder_klasse(linjer):
+        if linjer and dokument_inneholder_klasse(linjer):
             return url, linjer
     return None, None
 
