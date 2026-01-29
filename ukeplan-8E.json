@@ -4,6 +4,34 @@
   "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027",
   "lekser": [
     {
+      "tekst": "− Utviklingssamtalene starter denne uken. Se melding og oversikt i Vigilo over når dere skal ha utviklingssamtale Emne:  Mål: Norsk  Sammensatte tekst er Bruke norskfaglige begrep i samtaler om tekst Lese og øve på å skrive filmanmeldelse",
+      "dato": "2026-01-30",
+      "ukedag": "Fredag",
+      "side_eller_oppgave": null,
+      "fag": "norsk"
+    },
+    {
+      "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
+      "dato": "2026-01-30",
+      "ukedag": "Fredag",
+      "side_eller_oppgave": null,
+      "fag": "matematikk"
+    },
+    {
+      "tekst": "12:00  Norsk  Samfunnsfag /Norsk  Kroppsøving",
+      "dato": "2026-01-26",
+      "ukedag": "Mandag",
+      "side_eller_oppgave": null,
+      "fag": "kroppsøving"
+    },
+    {
+      "tekst": "Kroppsøving",
+      "dato": "2026-01-26",
+      "ukedag": "Mandag",
+      "side_eller_oppgave": null,
+      "fag": "kroppsøving"
+    },
+    {
       "tekst": "Matematikk  Du må sørge for at du vet hvordan du multipliserer (ganger sammen) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å øve på. Det er fasit bak i heftet/boken, sånn at du sjekker at d u gjør det riktig.",
       "dato": "2026-01-27",
       "ukedag": "Tirsdag",
@@ -18,7 +46,7 @@
       "fag": "matematikk"
     },
     {
-      "tekst": "Kroppsøving",
+      "tekst": "Kroppsøving ARBEIDSPLAN for 8E uke 5 Mjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
       "side_eller_oppgave": null,
@@ -48,6 +76,20 @@
   ],
   "prover": [
     {
+      "tekst": "KRLE  Det gamle testamente  Jeg kjenner til ulike pakter i Bibelen",
+      "dato": "2026-01-30",
+      "ukedag": "Fredag",
+      "side_eller_oppgave": null,
+      "fag": "krle"
+    },
+    {
+      "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
+      "dato": "2026-01-30",
+      "ukedag": "Fredag",
+      "side_eller_oppgave": null,
+      "fag": "matematikk"
+    },
+    {
       "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
       "dato": "2026-01-29",
       "ukedag": "Torsdag",
@@ -55,5 +97,5 @@
       "fag": "matematikk"
     }
   ],
-  "hentet": "2026-01-29T21:01:43.701240Z"
+  "hentet": "2026-01-29T21:06:42.142499Z"
 }
