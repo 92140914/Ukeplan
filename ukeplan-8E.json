@@ -4,32 +4,43 @@
   "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027",
   "lekser": [
     {
-      "tekst": "Dag Fag Lekser",
-      "dato": "2026-01-26",
-      "ukedag": "Mandag"
+      "tekst": "Tirsdag  Norsk  Les i leseboken din i 15 minutter. Oppdater leseloggen i Classroom etter at du har les t.",
+      "dato": "2026-01-27",
+      "ukedag": "Tirsdag",
+      "side_eller_oppgave": null
+    },
+    {
+      "tekst": "Spansk  Les s. 48 – 49 i boken",
+      "dato": "2026-01-27",
+      "ukedag": "Tirsdag",
+      "side_eller_oppgave": null
     },
     {
       "tekst": "andre ikke. Leksen til i dag er i tillegg",
       "dato": "2026-01-29",
-      "ukedag": "Torsdag"
+      "ukedag": "Torsdag",
+      "side_eller_oppgave": null
+    },
+    {
+      "tekst": "til å lese sidene over å gjøre ferdig s.",
+      "dato": "2026-01-29",
+      "ukedag": "Torsdag",
+      "side_eller_oppgave": null
     },
     {
       "tekst": "Fransk  Se leksen i  Classroom  Se leksen i Classroom",
       "dato": "2026-01-29",
-      "ukedag": "Torsdag"
+      "ukedag": "Torsdag",
+      "side_eller_oppgave": null
     }
   ],
   "prover": [
     {
-      "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
-      "dato": "2026-01-30",
-      "ukedag": "Friday"
-    },
-    {
       "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
       "dato": "2026-01-29",
-      "ukedag": "Torsdag"
+      "ukedag": "Torsdag",
+      "side_eller_oppgave": null
     }
   ],
-  "hentet": "2026-01-29T20:15:29.313853Z"
+  "hentet": "2026-01-29T20:26:11.678414Z"
 }
