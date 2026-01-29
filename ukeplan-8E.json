@@ -1,1 +1,29 @@
-
+{
+  "uke": 5,
+  "klasse": "8E",
+  "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027",
+  "lekser": [
+    {
+      "tekst": "Dag Fag Lekser",
+      "dato": null
+    },
+    {
+      "tekst": "andre ikke. Leksen til i dag er i tillegg",
+      "dato": null
+    },
+    {
+      "tekst": "Fransk  Se leksen i  Classroom  Se leksen i Classroom",
+      "dato": null
+    }
+  ],
+  "prover": [
+    {
+      "tekst": "Matematikk  Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
+      "dato": null
+    },
+    {
+      "tekst": "Matematikk  Prøve i kap 2. Se classroom for hva dere får  på prøven",
+      "dato": null
+    }
+  ]
+}
