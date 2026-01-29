@@ -18,3 +18,11 @@ jobs:
           pip install requests beautifulsoup4 PyPDF2 python-docx
 
       - run: python fetch_8E_plan.py
+      - name: Commit ukeplan-8E.json
+  run: |
+    git config --local user.name "github-actions"
+    git config --local user.email "github-actions@github.com"
+    git add ukeplan-8E.json
+    git commit -m "Oppdater ukeplan-8E.json"
+    git push
+
