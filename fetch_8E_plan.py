@@ -11,12 +11,19 @@ PDF_URL = "https://www.bergen.kommune.no/api/rest/filer/V69584027"
 OUTPUT_FILE = f"ukeplan-{KLASSE}-AI.json"
 
 UKEDAGER = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag"]
-PLANLEGGINGS_ORD = ["planleggingsdag", "elevfri", "avspasering"]
-FAGLISTE = ["Norsk", "Matematikk", "Engelsk", "Spansk", "Tysk", "Fransk",
-            "Naturfag", "Samfunnsfag", "KRLE", "Kroppsøving", "K&H", "ALF", "Valgfag"]
 
+# Nøkkelord for å filtrere lekser/prøver/oppgaver
+NØKKELORD = [
+    "lekse","lekser","oppgave","innlevering","frist","lese","leseboken","leseloggen",
+    "øve","øving","presentasjon","fremføring","prøve","prøver","kapittelprøve",
+    "gloseprøve","gloseprøver","quiz","test","vurdering","eksamen","utviklingssamtale",
+    "samtale","classroom","digitaleoppgaver","video","film","arbeid i boken","arbeid i heftet",
+    "oppgavesett","sidene","repetisjon","forberedelse","fag","tema","prosjekt","arbeid videre",
+    "innleveringsfrist","se i classroom","avspasering","planleggingsdag"
+]
+
+# Regex for oppgavenummer/side
 OPPGAVE_REGEX = r"(s\.?\s*\d+[-–]?\d*|oppgave\s*\d+|side\s*\d+)"
-PRØVE_REGEX = r"(prøve|test)"
 
 # === HENT PDF ===
 def hent_pdf(url):
@@ -38,13 +45,12 @@ def ai_prosessering(pdf_path):
     linjer = [line.strip() for line in tekst.splitlines() if line.strip()]
 
     current_day = None
-    current_fag = None
     buffer_tekst = []
     buffer_side = []
     buffer_is_prove = False
 
     def lagre_buffer():
-        nonlocal buffer_tekst, buffer_side, buffer_is_prove, current_day, current_fag
+        nonlocal buffer_tekst, buffer_side, buffer_is_prove, current_day
         if not buffer_tekst:
             return
         tekst_samlet = " ".join(buffer_tekst)
@@ -53,28 +59,17 @@ def ai_prosessering(pdf_path):
             "tekst": tekst_samlet,
             "dato": datetime.utcnow().strftime("%Y-%m-%d"),
             "ukedag": current_day,
-            "side_eller_oppgave": side_samlet,
-            "fag": current_fag
+            "side_eller_oppgave": side_samlet
         }
         if buffer_is_prove:
             prover.append(oppgave)
         else:
             lekser.append(oppgave)
-        buffer_tekst = []
-        buffer_side = []
+        buffer_tekst.clear()
+        buffer_side.clear()
         buffer_is_prove = False
 
     for line in linjer:
-        # ignorerer irrelevante linjer
-        if any(x.lower() in line.lower() for x in ["arbeidsplan", "53 03 57 30", "mjølkeråen skole", "pals", "info:", "emne:", "time tid"]):
-            continue
-        if any(p.lower() in line.lower() for p in PLANLEGGINGS_ORD):
-            current_fag = None
-            current_day = None
-            buffer_tekst.append(line)  # lagre planleggingsdag som lekse
-            lagre_buffer()
-            continue
-
         # oppdater ukedag
         for dag in UKEDAGER:
             if line.startswith(dag):
@@ -83,43 +78,27 @@ def ai_prosessering(pdf_path):
                 line = line[len(dag):].strip()
                 break
 
-        # oppdater fag
-        fag = None
-        for f in FAGLISTE:
-            if line.startswith(f):
-                lagre_buffer()
-                fag = f
-                line = line[len(f):].strip()
-                break
-        if fag:
-            current_fag = fag
-
-        # oppgaveekstraksjon
-        oppgaver = re.findall(OPPGAVE_REGEX, line)
-        if oppgaver:
-            buffer_side.extend(oppgaver)
-
-        # sjekk om prøve
-        is_prove = bool(re.search(PRØVE_REGEX, line, re.IGNORECASE))
-
-        # multiline AI logikk: hvis linje er tom eller ny fag/ny dag, lagre buffer
-        if line == "":
-            lagre_buffer()
+        # sjekk om linjen inneholder nøkkelord
+        if any(nk in line.lower() for nk in NØKKELORD):
+            # hent oppgavenummer/side
+            oppgaver = re.findall(OPPGAVE_REGEX, line)
+            if oppgaver:
+                buffer_side.extend(oppgaver)
+            # sjekk om det er prøve
+            buffer_is_prove = bool(re.search(r"prøve|test", line, re.IGNORECASE))
+            buffer_tekst.append(line)
+        else:
+            # linje uten nøkkelord lagres ikke
             continue
 
-        # samler tekst
-        buffer_tekst.append(line)
-        if is_prove:
-            buffer_is_prove = True
+        # lagre buffer hvis linjen er tom
+        if line == "":
+            lagre_buffer()
 
     # lagre siste
     lagre_buffer()
 
-    # filtrer tomme fag/ukedag
-    lekser = [l for l in lekser if l["tekst"].strip()]
-    prover = [p for p in prover if p["tekst"].strip()]
-
-    # maks 2 oppgavenr per lekse
+    # maks 2 oppgavenr per lekse/prøve
     for l in lekser:
         if l["side_eller_oppgave"]:
             l["side_eller_oppgave"] = l["side_eller_oppgave"][:2]
