@@ -1,18 +1,13 @@
 import requests
 import pdfplumber
-import re
-import json
 from datetime import datetime
+import json
 
-# === KONFIGURASJON ===
-KLASSE = "8E"
-UKE = 5
 PDF_URL = "https://www.bergen.kommune.no/api/rest/filer/V69584027"
-OUTPUT_FILE = f"ukeplan-{KLASSE}-AI.json"
+OUTPUT_FILE = "ukeplan_8E.json"
 
 UKEDAGER = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag"]
 
-# Nøkkelord for å filtrere lekser/prøver/oppgaver
 NØKKELORD = [
     "lekse","lekser","oppgave","innlevering","frist","lese","leseboken","leseloggen",
     "øve","øving","presentasjon","fremføring","prøve","prøver","kapittelprøve",
@@ -22,110 +17,44 @@ NØKKELORD = [
     "innleveringsfrist","se i classroom","avspasering","planleggingsdag"
 ]
 
-# Regex for oppgavenummer/side
-OPPGAVE_REGEX = r"(s\.?\s*\d+[-–]?\d*|oppgave\s*\d+|side\s*\d+)"
+# Hent PDF
+r = requests.get(PDF_URL)
+pdf_path = "temp.pdf"
+with open(pdf_path, "wb") as f:
+    f.write(r.content)
 
-# === HENT PDF ===
-def hent_pdf(url):
-    r = requests.get(url)
-    r.raise_for_status()
-    path = f"{KLASSE}.pdf"
-    with open(path, "wb") as f:
-        f.write(r.content)
-    return path
+resultat = []
 
-# === AI-PROSESSERING ===
-def ai_prosessering(pdf_path):
-    lekser = []
-    prover = []
+with pdfplumber.open(pdf_path) as pdf:
+    linjer = []
+    for page in pdf.pages:
+        text = page.extract_text()
+        if text:
+            linjer.extend(text.splitlines())
 
-    with pdfplumber.open(pdf_path) as pdf:
-        tekst = "\n".join(page.extract_text() for page in pdf.pages if page.extract_text())
+current_day = None
 
-    linjer = [line.strip() for line in tekst.splitlines() if line.strip()]
+for line in linjer:
+    line_clean = line.strip()
+    if not line_clean:
+        continue
 
-    current_day = None
-    buffer_tekst = []
-    buffer_side = []
-    buffer_is_prove = False
+    # Sjekk om linjen inneholder ukedag
+    for dag in UKEDAGER:
+        if dag in line_clean:
+            current_day = dag
+            break
 
-    def lagre_buffer():
-        nonlocal buffer_tekst, buffer_side, buffer_is_prove, current_day
-        if not buffer_tekst:
-            return
-        tekst_samlet = " ".join(buffer_tekst)
-        side_samlet = buffer_side[:2] if buffer_side else None
-        oppgave = {
-            "tekst": tekst_samlet,
-            "dato": datetime.utcnow().strftime("%Y-%m-%d"),
+    # Sjekk om linjen inneholder nøkkelord
+    if any(ord i line_clean.lower() for ord in NØKKELORD):
+        resultat.append({
+            "tekst": line_clean,
             "ukedag": current_day,
-            "side_eller_oppgave": side_samlet
-        }
-        if buffer_is_prove:
-            prover.append(oppgave)
-        else:
-            lekser.append(oppgave)
-        buffer_tekst.clear()
-        buffer_side.clear()
-        buffer_is_prove = False
+            "dato": datetime.utcnow().strftime("%Y-%m-%d")
+        })
 
-    for line in linjer:
-        # oppdater ukedag
-        for dag in UKEDAGER:
-            if line.startswith(dag):
-                lagre_buffer()
-                current_day = dag
-                line = line[len(dag):].strip()
-                break
+# Lagre JSON
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    json.dump(resultat, f, ensure_ascii=False, indent=2)
 
-        # sjekk om linjen inneholder nøkkelord
-        if any(nk in line.lower() for nk in NØKKELORD):
-            # hent oppgavenummer/side
-            oppgaver = re.findall(OPPGAVE_REGEX, line)
-            if oppgaver:
-                buffer_side.extend(oppgaver)
-            # sjekk om det er prøve
-            buffer_is_prove = bool(re.search(r"prøve|test", line, re.IGNORECASE))
-            buffer_tekst.append(line)
-        else:
-            # linje uten nøkkelord lagres ikke
-            continue
-
-        # lagre buffer hvis linjen er tom
-        if line == "":
-            lagre_buffer()
-
-    # lagre siste
-    lagre_buffer()
-
-    # maks 2 oppgavenr per lekse/prøve
-    for l in lekser:
-        if l["side_eller_oppgave"]:
-            l["side_eller_oppgave"] = l["side_eller_oppgave"][:2]
-    for p in prover:
-        if p["side_eller_oppgave"]:
-            p["side_eller_oppgave"] = p["side_eller_oppgave"][:2]
-
-    return lekser, prover
-
-# === MAIN ===
-def main():
-    pdf_path = hent_pdf(PDF_URL)
-    lekser, prover = ai_prosessering(pdf_path)
-
-    data = {
-        "uke": UKE,
-        "klasse": KLASSE,
-        "kilde": PDF_URL,
-        "lekser": lekser,
-        "prover": prover,
-        "hentet": datetime.utcnow().isoformat() + "Z"
-    }
-
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-    print(f"AI ukeplan ferdig lagret i {OUTPUT_FILE}")
-
-if __name__ == "__main__":
-    main()
+print(f"Ferdig, lagret {len(resultat)} oppgaver i {OUTPUT_FILE}")
