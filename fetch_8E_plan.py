@@ -6,8 +6,22 @@ import re
 from io import BytesIO
 
 KLASSE = "8E"
+BASE = "https://www.bergen.kommune.no"
 
-UKEPLAN_URL = "https://www.bergen.kommune.no/skole/mjolkeråen-skole/ukeplaner"
+UKEPLAN_OVERSIKT = (
+    "https://www.bergen.kommune.no/omkommunen/"
+    "avdelinger/mjolkeraen-skole/arbeidsplaner"
+)
+
+UKEDAGER = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
+
+PRØVE_ORD = [
+    "prøve",
+    "test",
+    "fremføring",
+    "presentasjon",
+    "presentation"
+]
 
 FAG_MAP = {
     "norsk": "norsk",
@@ -27,36 +41,60 @@ FAG_MAP = {
     "arbeidslivsfag": "alf"
 }
 
-SPRÅK = {"spansk", "fransk", "tysk", "engelsk fordypning", "alf"}
-
-UKEDAGER = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
-
-PRØVE_ORD = ["prøve", "test", "fremføring", "presentasjon", "presentation"]
-
-SIDE_RE = re.compile(r"(s\.?\s*\d+(\s*[–-]\s*\d+)?)", re.I)
+SIDE_RE = re.compile(r"s\.?\s*\d+(\s*[–-]\s*\d+)?", re.I)
 
 def dagens_uke():
     return datetime.date.today().isocalendar().week
-
-def finn_pdf_url():
-    html = requests.get(UKEPLAN_URL).text
-    uke = dagens_uke()
-
-    kandidater = re.findall(r'href="([^"]+)"[^>]*8E', html, re.I)
-    if not kandidater:
-        raise RuntimeError("Fant ingen PDF for 8E")
-
-    return "https://www.bergen.kommune.no" + kandidater[0]
 
 def uke_til_dato(uke, ukedag):
     year = datetime.date.today().year
     mandag = datetime.date.fromisocalendar(year, uke, 1)
     return mandag + datetime.timedelta(days=UKEDAGER.index(ukedag))
 
-def last_pdf(url):
-    r = requests.get(url)
+def hent_html(url):
+    r = requests.get(url, timeout=20)
     r.raise_for_status()
-    return pdfplumber.open(BytesIO(r.content))
+    return r.text
+
+def finn_uke_side():
+    html = hent_html(UKEPLAN_OVERSIKT)
+    uke = dagens_uke()
+
+    m = re.search(
+        rf'href="([^"]*uke-{uke}[^"]*)"',
+        html,
+        re.I
+    )
+
+    if not m:
+        raise RuntimeError("Fant ikke uke-side")
+
+    return BASE + m.group(1)
+
+def finn_pdf_for_klasse(uke_url):
+    html = hent_html(uke_url)
+
+    pdfs = re.findall(
+        r'href="(/api/rest/filer/[^"]+)"',
+        html,
+        re.I
+    )
+
+    if not pdfs:
+        raise RuntimeError("Fant ingen PDF-er på uke-siden")
+
+    for rel in pdfs:
+        url = BASE + rel
+        try:
+            r = requests.get(url, timeout=20)
+            with pdfplumber.open(BytesIO(r.content)) as pdf:
+                first = pdf.pages[0].extract_text().lower()
+                if f"arbeidsplan for {KLASSE.lower()}" in first:
+                    return url
+        except Exception:
+            continue
+
+    raise RuntimeError("Fant ingen PDF for klasse " + KLASSE)
 
 def normaliser_fag(linje):
     for k, v in FAG_MAP.items():
@@ -64,20 +102,23 @@ def normaliser_fag(linje):
             return v
     return None
 
-def er_overskrift(linje):
+def er_stoy(linje):
     return (
-        "arbeidsplan" in linje
-        or "mjolkeråen" in linje
-        or "time" in linje
-        or "tid" in linje
+        not linje
         or re.match(r"\d{2}[:.]\d{2}", linje)
+        or "arbeidsplan" in linje
+        or "mjolkeraen" in linje
+        or linje.startswith("tid")
+        or linje.startswith("time")
     )
 
 def main():
-    pdf_url = finn_pdf_url()
-    pdf = last_pdf(pdf_url)
-
     uke = dagens_uke()
+    uke_side = finn_uke_side()
+    pdf_url = finn_pdf_for_klasse(uke_side)
+
+    r = requests.get(pdf_url)
+    pdf = pdfplumber.open(BytesIO(r.content))
 
     lekser = []
     prover = []
@@ -87,29 +128,17 @@ def main():
     buffer = ""
 
     for page in pdf.pages:
-        lines = page.extract_text().splitlines()
-
-        for raw in lines:
+        for raw in page.extract_text().splitlines():
             linje = raw.strip()
             low = linje.lower()
 
-            if not linje or er_overskrift(low):
+            if er_stoy(low):
                 continue
 
             if low in UKEDAGER:
                 if buffer and aktiv_fag and aktiv_dag:
-                    entry = {
-                        "tekst": buffer.strip(),
-                        "ukedag": aktiv_dag.capitalize(),
-                        "dato": uke_til_dato(uke, aktiv_dag).isoformat(),
-                        "side_eller_oppgave": None,
-                        "fag": aktiv_fag
-                    }
-
-                    if any(w in buffer.lower() for w in PRØVE_ORD):
-                        prover.append(entry)
-                    else:
-                        lekser.append(entry)
+                    entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
+                    sorter(entry, lekser, prover)
 
                 aktiv_dag = low
                 aktiv_fag = None
@@ -119,18 +148,8 @@ def main():
             fag = normaliser_fag(low)
             if fag:
                 if buffer and aktiv_fag and aktiv_dag:
-                    entry = {
-                        "tekst": buffer.strip(),
-                        "ukedag": aktiv_dag.capitalize(),
-                        "dato": uke_til_dato(uke, aktiv_dag).isoformat(),
-                        "side_eller_oppgave": None,
-                        "fag": aktiv_fag
-                    }
-
-                    if any(w in buffer.lower() for w in PRØVE_ORD):
-                        prover.append(entry)
-                    else:
-                        lekser.append(entry)
+                    entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
+                    sorter(entry, lekser, prover)
 
                 aktiv_fag = fag
                 buffer = linje
@@ -140,23 +159,8 @@ def main():
                 buffer += " " + linje
 
     if buffer and aktiv_fag and aktiv_dag:
-        entry = {
-            "tekst": buffer.strip(),
-            "ukedag": aktiv_dag.capitalize(),
-            "dato": uke_til_dato(uke, aktiv_dag).isoformat(),
-            "side_eller_oppgave": None,
-            "fag": aktiv_fag
-        }
-
-        if any(w in buffer.lower() for w in PRØVE_ORD):
-            prover.append(entry)
-        else:
-            lekser.append(entry)
-
-    for l in lekser + prover:
-        m = SIDE_RE.search(l["tekst"])
-        if m:
-            l["side_eller_oppgave"] = m.group(1)
+        entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
+        sorter(entry, lekser, prover)
 
     data = {
         "uke": uke,
@@ -169,6 +173,22 @@ def main():
 
     with open("ukeplan-8E.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+def bygg_entry(tekst, dag, fag, uke):
+    m = SIDE_RE.search(tekst)
+    return {
+        "tekst": tekst.strip(),
+        "ukedag": dag.capitalize(),
+        "dato": uke_til_dato(uke, dag).isoformat(),
+        "side_eller_oppgave": m.group(0) if m else None,
+        "fag": fag
+    }
+
+def sorter(entry, lekser, prover):
+    if any(w in entry["tekst"].lower() for w in PRØVE_ORD):
+        prover.append(entry)
+    else:
+        lekser.append(entry)
 
 if __name__ == "__main__":
     main()
