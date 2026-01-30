@@ -59,27 +59,22 @@ def hent_html(url):
 def finn_uke_side():
     html = hent_html(UKEPLAN_OVERSIKT)
     uke = dagens_uke()
-
     m = re.search(
         rf'href="([^"]*uke-{uke}[^"]*)"',
         html,
         re.I
     )
-
     if not m:
         raise RuntimeError("Fant ikke uke-side")
-
     return BASE + m.group(1)
 
 def finn_pdf_for_klasse(uke_url):
     html = hent_html(uke_url)
-
     pdfs = re.findall(
         r'href="(/api/rest/filer/[^"]+)"',
         html,
         re.I
     )
-
     if not pdfs:
         raise RuntimeError("Fant ingen PDF-er på uke-siden")
 
@@ -91,14 +86,14 @@ def finn_pdf_for_klasse(uke_url):
                 first = pdf.pages[0].extract_text().lower()
                 if f"arbeidsplan for {KLASSE.lower()}" in first:
                     return url
-        except Exception:
+        except Exception as e:
+            print(f"Feilet å åpne PDF {url}: {e}")
             continue
-
     raise RuntimeError("Fant ingen PDF for klasse " + KLASSE)
 
 def normaliser_fag(linje):
     for k, v in FAG_MAP.items():
-        if k in linje:
+        if k in linje.lower():
             return v
     return None
 
@@ -106,73 +101,11 @@ def er_stoy(linje):
     return (
         not linje
         or re.match(r"\d{2}[:.]\d{2}", linje)
-        or "arbeidsplan" in linje
-        or "mjolkeraen" in linje
-        or linje.startswith("tid")
-        or linje.startswith("time")
+        or "arbeidsplan" in linje.lower()
+        or "mjolkeraen" in linje.lower()
+        or linje.lower().startswith("tid")
+        or linje.lower().startswith("time")
     )
-
-def main():
-    uke = dagens_uke()
-    uke_side = finn_uke_side()
-    pdf_url = finn_pdf_for_klasse(uke_side)
-
-    r = requests.get(pdf_url)
-    pdf = pdfplumber.open(BytesIO(r.content))
-
-    lekser = []
-    prover = []
-
-    aktiv_dag = None
-    aktiv_fag = None
-    buffer = ""
-
-    for page in pdf.pages:
-        for raw in page.extract_text().splitlines():
-            linje = raw.strip()
-            low = linje.lower()
-
-            if er_stoy(low):
-                continue
-
-            if low in UKEDAGER:
-                if buffer and aktiv_fag and aktiv_dag:
-                    entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
-                    sorter(entry, lekser, prover)
-
-                aktiv_dag = low
-                aktiv_fag = None
-                buffer = ""
-                continue
-
-            fag = normaliser_fag(low)
-            if fag:
-                if buffer and aktiv_fag and aktiv_dag:
-                    entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
-                    sorter(entry, lekser, prover)
-
-                aktiv_fag = fag
-                buffer = linje
-                continue
-
-            if aktiv_fag:
-                buffer += " " + linje
-
-    if buffer and aktiv_fag and aktiv_dag:
-        entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
-        sorter(entry, lekser, prover)
-
-    data = {
-        "uke": uke,
-        "klasse": KLASSE,
-        "kilde": pdf_url,
-        "lekser": lekser,
-        "prover": prover,
-        "hentet": datetime.datetime.utcnow().isoformat() + "Z"
-    }
-
-    with open("ukeplan-8E.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
 
 def bygg_entry(tekst, dag, fag, uke):
     m = SIDE_RE.search(tekst)
@@ -189,6 +122,68 @@ def sorter(entry, lekser, prover):
         prover.append(entry)
     else:
         lekser.append(entry)
+
+def main():
+    lekser = []
+    prover = []
+    pdf_url = None
+    try:
+        uke = dagens_uke()
+        uke_side = finn_uke_side()
+        pdf_url = finn_pdf_for_klasse(uke_side)
+        r = requests.get(pdf_url)
+        pdf = pdfplumber.open(BytesIO(r.content))
+
+        aktiv_dag = None
+        aktiv_fag = None
+        buffer = ""
+
+        for page in pdf.pages:
+            for raw in page.extract_text().splitlines():
+                linje = raw.strip()
+                low = linje.lower()
+                if er_stoy(low):
+                    continue
+                if low in UKEDAGER:
+                    if buffer and aktiv_fag and aktiv_dag:
+                        entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
+                        sorter(entry, lekser, prover)
+                    aktiv_dag = low
+                    aktiv_fag = None
+                    buffer = ""
+                    continue
+                fag = normaliser_fag(low)
+                if fag:
+                    if buffer and aktiv_fag and aktiv_dag:
+                        entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
+                        sorter(entry, lekser, prover)
+                    aktiv_fag = fag
+                    buffer = linje
+                    continue
+                if aktiv_fag:
+                    buffer += " " + linje
+
+        if buffer and aktiv_fag and aktiv_dag:
+            entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
+            sorter(entry, lekser, prover)
+
+    except Exception as e:
+        print(f"Feil under parsing: {e}")
+
+    data = {
+        "uke": dagens_uke(),
+        "klasse": KLASSE,
+        "kilde": pdf_url,
+        "lekser": lekser,
+        "prover": prover,
+        "hentet": datetime.datetime.utcnow().isoformat() + "Z"
+    }
+
+    # Lagre JSON uansett
+    with open("ukeplan-8E.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    print(f"Ukeplan lagret i ukeplan-8E.json. PDF: {pdf_url}")
 
 if __name__ == "__main__":
     main()
