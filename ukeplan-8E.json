@@ -1,73 +1,8 @@
 {
   "uke": 5,
   "klasse": "8E",
-  "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027",
-  "lekser": [
-    {
-      "tekst": "Sammensatte tekst er Bruke norskfaglige begrep i samtaler om tekst Lese og øve på å skrive filmanmeldelse",
-      "dato": "2026-01-30",
-      "ukedag": "Fredag",
-      "side_eller_oppgave": null,
-      "fag": "norsk"
-    },
-    {
-      "tekst": "Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
-      "dato": "2026-01-30",
-      "ukedag": "Fredag",
-      "side_eller_oppgave": null,
-      "fag": "matematikk"
-    },
-    {
-      "tekst": "les i leseboken din i 15 minutter. oppdater leseloggen i classroom etter at du har les t.",
-      "dato": "2026-01-27",
-      "ukedag": "Tirsdag",
-      "side_eller_oppgave": null,
-      "fag": "norsk"
-    },
-    {
-      "tekst": "Du må sørge for at du vet hvordan du multipliserer (ganger sammen) brøker. Utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. Plukk oppgaver som du tenker er lurt å øve på. Det er fasit bak i heftet/boken, sånn at du sjekker at d u gjør det riktig.",
-      "dato": "2026-01-27",
-      "ukedag": "Tirsdag",
-      "side_eller_oppgave": null,
-      "fag": "matematikk"
-    },
-    {
-      "tekst": "du må sørge for at du vet hvordan du dividerer (deler) brøker. utenom det, så jobber du 30 min enten i boken eller i heftet som du har fått. plukk oppgaver som du tenker er lurt å øve på. det er fasit bak i heftet/boken, sånn at du sjekker at du gjør det r iktig.",
-      "dato": "2026-01-28",
-      "ukedag": "Onsdag",
-      "side_eller_oppgave": null,
-      "fag": "matematikk"
-    },
-    {
-      "tekst": "forbered dere til å vise frem presentasjonen/videoen om en selvvalgt sak/person. 38 i oppgaveboken.  Jobb 15 min med presentasjon. Se classroom.  Fremføring av presentasjon",
-      "dato": "2026-01-29",
-      "ukedag": "Torsdag",
-      "side_eller_oppgave": null,
-      "fag": "samfunnsfag"
-    },
-    {
-      "tekst": "Se leksen i  Classroom  Se leksen i Classroom",
-      "dato": "2026-01-29",
-      "ukedag": "Torsdag",
-      "side_eller_oppgave": null,
-      "fag": "fransk"
-    }
-  ],
-  "prover": [
-    {
-      "tekst": "Det gamle testamente  Jeg kjenner til ulike pakter i Bibelen",
-      "dato": "2026-01-30",
-      "ukedag": "Fredag",
-      "side_eller_oppgave": null,
-      "fag": "krle"
-    },
-    {
-      "tekst": "Brøk og delelighet  Kunne gange og dele med brøk. Se hva du må kunne til prøven på classroom.",
-      "dato": "2026-01-30",
-      "ukedag": "Fredag",
-      "side_eller_oppgave": null,
-      "fag": "matematikk"
-    }
-  ],
-  "hentet": "2026-01-29T21:15:48.707819Z"
+  "kilde": "https://www.bergen.kommune.no/api/rest/filer/V69584027\" target=\"_blank\" title=\"8E[pdf, 228.41 kB]",
+  "lekser": [],
+  "prover": [],
+  "hentet": "2026-01-30T08:46:14.039461Z"
 }
