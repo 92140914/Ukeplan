@@ -1,189 +1,111 @@
 import requests
 import pdfplumber
-import datetime
-import json
 import re
-from io import BytesIO
+import json
+from datetime import datetime, timedelta
 
+PDF_URL = "https://www.bergen.kommune.no/api/rest/filer/V69584027"
 KLASSE = "8E"
-BASE = "https://www.bergen.kommune.no"
+OUTPUT_FILE = "ukeplan-8E.json"
 
-UKEPLAN_OVERSIKT = (
-    "https://www.bergen.kommune.no/omkommunen/"
-    "avdelinger/mjolkeraen-skole/arbeidsplaner"
-)
+UKEDAGER = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag"]
 
-UKEDAGER = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
+SPRÅKFAG = ["Engelsk", "Engelsk fordypning", "Spansk", "Fransk", "Tysk", "ALF"]
+ANDRE_FAG = ["Matematikk", "Norsk", "Naturfag", "Samfunnsfag", "KRLE", "Kroppsøving", "K&H", "Kunst & håndverk", "UV", "Valgfag"]
 
-PRØVE_ORD = [
-    "prøve",
-    "test",
-    "fremføring",
-    "presentasjon",
-    "presentation"
-]
-
-FAG_MAP = {
-    "norsk": "norsk",
-    "matematikk": "matematikk",
-    "samfunnsfag": "samfunnsfag",
-    "naturfag": "naturfag",
-    "krle": "krle",
-    "kroppsøving": "kroppsøving",
-    "kunst": "kunst og håndverk",
-    "k&h": "kunst og håndverk",
-    "engelsk": "engelsk",
-    "engelsk fordypning": "engelsk fordypning",
-    "spansk": "spansk",
-    "fransk": "fransk",
-    "tysk": "tysk",
-    "alf": "alf",
-    "arbeidslivsfag": "alf"
-}
-
-SIDE_RE = re.compile(r"s\.?\s*\d+(\s*[–-]\s*\d+)?", re.I)
-
-def dagens_uke():
-    return datetime.date.today().isocalendar().week
-
-def uke_til_dato(uke, ukedag):
-    year = datetime.date.today().year
-    mandag = datetime.date.fromisocalendar(year, uke, 1)
-    return mandag + datetime.timedelta(days=UKEDAGER.index(ukedag))
-
-def hent_html(url):
-    r = requests.get(url, timeout=20)
+def hent_pdf(url):
+    r = requests.get(url)
     r.raise_for_status()
-    return r.text
+    with open("temp.pdf", "wb") as f:
+        f.write(r.content)
+    return "temp.pdf"
 
-def finn_uke_side():
-    html = hent_html(UKEPLAN_OVERSIKT)
-    uke = dagens_uke()
-    m = re.search(
-        rf'href="([^"]*uke-{uke}[^"]*)"',
-        html,
-        re.I
-    )
-    if not m:
-        raise RuntimeError("Fant ikke uke-side")
-    return BASE + m.group(1)
-
-def finn_pdf_for_klasse(uke_url):
-    html = hent_html(uke_url)
-    pdfs = re.findall(
-        r'href="(/api/rest/filer/[^"]+)"',
-        html,
-        re.I
-    )
-    if not pdfs:
-        raise RuntimeError("Fant ingen PDF-er på uke-siden")
-
-    for rel in pdfs:
-        url = BASE + rel
-        try:
-            r = requests.get(url, timeout=20)
-            with pdfplumber.open(BytesIO(r.content)) as pdf:
-                first = pdf.pages[0].extract_text().lower()
-                if f"arbeidsplan for {KLASSE.lower()}" in first:
-                    return url
-        except Exception as e:
-            print(f"Feilet å åpne PDF {url}: {e}")
-            continue
-    raise RuntimeError("Fant ingen PDF for klasse " + KLASSE)
-
-def normaliser_fag(linje):
-    for k, v in FAG_MAP.items():
-        if k in linje.lower():
-            return v
-    return None
-
-def er_stoy(linje):
-    return (
-        not linje
-        or re.match(r"\d{2}[:.]\d{2}", linje)
-        or "arbeidsplan" in linje.lower()
-        or "mjolkeraen" in linje.lower()
-        or linje.lower().startswith("tid")
-        or linje.lower().startswith("time")
-    )
-
-def bygg_entry(tekst, dag, fag, uke):
-    m = SIDE_RE.search(tekst)
-    return {
-        "tekst": tekst.strip(),
-        "ukedag": dag.capitalize(),
-        "dato": uke_til_dato(uke, dag).isoformat(),
-        "side_eller_oppgave": m.group(0) if m else None,
-        "fag": fag
-    }
-
-def sorter(entry, lekser, prover):
-    if any(w in entry["tekst"].lower() for w in PRØVE_ORD):
-        prover.append(entry)
-    else:
-        lekser.append(entry)
-
-def main():
+def parse_pdf(pdf_path):
     lekser = []
     prover = []
-    pdf_url = None
-    try:
-        uke = dagens_uke()
-        uke_side = finn_uke_side()
-        pdf_url = finn_pdf_for_klasse(uke_side)
-        r = requests.get(pdf_url)
-        pdf = pdfplumber.open(BytesIO(r.content))
 
-        aktiv_dag = None
-        aktiv_fag = None
-        buffer = ""
+    with pdfplumber.open(pdf_path) as pdf:
+        tekst = "\n".join(page.extract_text() for page in pdf.pages if page.extract_text())
 
-        for page in pdf.pages:
-            for raw in page.extract_text().splitlines():
-                linje = raw.strip()
-                low = linje.lower()
-                if er_stoy(low):
-                    continue
-                if low in UKEDAGER:
-                    if buffer and aktiv_fag and aktiv_dag:
-                        entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
-                        sorter(entry, lekser, prover)
-                    aktiv_dag = low
-                    aktiv_fag = None
-                    buffer = ""
-                    continue
-                fag = normaliser_fag(low)
-                if fag:
-                    if buffer and aktiv_fag and aktiv_dag:
-                        entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
-                        sorter(entry, lekser, prover)
-                    aktiv_fag = fag
-                    buffer = linje
-                    continue
-                if aktiv_fag:
-                    buffer += " " + linje
+    # Finn linjer med ukedager
+    linjer = [line.strip() for line in tekst.splitlines() if line.strip()]
+    dato_lookup = {}  # Ukedag -> dato (neste forekomst av dato i teksten)
+    idag = datetime.today()
 
-        if buffer and aktiv_fag and aktiv_dag:
-            entry = bygg_entry(buffer, aktiv_dag, aktiv_fag, uke)
-            sorter(entry, lekser, prover)
+    for line in linjer:
+        for ukedag in UKEDAGER:
+            if line.startswith(ukedag):
+                # Finn dato ved å sjekke linjer rundt eller bruk dagens uke som fallback
+                dato_lookup[ukedag] = idag.strftime("%Y-%m-%d")
 
-    except Exception as e:
-        print(f"Feil under parsing: {e}")
+    # Parse lekser og prøver
+    current_day = None
+    current_fag = None
+
+    for line in linjer:
+        # Oppdater current_day
+        for ukedag in UKEDAGER:
+            if line.startswith(ukedag):
+                current_day = ukedag
+                line = line[len(ukedag):].strip()
+
+        if not line:
+            continue
+
+        # Finn fag
+        fag = None
+        for f in SPRÅKFAG + ANDRE_FAG:
+            if line.startswith(f):
+                fag = f
+                line = line[len(f):].strip()
+                break
+
+        if not fag:
+            fag = current_fag
+        else:
+            current_fag = fag
+
+        # Finn side/oppgave
+        side_oppgave = None
+        m = re.search(r"(s\.?\s*\d+[-–]?\d*)", line)
+        if m:
+            side_oppgave = m.group(1)
+
+        # Sjekk om det er prøve eller lekse
+        is_prove = any(word.lower() in line.lower() for word in ["prøve", "test"])
+
+        oppgave = {
+            "tekst": line,
+            "dato": dato_lookup.get(current_day, idag.strftime("%Y-%m-%d")),
+            "ukedag": current_day,
+            "side_eller_oppgave": side_oppgave,
+            "fag": fag
+        }
+
+        if is_prove:
+            prover.append(oppgave)
+        else:
+            lekser.append(oppgave)
+
+    return lekser, prover
+
+def main():
+    pdf_path = hent_pdf(PDF_URL)
+    lekser, prover = parse_pdf(pdf_path)
 
     data = {
-        "uke": dagens_uke(),
+        "uke": 5,
         "klasse": KLASSE,
-        "kilde": pdf_url,
+        "kilde": PDF_URL,
         "lekser": lekser,
         "prover": prover,
-        "hentet": datetime.datetime.utcnow().isoformat() + "Z"
+        "hentet": datetime.utcnow().isoformat() + "Z"
     }
 
-    # Lagre JSON uansett
-    with open("ukeplan-8E.json", "w", encoding="utf-8") as f:
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print(f"Ukeplan lagret i ukeplan-8E.json. PDF: {pdf_url}")
+    print(f"Ferdig. JSON lagret i {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
