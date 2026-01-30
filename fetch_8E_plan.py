@@ -1,60 +1,97 @@
-import requests
 import pdfplumber
-from datetime import datetime
 import json
+import re
+from datetime import datetime
 
-PDF_URL = "https://www.bergen.kommune.no/api/rest/filer/V69584027"
-OUTPUT_FILE = "ukeplan_8E.json"
+PDF_PATH = "ukeplan.pdf"
+OUT = "ukeplan-8E.json"
 
-UKEDAGER = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag"]
-
-NØKKELORD = [
-    "lekse","lekser","oppgave","innlevering","frist","lese","leseboken","leseloggen",
-    "øve","øving","presentasjon","fremføring","prøve","prøver","kapittelprøve",
-    "gloseprøve","gloseprøver","quiz","test","vurdering","eksamen","utviklingssamtale",
-    "samtale","classroom","digitaleoppgaver","video","film","arbeid i boken","arbeid i heftet",
-    "oppgavesett","sidene","repetisjon","forberedelse","fag","tema","prosjekt","arbeid videre",
-    "innleveringsfrist","se i classroom","avspasering","planleggingsdag"
+KEYWORDS = [
+    "lekse","lekser","oppgave","innlevering","frist","lese","leseboken",
+    "leseloggen","øve","øving","presentasjon","fremføring","prøve","prøver",
+    "kapittelprøve","gloseprøve","gloseprøver","quiz","test","vurdering",
+    "eksamen","samtale","classroom","digitaleoppgaver","video","film",
+    "arbeid i boken","arbeid i heftet","oppgavesett","sidene","repetisjon",
+    "forberedelse","prosjekt","innleveringsfrist","se i classroom"
 ]
 
-# Hent PDF
-r = requests.get(PDF_URL)
-pdf_path = "temp.pdf"
-with open(pdf_path, "wb") as f:
-    f.write(r.content)
+UKEDAGER = ["Mandag","Tirsdag","Onsdag","Torsdag","Fredag"]
 
-resultat = []
+FAG_PER_DAG = {
+    "Mandag": ["norsk","matte"],
+    "Tirsdag": ["språk","matte"],
+    "Onsdag": ["norsk","naturfag"],
+    "Torsdag": ["språk","samfunn"],
+    "Fredag": ["norsk","matte"]
+}
 
-with pdfplumber.open(pdf_path) as pdf:
-    linjer = []
-    for page in pdf.pages:
-        text = page.extract_text()
-        if text:
-            linjer.extend(text.splitlines())
+def er_planleggingsdag(tekst):
+    return "planleggingsdag" in tekst.lower()
 
-current_day = None
+def gyldig_lekse(tekst):
+    t = tekst.lower()
+    if len(t) < 8:
+        return False
+    if re.search(r"\d{2}\s?\d{2}\s?\d{2}", t):
+        return False
+    if "@" in t or "bergen kommune" in t:
+        return False
+    return any(k in t for k in KEYWORDS)
 
-for line in linjer:
-    line_clean = line.strip()
-    if not line_clean:
-        continue
+def finn_fag(tekst, dag):
+    t = tekst.lower()
+    for fag in FAG_PER_DAG[dag]:
+        if fag in t:
+            return fag
+    return None
 
-    # Sjekk om linjen inneholder ukedag
-    for dag in UKEDAGER:
-        if dag in line_clean:
-            current_day = dag
-            break
+def parse_pdf():
+    lekser = []
+    with pdfplumber.open(PDF_PATH) as pdf:
+        for page in pdf.pages:
+            table = page.extract_table()
+            if not table:
+                continue
 
-    # Sjekk om linjen inneholder nøkkelord
-    if any(ord i line_clean.lower() for ord in NØKKELORD):
-        resultat.append({
-            "tekst": line_clean,
-            "ukedag": current_day,
-            "dato": datetime.utcnow().strftime("%Y-%m-%d")
-        })
+            header = table[0]
+            for row in table[1:]:
+                for i, celle in enumerate(row):
+                    if not celle:
+                        continue
 
-# Lagre JSON
-with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-    json.dump(resultat, f, ensure_ascii=False, indent=2)
+                    dag = UKEDAGER[i] if i < len(UKEDAGER) else None
+                    if not dag:
+                        continue
 
-print(f"Ferdig, lagret {len(resultat)} oppgaver i {OUTPUT_FILE}")
+                    if dag == "Fredag" and "språk" in celle.lower():
+                        continue
+
+                    if er_planleggingsdag(celle):
+                        continue
+
+                    if not gyldig_lekse(celle):
+                        continue
+
+                    fag = finn_fag(celle, dag)
+                    if not fag:
+                        continue
+
+                    lekser.append({
+                        "tekst": " ".join(celle.split()),
+                        "ukedag": dag,
+                        "fag": fag
+                    })
+    return lekser
+
+def main():
+    data = {
+        "klasse": "8E",
+        "lekser": parse_pdf(),
+        "hentet": datetime.utcnow().isoformat() + "Z"
+    }
+
+    with open(OUT, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+if __name__ == "__main__":
+    main()
