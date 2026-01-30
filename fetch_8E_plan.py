@@ -1,107 +1,155 @@
 import requests
-import json
+import pdfplumber
 import re
+import json
 from datetime import datetime, timedelta
-import fitz  # PyMuPDF
+from io import BytesIO
 
+PDF_URL = "https://www.bergen.kommune.no/api/rest/filer/V69584027"
 KLASSE = "8E"
-BASE_URL = "https://www.bergen.kommune.no/omkommunen/avdelinger/mjolkeraen-skole/arbeidsplaner"
-OUTPUT_FILE = f"ukeplan-{KLASSE}.json"
+UKE = 5
 
-UKEDAGER_NO = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag"]
-UKEDAGER_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+UKEDAGER = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag"]
 
-# Mapping fag
-FAG_LISTE = [
-    "Matematikk", "Norsk", "Kroppsøving", "Naturfag", "Samfunnsfag", "KRLE",
-    "Engelsk", "Engelsk fordypning", "Spansk", "Fransk", "Tysk", "K&H", "ALF", "Valgfag"
+FAG = [
+    "Norsk", "Matematikk", "Engelsk", "Engelsk fordypning",
+    "Samfunnsfag", "Naturfag", "KRLE",
+    "Kroppsøving", "Kunst", "Kunst og håndverk", "K&H",
+    "Spansk", "Fransk", "Tysk", "ALF", "Arbeidslivsfag",
+    "Valgfag"
 ]
 
-# Hent nyeste ukeplan
-def hent_ukeplan_pdf():
-    r = requests.get(f"{BASE_URL}/uke-5-2026")  # dynamisk uke kan settes her
+PROVE_ORD = ["prøve", "test"]
+LEKSE_ORD = [
+    "les", "gjør", "jobb", "øve", "presentasjon",
+    "presentation", "video", "se", "fremføring",
+    "classroom"
+]
+
+SIDE_REGEX = re.compile(r"s\.?\s*(\d+)(?:\s*[–-]\s*(\d+))?", re.I)
+
+def uke_start_dato(year, week):
+    jan4 = datetime(year, 1, 4)
+    start = jan4 - timedelta(days=jan4.weekday())
+    return start + timedelta(weeks=week - 1)
+
+def last_pdf_text():
+    r = requests.get(PDF_URL, timeout=30)
     r.raise_for_status()
-    # Finn 8E-fil
-    fil_match = re.search(r'href="(.*?{}.*?)"'.format(KLASSE), r.text)
-    if not fil_match:
-        raise RuntimeError(f"Fant ingen fil for klasse {KLASSE}")
-    fil_url = fil_match.group(1)
-    if not fil_url.startswith("http"):
-        fil_url = "https://www.bergen.kommune.no" + fil_url
-    pdf_data = requests.get(fil_url).content
-    with open(f"{KLASSE}.pdf", "wb") as f:
-        f.write(pdf_data)
-    return f"{KLASSE}.pdf", fil_url
+    text = []
+    with pdfplumber.open(BytesIO(r.content)) as pdf:
+        for page in pdf.pages:
+            t = page.extract_text()
+            if t:
+                text.append(t)
+    return "\n".join(text)
 
-# Konverter PDF til tekst
-def pdf_to_text(pdf_file):
-    doc = fitz.open(pdf_file)
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    return text
+def clean_lines(text):
+    lines = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("ARBEIDSPLAN"):
+            continue
+        lines.append(line)
+    return lines
 
-# Finn dato fra ukedag og uke
-def ukedag_til_dato(ukedag, uke, år=None):
-    if not år:
-        år = datetime.now().year
-    første_januar = datetime(år, 1, 4)  # ISO uke 1 alltid inneholder 4. jan
-    start_uke = første_januar - timedelta(days=første_januar.isoweekday() - 1)
-    dag_index = UKEDAGER_NO.index(ukedag)
-    dato = start_uke + timedelta(weeks=uke-1, days=dag_index)
-    return dato.strftime("%Y-%m-%d")
+def is_fag(line):
+    for f in FAG:
+        if line.lower().startswith(f.lower()):
+            return f
+    return None
 
-# Parse lekser og prøver
-def parse_lekser_prover(text, uke):
+def extract_side(text):
+    m = SIDE_REGEX.search(text)
+    if not m:
+        return None
+    if m.group(2):
+        return f"side {m.group(1)}-{m.group(2)}"
+    return f"side {m.group(1)}"
+
+def parse_dagseksjon(lines):
+    seksjoner = {}
+    current_day = None
+
+    for line in lines:
+        if line in UKEDAGER:
+            current_day = line
+            seksjoner[current_day] = []
+            continue
+        if current_day:
+            seksjoner[current_day].append(line)
+
+    return seksjoner
+
+def parse_lekser(seksjoner, uke_start):
     lekser = []
     prover = []
-    lines = text.split("\n")
-    current_day = None
-    for line in lines:
-        line = line.strip()
-        # Finn dag
-        for dag in UKEDAGER_NO + UKEDAGER_EN:
-            if re.match(rf'^{dag}\b', line, re.I):
-                current_day = dag
-                break
-        if not current_day:
-            continue
-        # Finn fag i linjen
-        for fag in sorted(FAG_LISTE, key=lambda x: -len(x)):
-            if re.search(rf'\b{fag}\b', line, re.I):
-                side_match = re.search(r's[.:]?\s*(\d+(-\d+)?)', line, re.I)
-                side_oppgave = f"side {side_match.group(1)}" if side_match else None
-                entry = {
-                    "tekst": line,
-                    "dato": ukedag_til_dato(current_day, uke),
-                    "ukedag": current_day,
-                    "side_eller_oppgave": side_oppgave,
-                    "fag": fag.lower()
-                }
-                # Heuristikk for prøver
-                if re.search(r'\bprøve|test\b', line, re.I):
-                    prover.append(entry)
-                else:
-                    lekser.append(entry)
-                break
+
+    for dag, lines in seksjoner.items():
+        dato = uke_start + timedelta(days=UKEDAGER.index(dag))
+        current_fag = None
+        buffer = []
+
+        def flush():
+            if not buffer or not current_fag:
+                return
+            tekst = " ".join(buffer).strip()
+            side = extract_side(tekst)
+
+            entry = {
+                "tekst": tekst,
+                "dato": dato.strftime("%Y-%m-%d"),
+                "ukedag": dag,
+                "side_eller_oppgave": side,
+                "fag": current_fag.lower()
+            }
+
+            low = tekst.lower()
+            if any(w in low for w in PROVE_ORD):
+                prover.append(entry)
+            else:
+                lekser.append(entry)
+
+        for line in lines:
+            fag = is_fag(line)
+            if fag:
+                flush()
+                current_fag = fag
+                buffer = []
+                rest = line[len(fag):].strip()
+                if rest:
+                    buffer.append(rest)
+                continue
+
+            buffer.append(line)
+
+        flush()
+
     return lekser, prover
 
 def main():
-    pdf_file, fil_url = hent_ukeplan_pdf()
-    text = pdf_to_text(pdf_file)
-    uke = 5  # dynamisk kan settes etter nåværende uke
-    lekser, prover = parse_lekser_prover(text, uke)
+    year = datetime.utcnow().year
+    uke_start = uke_start_dato(year, UKE)
+
+    raw_text = last_pdf_text()
+    lines = clean_lines(raw_text)
+
+    seksjoner = parse_dagseksjon(lines)
+    lekser, prover = parse_lekser(seksjoner, uke_start)
+
     data = {
-        "uke": uke,
+        "uke": UKE,
         "klasse": KLASSE,
-        "kilde": fil_url,
+        "kilde": PDF_URL,
         "lekser": lekser,
         "prover": prover,
         "hentet": datetime.utcnow().isoformat() + "Z"
     }
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+
+    with open("ukeplan-8E.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    print(f"Lekser og prøver hentet. Lagret i {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
