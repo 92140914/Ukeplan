@@ -1,151 +1,170 @@
 import requests
 import pdfplumber
-import re
+import datetime
 import json
-from datetime import datetime, timedelta
+import re
 from io import BytesIO
 
-PDF_URL = "https://www.bergen.kommune.no/api/rest/filer/V69584027"
 KLASSE = "8E"
-UKE = 5
 
-UKEDAGER = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag"]
+UKEPLAN_URL = "https://www.bergen.kommune.no/skole/mjolkeråen-skole/ukeplaner"
 
-FAG = [
-    "Norsk", "Matematikk", "Engelsk", "Engelsk fordypning",
-    "Samfunnsfag", "Naturfag", "KRLE",
-    "Kroppsøving", "Kunst", "Kunst og håndverk", "K&H",
-    "Spansk", "Fransk", "Tysk", "ALF", "Arbeidslivsfag",
-    "Valgfag"
-]
+FAG_MAP = {
+    "norsk": "norsk",
+    "matematikk": "matematikk",
+    "samfunnsfag": "samfunnsfag",
+    "naturfag": "naturfag",
+    "krle": "krle",
+    "kroppsøving": "kroppsøving",
+    "kunst": "kunst og håndverk",
+    "k&h": "kunst og håndverk",
+    "engelsk": "engelsk",
+    "engelsk fordypning": "engelsk fordypning",
+    "spansk": "spansk",
+    "fransk": "fransk",
+    "tysk": "tysk",
+    "alf": "alf",
+    "arbeidslivsfag": "alf"
+}
 
-PROVE_ORD = ["prøve", "test"]
-LEKSE_ORD = [
-    "les", "gjør", "jobb", "øve", "presentasjon",
-    "presentation", "video", "se", "fremføring",
-    "classroom"
-]
+SPRÅK = {"spansk", "fransk", "tysk", "engelsk fordypning", "alf"}
 
-SIDE_REGEX = re.compile(r"s\.?\s*(\d+)(?:\s*[–-]\s*(\d+))?", re.I)
+UKEDAGER = ["mandag", "tirsdag", "onsdag", "torsdag", "fredag"]
 
-def uke_start_dato(year, week):
-    jan4 = datetime(year, 1, 4)
-    start = jan4 - timedelta(days=jan4.weekday())
-    return start + timedelta(weeks=week - 1)
+PRØVE_ORD = ["prøve", "test", "fremføring", "presentasjon", "presentation"]
 
-def last_pdf_text():
-    r = requests.get(PDF_URL, timeout=30)
+SIDE_RE = re.compile(r"(s\.?\s*\d+(\s*[–-]\s*\d+)?)", re.I)
+
+def dagens_uke():
+    return datetime.date.today().isocalendar().week
+
+def finn_pdf_url():
+    html = requests.get(UKEPLAN_URL).text
+    uke = dagens_uke()
+
+    kandidater = re.findall(r'href="([^"]+)"[^>]*8E', html, re.I)
+    if not kandidater:
+        raise RuntimeError("Fant ingen PDF for 8E")
+
+    return "https://www.bergen.kommune.no" + kandidater[0]
+
+def uke_til_dato(uke, ukedag):
+    year = datetime.date.today().year
+    mandag = datetime.date.fromisocalendar(year, uke, 1)
+    return mandag + datetime.timedelta(days=UKEDAGER.index(ukedag))
+
+def last_pdf(url):
+    r = requests.get(url)
     r.raise_for_status()
-    text = []
-    with pdfplumber.open(BytesIO(r.content)) as pdf:
-        for page in pdf.pages:
-            t = page.extract_text()
-            if t:
-                text.append(t)
-    return "\n".join(text)
+    return pdfplumber.open(BytesIO(r.content))
 
-def clean_lines(text):
-    lines = []
-    for line in text.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        if line.startswith("ARBEIDSPLAN"):
-            continue
-        lines.append(line)
-    return lines
-
-def is_fag(line):
-    for f in FAG:
-        if line.lower().startswith(f.lower()):
-            return f
+def normaliser_fag(linje):
+    for k, v in FAG_MAP.items():
+        if k in linje:
+            return v
     return None
 
-def extract_side(text):
-    m = SIDE_REGEX.search(text)
-    if not m:
-        return None
-    if m.group(2):
-        return f"side {m.group(1)}-{m.group(2)}"
-    return f"side {m.group(1)}"
+def er_overskrift(linje):
+    return (
+        "arbeidsplan" in linje
+        or "mjolkeråen" in linje
+        or "time" in linje
+        or "tid" in linje
+        or re.match(r"\d{2}[:.]\d{2}", linje)
+    )
 
-def parse_dagseksjon(lines):
-    seksjoner = {}
-    current_day = None
+def main():
+    pdf_url = finn_pdf_url()
+    pdf = last_pdf(pdf_url)
 
-    for line in lines:
-        if line in UKEDAGER:
-            current_day = line
-            seksjoner[current_day] = []
-            continue
-        if current_day:
-            seksjoner[current_day].append(line)
+    uke = dagens_uke()
 
-    return seksjoner
-
-def parse_lekser(seksjoner, uke_start):
     lekser = []
     prover = []
 
-    for dag, lines in seksjoner.items():
-        dato = uke_start + timedelta(days=UKEDAGER.index(dag))
-        current_fag = None
-        buffer = []
+    aktiv_dag = None
+    aktiv_fag = None
+    buffer = ""
 
-        def flush():
-            if not buffer or not current_fag:
-                return
-            tekst = " ".join(buffer).strip()
-            side = extract_side(tekst)
+    for page in pdf.pages:
+        lines = page.extract_text().splitlines()
 
-            entry = {
-                "tekst": tekst,
-                "dato": dato.strftime("%Y-%m-%d"),
-                "ukedag": dag,
-                "side_eller_oppgave": side,
-                "fag": current_fag.lower()
-            }
+        for raw in lines:
+            linje = raw.strip()
+            low = linje.lower()
 
-            low = tekst.lower()
-            if any(w in low for w in PROVE_ORD):
-                prover.append(entry)
-            else:
-                lekser.append(entry)
-
-        for line in lines:
-            fag = is_fag(line)
-            if fag:
-                flush()
-                current_fag = fag
-                buffer = []
-                rest = line[len(fag):].strip()
-                if rest:
-                    buffer.append(rest)
+            if not linje or er_overskrift(low):
                 continue
 
-            buffer.append(line)
+            if low in UKEDAGER:
+                if buffer and aktiv_fag and aktiv_dag:
+                    entry = {
+                        "tekst": buffer.strip(),
+                        "ukedag": aktiv_dag.capitalize(),
+                        "dato": uke_til_dato(uke, aktiv_dag).isoformat(),
+                        "side_eller_oppgave": None,
+                        "fag": aktiv_fag
+                    }
 
-        flush()
+                    if any(w in buffer.lower() for w in PRØVE_ORD):
+                        prover.append(entry)
+                    else:
+                        lekser.append(entry)
 
-    return lekser, prover
+                aktiv_dag = low
+                aktiv_fag = None
+                buffer = ""
+                continue
 
-def main():
-    year = datetime.utcnow().year
-    uke_start = uke_start_dato(year, UKE)
+            fag = normaliser_fag(low)
+            if fag:
+                if buffer and aktiv_fag and aktiv_dag:
+                    entry = {
+                        "tekst": buffer.strip(),
+                        "ukedag": aktiv_dag.capitalize(),
+                        "dato": uke_til_dato(uke, aktiv_dag).isoformat(),
+                        "side_eller_oppgave": None,
+                        "fag": aktiv_fag
+                    }
 
-    raw_text = last_pdf_text()
-    lines = clean_lines(raw_text)
+                    if any(w in buffer.lower() for w in PRØVE_ORD):
+                        prover.append(entry)
+                    else:
+                        lekser.append(entry)
 
-    seksjoner = parse_dagseksjon(lines)
-    lekser, prover = parse_lekser(seksjoner, uke_start)
+                aktiv_fag = fag
+                buffer = linje
+                continue
+
+            if aktiv_fag:
+                buffer += " " + linje
+
+    if buffer and aktiv_fag and aktiv_dag:
+        entry = {
+            "tekst": buffer.strip(),
+            "ukedag": aktiv_dag.capitalize(),
+            "dato": uke_til_dato(uke, aktiv_dag).isoformat(),
+            "side_eller_oppgave": None,
+            "fag": aktiv_fag
+        }
+
+        if any(w in buffer.lower() for w in PRØVE_ORD):
+            prover.append(entry)
+        else:
+            lekser.append(entry)
+
+    for l in lekser + prover:
+        m = SIDE_RE.search(l["tekst"])
+        if m:
+            l["side_eller_oppgave"] = m.group(1)
 
     data = {
-        "uke": UKE,
+        "uke": uke,
         "klasse": KLASSE,
-        "kilde": PDF_URL,
+        "kilde": pdf_url,
         "lekser": lekser,
         "prover": prover,
-        "hentet": datetime.utcnow().isoformat() + "Z"
+        "hentet": datetime.datetime.utcnow().isoformat() + "Z"
     }
 
     with open("ukeplan-8E.json", "w", encoding="utf-8") as f:
