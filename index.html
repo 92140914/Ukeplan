@@ -146,21 +146,30 @@ settingsBtn.addEventListener("click",()=>{settingsCard.style.display = settingsC
 // UKEPLAN MED ODD/PARTALLSUKER
 const schedule = {
     1: [ // Mandag
-        {start:"08:20", end:"09:20", subjectOdd:"KRLE", subjectEven:"Valgfag"},
+        {start:"08:20", end:"09:20", subject:"Engelsk"},
         {start:"09:30", end:"10:30", subject:"Naturfag"},
         {start:"10:30", end:"11:00", subject:"Lunsj"},
         {start:"11:00", end:"12:00", subject:"Norsk"},
-        {start:"12:10", end:"13:10", subject:"Matematikk"},
-        {start:"13:20", end:"14:20", subject:"Språk"}
+        {start:"12:10", end:"13:10", subjectOdd:"Valgfag", subjectEven:"KRLE"},
+        {start:"13:20", end:"14:20", subject:"Valgfag"}
     ],
     2: [ // Tirsdag
-        {start:"08:20", end:"09:20", subjectOdd:"Norsk", subjectEven:"Samfunnsfag"},
+        {start:"08:20", end:"09:20", subject:"ALF"},
         {start:"09:30", end:"10:30", subject:"ALF"},
         {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Kroppsøving"},
+        {start:"11:00", end:"12:00", subject:"Sammfunnsfag"},
         {start:"12:10", end:"13:10", subject:"Matematikk"},
-        {start:"13:20", end:"14:20", subject:"Naturfag"}
-    ]
+        
+    ]  2: [ // Onsdag
+        {start:"08:20", end:"09:20", subject:"K&H"},
+        {start:"09:30", end:"10:30", subject:"K&H"},
+        {start:"10:30", end:"11:00", subject:"Lunsj"},
+        {start:"11:00", end:"12:00", subject:"Kroppsøving"},
+        {start:"12:10", end:"13:10", subject:"Mattemadritt"},
+        {start:"13:20", end:"14:20", subject:"Naturfag"},
+        
+        
+        
 };
 
 // FUNKSJON FOR NESTE TIME
