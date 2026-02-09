@@ -1,110 +1,85 @@
-#!/usr/bin/env python3
-import re
-import os
-import json
-import tempfile
-from datetime import datetime
+import urllib.request
+from html.parser import HTMLParser
 from urllib.parse import urljoin
-
-import requests
-from bs4 import BeautifulSoup
-from PyPDF2 import PdfReader
+import json
 
 BASE_URL = "https://www.bergen.kommune.no/omkommunen/avdelinger/mjolkeraen-skole/arbeidsplaner"
 OUTPUT_JSON = "ukeplan-8E.json"
-KEYWORDS = [
-    "lekse", "lekser", "prøve", "prøver",
-    "presentasjon", "innlevering", "tentamen", "vurdering"
-]
-KEYWORD_RE = re.compile("|".join(KEYWORDS), re.IGNORECASE)
-DATE_PATTERNS = [
-    r"\b(\d{1,2})[\.\-/](\d{1,2})[\.\-/](\d{2,4})\b",  # dd.mm.yyyy
-    r"\b(\d{1,2})[\.\-/](\d{1,2})\b",  # dd.mm
-]
 
-def try_parse_date(text):
-    for pat in DATE_PATTERNS:
-        m = re.search(pat, text)
-        if m:
-            parts = m.group(0).split(".")
-            if len(parts) == 3:
-                day, month, year = parts
-            else:
-                day, month = parts
-                year = str(datetime.now().year)
-            try:
-                return datetime(int(year), int(month), int(day)).date().isoformat()
-            except:
-                continue
+# Parser for å finne <a href="..."> lenker
+class LinkParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.links = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() == "a":
+            href = None
+            text = ""
+            for attr, val in attrs:
+                if attr.lower() == "href":
+                    href = val
+            self.links.append((href, ""))
+
+    def handle_data(self, data):
+        if self.links:
+            href, _ = self.links[-1]
+            self.links[-1] = (href, data.strip())
+
+def get_links(url):
+    """Returnerer liste av (href, text) fra siden"""
+    with urllib.request.urlopen(url) as response:
+        html = response.read().decode("utf-8")
+    parser = LinkParser()
+    parser.feed(html)
+    # Filtrer bort lenker uten href
+    return [(href, text) for href, text in parser.links if href]
+
+def find_link_by_keywords(links, keywords):
+    """Finn første lenke hvor teksten inneholder ett av keywordene"""
+    for href, text in links:
+        for kw in keywords:
+            if kw.lower() in text.lower():
+                return href
     return None
 
-def extract_items_from_pdf(pdf_path):
-    items = []
-    try:
-        reader = PdfReader(pdf_path)
-    except Exception as e:
-        print(f"Kunne ikke åpne PDF {pdf_path}: {e}")
-        return items, 0
-
-    num_pages = len(reader.pages)
-    for i in range(num_pages):
-        page = reader.pages[i]
-        text = page.extract_text() or ""
-        for line in text.splitlines():
-            if KEYWORD_RE.search(line):
-                date = try_parse_date(line)
-                items.append({
-                    "page": i + 1,
-                    "text": line.strip(),
-                    "date_found": date
-                })
-    return items, num_pages
-
 def main():
+    # 1️⃣ Hent lenker til uke
+    links = get_links(BASE_URL)
+    uke_href = find_link_by_keywords(links, ["Nåværende uke", "Neste uke"])
+    if not uke_href:
+        print("Fant ikke lenke til uke")
+        return
+    uke_url = urljoin(BASE_URL, uke_href)
+
+    # 2️⃣ Hent lenker til klasse 8E
+    links_uke = get_links(uke_url)
+    klasse_href = find_link_by_keywords(links_uke, ["8E", "8 E", "8. E"])
+    if not klasse_href:
+        print("Fant ikke lenke til klasse 8E")
+        return
+    klasse_url = urljoin(uke_url, klasse_href)
+
+    # 3️⃣ Hent PDF-lenker fra 8E-siden
+    links_8e = get_links(klasse_url)
+    pdf_urls = []
+    for href, text in links_8e:
+        if ".pdf" in href.lower():
+            pdf_urls.append(urljoin(klasse_url, href))
+
+    # 4️⃣ Lagre i JSON
     result = {
-        "scrape_time": datetime.utcnow().isoformat() + "Z",
+        "scrape_time": "2026-02-09T00:00:00Z",
         "source": BASE_URL,
-        "pdfs": [],
+        "uke_url": uke_url,
+        "klasse_url": klasse_url,
+        "pdfs": [{"url": url} for url in pdf_urls]
     }
 
-    resp = requests.get(BASE_URL)
-    resp.raise_for_status()
-    soup = BeautifulSoup(resp.text, "html.parser")
+    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
 
-    # Finn alle lenker som peker på PDF og inneholder 8E eller ukeplan
-    pdf_urls = []
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if href.lower().endswith(".pdf") or ".pdf?" in href.lower():
-            if "8e" in href.lower() or "ukeplan" in href.lower():
-                pdf_urls.append(urljoin(BASE_URL, href))
-
-    tmpdir = tempfile.mkdtemp(prefix="ukeplan_")
-    for url in pdf_urls:
-        try:
-            fname = os.path.basename(url.split("?")[0]) or "plan.pdf"
-            dest = os.path.join(tmpdir, fname)
-            print(f"Laster ned {url} -> {dest}")
-            r = requests.get(url)
-            r.raise_for_status()
-            with open(dest, "wb") as f:
-                f.write(r.content)
-
-            items, pages = extract_items_from_pdf(dest)
-            result["pdfs"].append({
-                "url": url,
-                "filename": fname,
-                "local_path": dest,
-                "pages": pages,
-                "items": items
-            })
-        except Exception as e:
-            print(f"Feil ved behandling av {url}: {e}")
-
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as jf:
-        json.dump(result, jf, ensure_ascii=False, indent=2)
-
-    print(f"Ferdig. Resultat lagret i {OUTPUT_JSON}")
+    print(f"Ferdig! PDF-lenker lagret i {OUTPUT_JSON}")
 
 if __name__ == "__main__":
     main()
