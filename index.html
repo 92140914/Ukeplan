@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<title>Ukeplan app</title>
+<title>Ukeplan App</title>
 <style>
 body{
     margin:0;
@@ -43,6 +43,10 @@ body{
 .todo input{ width:100%; background:#111; color:#eee; border:1px solid #444; padding:8px; border-radius:6px; }
 .todo ul{ list-style:none; padding:0; margin:10px 0 0; }
 .todo li{ padding:6px; border-bottom:1px solid #333; cursor:pointer; }
+/* POMODORO */
+.pomodoro{ background:#111; padding:12px; border-radius:12px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.pomodoro button{ background:#222; color:#eee; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; }
+.pomodoro button:hover{background:#333;}
 /* SYSTEM */
 .bar{ height:8px; background:#333; border-radius:6px; overflow:hidden; margin-bottom:10px; }
 .fill{ height:100%; background:#777; }
@@ -59,23 +63,27 @@ body{
 #settingsBtn:hover{background:#333;}
 /* FOOTER */
 .footer{ grid-column:1/4; background:#111; padding:10px; border-radius:14px; display:flex; justify-content:space-between; color:#aaa; font-size:13px; }
+
+/* ANIMATIONS */
+@keyframes fade { from {opacity:0;} to {opacity:1;} }
+@keyframes pulse { 0% {transform:scale(1);} 50% {transform:scale(1.05);} 100% {transform:scale(1);} }
+@keyframes bounce { 0%,100% {transform:translateY(0);} 50% {transform:translateY(-10px);} }
 </style>
 </head>
 <body id="body">
 <button id="settingsBtn">⚙️ Innstillinger</button>
 <div class="dashboard">
 
-<!-- CLOCK -->
-<div class="card clock">
+ <!-- CLOCK -->
+ <div class="card clock">
     <h1 id="time"></h1>
     <p id="nextClass"><b>Neste time: -</b></p>
     <p id="date"></p>
-    <p id="quote"></p>
     <p>🔥 Streak: <b id="streak"></b></p>
-</div>
+ </div>
 
-<!-- CALCULATOR -->
-<div class="card calculator">
+ <!-- CALCULATOR -->
+ <div class="card calculator">
     <input id="calc" readonly>
     <button onclick="p('7')">7</button><button onclick="p('8')">8</button><button onclick="p('9')">9</button><button onclick="p('/')">÷</button>
     <button onclick="p('4')">4</button><button onclick="p('5')">5</button><button onclick="p('6')">6</button><button onclick="p('*')">×</button>
@@ -83,142 +91,142 @@ body{
     <button onclick="p('0')">0</button><button onclick="p('.')">.</button><button onclick="res()">=</button><button onclick="p('+')">+</button>
     <button class="clear" onclick="clr()">C</button>
     <button class="back" onclick="bk()">←</button>
-</div>
+ </div>
 
-<!-- NOTES -->
-<div class="card notes">
+ <!-- NOTES -->
+ <div class="card notes">
     <h3>📝 Notater</h3>
     <textarea id="notes"></textarea>
-</div>
+ </div>
 
-<!-- TODO -->
-<div class="card todo">
+ <!-- TODO -->
+ <div class="card todo">
     <h3>✅ Todo</h3>
     <input id="todoInput" placeholder="Legg til...">
     <ul id="todoList"></ul>
-</div>
+ </div>
 
-<!-- SYSTEM -->
-<div class="card">
+ <!-- POMODORO -->
+ <div class="card pomodoro">
+    <h3>⏱️ Pomodoro Timer</h3>
+    <p id="pomodoroTimer">25:00</p>
+    <button id="pomStart">Start / Pause</button>
+    <button id="pomReset">Reset</button>
+ </div>
+
+ <!-- SYSTEM -->
+ <div class="card">
     <h3>📊 System</h3>
     CPU<div class="bar"><div id="cpu" class="fill"></div></div>
     RAM<div class="bar"><div id="ram" class="fill"></div></div>
     NET<div class="bar"><div id="net" class="fill"></div></div>
-</div>
+ </div>
 
-<!-- SOUND -->
-<div class="circles">
+ <!-- SOUND -->
+ <div class="circles">
     <div class="circle" data-sound="lyd1.mp3">1</div>
     <div class="circle" data-sound="lyd2.mp3">2</div>
     <div class="circle" data-sound="lyd3.mp3">3</div>
     <div class="circle" data-sound="lyd4.mp3">4</div>
     <div class="circle" data-sound="lyd5.mp3">5</div>
-</div>
+ </div>
 
-<!-- SETTINGS -->
-<div class="card settings">
+ <!-- SETTINGS -->
+ <div class="card settings">
     <h3>⚙️ Innstillinger & Theme Editor</h3>
+
     <label><input type="checkbox" id="darkMode"> Dark Mode</label>
     <label><input type="checkbox" id="clock12"> 12h klokke</label>
-    <label><input type="checkbox" id="showSoundboard" checked> Vis Soundboard</label>
-    <label><input type="checkbox" id="showNotes" checked> Vis Notater</label>
-    <hr>
-    <label>Body bakgrunn: <input type="color" id="bodyBg"></label>
-    <label>Kort bakgrunn: <input type="color" id="cardBg"></label>
-    <label>Knapp farge: <input type="color" id="btnBg"></label>
-    <label>Tekst farge: <input type="color" id="textColor"></label>
-</div>
 
-<!-- FOOTER -->
-<div class="footer">
+    <hr>
+    <h4>Vis / Skjul moduler:</h4>
+    <label><input type="checkbox" id="showSoundboard" checked> Soundboard</label>
+    <label><input type="checkbox" id="showNotes" checked> Notater</label>
+    <label><input type="checkbox" id="showTodo" checked> Todo</label>
+    <label><input type="checkbox" id="showCalc" checked> Kalkulator</label>
+    <label><input type="checkbox" id="showPomodoro" checked> Pomodoro</label>
+
+    <hr>
+    <label>Velg Preset:</label>
+    <select id="themePreset">
+      <option value="default">Default</option>
+      <option value="sea">Sea</option>
+      <option value="school">School</option>
+      <option value="gaming">Gaming</option>
+      <option value="custom">Custom</option>
+    </select>
+
+    <div id="customThemeOptions" style="display:none;">
+      <label>Body farge: <input type="color" id="customBody"></label>
+      <label>Kort farge: <input type="color" id="customCard"></label>
+      <label>Knapp farge: <input type="color" id="customBtn"></label>
+      <label>Tekst farge: <input type="color" id="customText"></label>
+    </div>
+
+    <hr>
+    <label>Animations:</label>
+    <select id="animationPreset">
+      <option value="none">Ingen</option>
+      <option value="fade">Fade-in</option>
+      <option value="pulse">Pulse</option>
+      <option value="bounce">Bounce</option>
+    </select>
+ </div>
+
+ <!-- FOOTER -->
+ <div class="footer">
     <span>Status: ONLINE</span>
     <span id="uptime"></span>
-</div>
-
+ </div>
 </div>
 
 <script>
 // SETTINGS TOGGLE
 const settingsBtn = document.getElementById("settingsBtn");
 const settingsCard = document.querySelector(".settings");
-settingsBtn.addEventListener("click",()=>{settingsCard.style.display = settingsCard.style.display==="block"?"none":"block";});
+settingsBtn.addEventListener("click",()=>{
+    settingsCard.style.display = settingsCard.style.display==="block"?"none":"block";
+});
 
-// UKEPLAN MED ODD/PARTALLSUKER
+// UKEPLAN
 const schedule = {
-    1: [ // Mandag
-        {start:"08:20", end:"09:20", subject:"Engelsk"},
-        {start:"09:30", end:"10:30", subject:"Naturfag"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Norsk"},
-        {start:"12:10", end:"13:10", subjectOdd:"Valgfag", subjectEven:"KRLE"},
-        {start:"13:20", end:"14:20", subject:"Valgfag"}
-    ],
-    2: [ // Tirsdag
-        {start:"08:20", end:"09:20", subject:"ALF"},
-        {start:"09:30", end:"10:30", subject:"ALF"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Sammfunnsfag"},
-        {start:"12:10", end:"13:10", subject:"Matematikk"},
-        
-    ]  3: [ // Onsdag
-        {start:"08:20", end:"09:20", subject:"K&H"},
-        {start:"09:30", end:"10:30", subject:"K&H"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Kroppsøving"},
-        {start:"12:10", end:"13:10", subject:"Mattemadritt"},
-        {start:"13:20", end:"14:20", subject:"Naturfag"},
-        
-
-    ]  4: [ // Torsdag
-        {start:"08:20", end:"09:20", subject:"samfunnsfag"},
-        {start:"09:30", end:"10:30", subject:"norsk"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Kroppsøving"},
-        {start:"12:10", end:"13:10", subject:"Mattemadritt"},
-        {start:"13:20", end:"14:20", subject:"språk(alf passerer)"}, 
-
-        
-    ]  5: [ // Fredag
-        {start:"08:20", end:"09:20", subject:"Krle"},
-        {start:"09:30", end:"10:30", subject:"norsk"},
-        {start:"10:30", end:"11:00", subject:"Lunsj"},
-        {start:"11:00", end:"12:00", subject:"Samfunnsfag"},
-        {start:"12:10", end:"13:10", subject:"Engelsk"},
-        {start:"13:20", end:"14:20", subject:"UV"},  
-        
-        
+  1:[{start:"08:20", end:"09:20", subject:"Engelsk"},{start:"09:30", end:"10:30", subject:"Naturfag"},{start:"10:30", end:"11:00", subject:"Lunsj"},{start:"11:00", end:"12:00", subject:"Norsk"},{start:"12:10", end:"13:10", subjectOdd:"Valgfag", subjectEven:"KRLE"},{start:"13:20", end:"14:20", subject:"Valgfag"}],
+  2:[{start:"08:20", end:"09:20", subject:"ALF"},{start:"09:30", end:"10:30", subject:"ALF"},{start:"10:30", end:"11:00", subject:"Lunsj"},{start:"11:00", end:"12:00", subject:"Sammfunnsfag"},{start:"12:10", end:"13:10", subject:"Matematikk"}],
+  3:[{start:"08:20", end:"09:20", subject:"K&H"},{start:"09:30", end:"10:30", subject:"K&H"},{start:"10:30", end:"11:00", subject:"Lunsj"},{start:"11:00", end:"12:00", subject:"Kroppsøving"},{start:"12:10", end:"13:10", subject:"Mattemadritt"},{start:"13:20", end:"14:20", subject:"Naturfag"}],
+  4:[{start:"08:20", end:"09:20", subject:"Samfunnsfag"},{start:"09:30", end:"10:30", subject:"Norsk"},{start:"10:30", end:"11:00", subject:"Lunsj"},{start:"11:00", end:"12:00", subject:"Kroppsøving"},{start:"12:10", end:"13:10", subject:"Mattemadritt"},{start:"13:20", end:"14:20", subject:"Språk (ALF passerer)"}],
+  5:[{start:"08:20", end:"09:20", subject:"KRLE"},{start:"09:30", end:"10:30", subject:"Norsk"},{start:"10:30", end:"11:00", subject:"Lunsj"},{start:"11:00", end:"12:00", subject:"Samfunnsfag"},{start:"12:10", end:"13:10", subject:"Engelsk"},{start:"13:20", end:"14:20", subject:"UV"}]
 };
 
-// FUNKSJON FOR NESTE TIME
 function getNextClass(){
-    const now = new Date();
-    const day = now.getDay(); // 0=søndag
-    const weekNum = Math.ceil(((now - new Date(now.getFullYear(),0,1))/86400000 + new Date(now.getFullYear(),0,1).getDay()+1)/7);
-    const isOddWeek = weekNum%2!==0;
-    const daySchedule = schedule[day] || [];
-    const nextClassEl = document.getElementById("nextClass");
+  const now = new Date();
+  let day = now.getDay();
+  if(day===0){ document.getElementById("nextClass").innerHTML="<b>Ingen timer i dag</b>"; return;}
+  const weekNum = Math.ceil(((now - new Date(now.getFullYear(),0,1))/86400000 + new Date(now.getFullYear(),0,1).getDay()+1)/7);
+  const isOddWeek = weekNum%2!==0;
+  const daySchedule = schedule[day] || [];
+  const nextClassEl = document.getElementById("nextClass");
 
-    for(let period of daySchedule){
-        const [sh, sm] = period.start.split(":").map(Number);
-        const startTime = new Date();
-        startTime.setHours(sh, sm, 0, 0);
-        if(now < startTime){
-            let subject = period.subject || (day===1 ? (isOddWeek ? period.subjectOdd : period.subjectEven) : (day===2 ? (isOddWeek ? period.subjectOdd : period.subjectEven) : period.subject));
-            nextClassEl.innerHTML = `<b>Neste time: ${subject} (${period.start}-${period.end})</b>`;
-            return;
-        }
+  for(let period of daySchedule){
+    const [sh, sm] = period.start.split(":").map(Number);
+    const startTime = new Date();
+    startTime.setHours(sh, sm, 0, 0);
+    if(now < startTime){
+      let subject = period.subject || (period.subjectOdd && period.subjectEven ? (isOddWeek ? period.subjectOdd : period.subjectEven) : "-");
+      nextClassEl.innerHTML = `<b>Neste time: ${subject} (${period.start}-${period.end})</b>`;
+      return;
     }
-    nextClassEl.innerHTML = `<b>Ingen flere timer i dag</b>`;
+  }
+  nextClassEl.innerHTML = `<b>Ingen flere timer i dag</b>`;
 }
 
 // KLØKKE
 function tick(){
-    const d=new Date();
-    let h=d.getHours();
-    if(localStorage.getItem("clock12")==="true"){h=(h%12)||12;}
-    document.getElementById("time").textContent=h.toString().padStart(2,'0')+":"+d.getMinutes().toString().padStart(2,'0')+":"+d.getSeconds().toString().padStart(2,'0');
-    document.getElementById("date").textContent=d.toLocaleDateString("no-NO");
-    getNextClass();
+  const d=new Date();
+  let h=d.getHours();
+  if(localStorage.getItem("clock12")==="true"){h=(h%12)||12;}
+  document.getElementById("time").textContent=h.toString().padStart(2,'0')+":"+d.getMinutes().toString().padStart(2,'0')+":"+d.getSeconds().toString().padStart(2,'0');
+  document.getElementById("date").textContent=d.toLocaleDateString("no-NO");
+  getNextClass();
 }
 setInterval(tick,1000);
 tick();
@@ -227,17 +235,17 @@ tick();
 const today=new Date().toDateString();
 let s=+localStorage.getItem("streak")||0;
 const last=localStorage.getItem("last");
-const y=new Date();y.setDate(y.getDate()-1);
+const y=new Date(); y.setDate(y.getDate()-1);
 if(last!==today){ s=(last===y.toDateString())?s+1:1; localStorage.setItem("streak",s); localStorage.setItem("last",today);}
 document.getElementById("streak").textContent=s;
 
 /* CALC */
-let v="";
+let v=""; 
 function p(x){v+=x;calc.value=v;}
 function clr(){v="";calc.value="";}
 function bk(){v=v.slice(0,-1);calc.value=v;}
 function res(){try{v=Function("return "+v)();calc.value=v;}catch{clr();calc.value="Err";}}
-document.onkeydown=e=>{ if("0123456789.+-*/".includes(e.key))p(e.key); if(e.key==="Enter")res(); if(e.key==="Backspace")bk(); key.textContent=e.key; };
+document.onkeydown=e=>{ if("0123456789.+-*/".includes(e.key))p(e.key); if(e.key==="Enter")res(); if(e.key==="Backspace")bk(); };
 
 /* NOTES */
 notes.value=localStorage.getItem("notes")||"";
@@ -253,63 +261,111 @@ drawTodos();
 /* SYSTEM */
 setInterval(()=>{cpu.style.width=Math.random()*100+"%"; ram.style.width=Math.random()*100+"%"; net.style.width=Math.random()*100+"%";},1200);
 
-/* MOUSE */
-document.onmousemove=e=>{mx.textContent=e.clientX; my.textContent=e.clientY;}
-
 /* SOUNDBOARD */
 document.querySelectorAll(".circle").forEach(b=>{
-    b.addEventListener("click",()=>{
-        const audio = new Audio(b.dataset.sound);
-        audio.play();
-    });
+    b.addEventListener("click",()=>{ const audio = new Audio(b.dataset.sound); audio.play(); });
 });
 
 /* UPTIME */
-let start=Date.now();
-setInterval(()=>{let s=Math.floor((Date.now()-start)/1000); uptime.textContent=`Uptime: ${s}s`;},1000);
+let start=Date.now(); setInterval(()=>{let s=Math.floor((Date.now()-start)/1000); uptime.textContent=`Uptime: ${s}s`;},1000);
 
-/* SETTINGS & THEME */
+/* POMODORO */
+let pomTime=25*60, pomInterval=null, running=false;
+const pomDisplay=document.getElementById("pomodoroTimer");
+document.getElementById("pomStart").onclick=()=>{
+  if(running){ clearInterval(pomInterval); running=false; } 
+  else{ running=true; pomInterval=setInterval(()=>{pomTime--; 
+    let m=Math.floor(pomTime/60), s=pomTime%60; 
+    pomDisplay.textContent=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    if(pomTime<=0){ clearInterval(pomInterval); running=false; pomTime=25*60; alert("Pomodoro ferdig!"); pomDisplay.textContent="25:00";}
+  },1000);}
+};
+document.getElementById("pomReset").onclick=()=>{ clearInterval(pomInterval); running=false; pomTime=25*60; pomDisplay.textContent="25:00"; };
+
+/* SETTINGS & THEMES */
 const darkMode=document.getElementById("darkMode");
 const clock12=document.getElementById("clock12");
 const showSoundboard=document.getElementById("showSoundboard");
 const showNotes=document.getElementById("showNotes");
-const bodyBg=document.getElementById("bodyBg");
-const cardBg=document.getElementById("cardBg");
-const btnBg=document.getElementById("btnBg");
-const textColor=document.getElementById("textColor");
+const showTodo=document.getElementById("showTodo");
+const showCalc=document.getElementById("showCalc");
+const showPomodoro=document.getElementById("showPomodoro");
+
+const themePreset=document.getElementById("themePreset");
+const customThemeOptions=document.getElementById("customThemeOptions");
+const customBody=document.getElementById("customBody");
+const customCard=document.querySelector("#customCard");
+const customBtn=document.querySelector("#customBtn");
+const customText=document.querySelector("#customText");
+
+const animationPreset=document.getElementById("animationPreset");
 
 function loadSettings(){
-    darkMode.checked=localStorage.getItem("darkMode")==="true";
-    clock12.checked=localStorage.getItem("clock12")==="true";
-    showSoundboard.checked=localStorage.getItem("showSoundboard")!=="false";
-    showNotes.checked=localStorage.getItem("showNotes")!=="false";
-    bodyBg.value=localStorage.getItem("bodyBg")||"#f0f0f0";
-    cardBg.value=localStorage.getItem("cardBg")||"#111111";
-    btnBg.value=localStorage.getItem("btnBg")||"#222222";
-    textColor.value=localStorage.getItem("textColor")||"#eee";
-    applySettings();
+  darkMode.checked=localStorage.getItem("darkMode")==="true";
+  clock12.checked=localStorage.getItem("clock12")==="true";
+  showSoundboard.checked=localStorage.getItem("showSoundboard")!=="false";
+  showNotes.checked=localStorage.getItem("showNotes")!=="false";
+  showTodo.checked=localStorage.getItem("showTodo")!=="false";
+  showCalc.checked=localStorage.getItem("showCalc")!=="false";
+  showPomodoro.checked=localStorage.getItem("showPomodoro")!=="false";
+  themePreset.value=localStorage.getItem("themePreset")||"default";
+  animationPreset.value=localStorage.getItem("animationPreset")||"none";
+  customThemeOptions.style.display = themePreset.value==="custom"?"block":"none";
+  applyModules(); applyTheme(); applyAnimations();
 }
-function applySettings(){
-    document.body.classList.toggle("dark", darkMode.checked);
-    document.body.classList.toggle("light", !darkMode.checked);
-    document.querySelector(".circles").style.display=showSoundboard.checked?"grid":"none";
-    document.querySelector(".notes").style.display=showNotes.checked?"block":"none";
-    document.body.style.background=bodyBg.value;
-    document.querySelectorAll(".card").forEach(c=>c.style.background=cardBg.value);
-    document.querySelectorAll(".calculator button").forEach(b=>b.style.background=btnBg.value);
-    document.body.style.color=textColor.value;
+function applyModules(){
+  document.querySelector(".circles").style.display = showSoundboard.checked?"grid":"none";
+  document.querySelector(".notes").style.display = showNotes.checked?"block":"none";
+  document.querySelector(".todo").style.display = showTodo.checked?"block":"none";
+  document.querySelector(".calculator").style.display = showCalc.checked?"grid":"none";
+  const pom = document.querySelector(".pomodoro");
+  if(pom) pom.style.display = showPomodoro.checked?"block":"none";
 
-    localStorage.setItem("darkMode", darkMode.checked);
-    localStorage.setItem("clock12", clock12.checked);
-    localStorage.setItem("showSoundboard", showSoundboard.checked);
-    localStorage.setItem("showNotes", showNotes.checked);
-    localStorage.setItem("bodyBg", bodyBg.value);
-    localStorage.setItem("cardBg", cardBg.value);
-    localStorage.setItem("btnBg", btnBg.value);
-    localStorage.setItem("textColor", textColor.value);
+  localStorage.setItem("showSoundboard", showSoundboard.checked);
+  localStorage.setItem("showNotes", showNotes.checked);
+  localStorage.setItem("showTodo", showTodo.checked);
+  localStorage.setItem("showCalc", showCalc.checked);
+  localStorage.setItem("showPomodoro", showPomodoro.checked);
+}
+[showSoundboard, showNotes, showTodo, showCalc, showPomodoro].forEach(el=>el.addEventListener("change", applyModules));
+
+function applyPreset(p){
+  if(p==="sea"){ document.body.style.background="#87CEEB"; document.querySelectorAll(".card").forEach(c=>c.style.background="#48A9A6"); }
+  if(p==="school"){ document.body.style.background="#F4F1BB"; document.querySelectorAll(".card").forEach(c=>c.style.background="#F7D794"); }
+  if(p==="gaming"){ document.body.style.background="#0f0f0f"; document.querySelectorAll(".card").forEach(c=>c.style.background="#1a1a1a"); }
 }
 
-[darkMode, clock12, showSoundboard, showNotes, bodyBg, cardBg, btnBg, textColor].forEach(el=>el.addEventListener("input",applySettings));
+themePreset.onchange=()=>{
+  localStorage.setItem("themePreset", themePreset.value);
+  if(themePreset.value==="custom"){ customThemeOptions.style.display="block"; }
+  else{ customThemeOptions.style.display="none"; applyPreset(themePreset.value);}
+}
+[customBody, customCard, customBtn, customText].forEach(el=>el.addEventListener("input",()=>{ applyCustom(); }));
+function applyCustom(){
+  if(themePreset.value==="custom"){
+    document.body.style.background=customBody.value;
+    document.querySelectorAll(".card").forEach(c=>c.style.background=customCard.value);
+    document.querySelectorAll(".calculator button").forEach(b=>b.style.background=customBtn.value);
+    document.body.style.color=customText.value;
+  }
+}
+
+function applyTheme(){
+  if(themePreset.value==="custom") applyCustom();
+  else applyPreset(themePreset.value);
+}
+
+function applyAnimations(){
+  document.querySelectorAll(".card, .calculator button, .circle").forEach(el=>{
+    el.style.animation="";
+    if(animationPreset.value==="fade") el.style.animation="fade 1s ease-in-out";
+    if(animationPreset.value==="pulse") el.style.animation="pulse 1s infinite";
+    if(animationPreset.value==="bounce") el.style.animation="bounce 1s infinite";
+  });
+  localStorage.setItem("animationPreset", animationPreset.value);
+}
+
+[darkMode, clock12, showSoundboard, showNotes, showTodo, showCalc, showPomodoro, animationPreset].forEach(el=>el.addEventListener("change",()=>{applyModules(); applyTheme(); applyAnimations();}));
 loadSettings();
 </script>
 </body>
