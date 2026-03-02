@@ -1,49 +1,52 @@
 {
-  "uke": 8,
+  "uke": 10,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-02-16T11:27:59.598884",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69668926",
+  "hentet_dato": "2026-03-02T05:57:37.862781",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69700880",
   "fag": {
-    "norsk": {
-      "innhold": "Norsk",
+    "engelsk": {
+      "innhold": "Engelsk for.  Make sure you have a charged \nChromebook, your library book, your \nnotebook, and a pencil when you \ncome to class today.  Make sure you have a charged \nChromebook, your library book, your \nnotebook, and a pencil when you come \nto class today.   \nALF   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
-    "engelsk": {
-      "innhold": "Engelsk for.  Make sure you have a charged \nChromebook, your library book, and a \npencil when you come to class today.  Finish the grammar task that you worked \non in class on Tuesday.  \n \nBring your library book, notebook, and \npencil to class.   \nALF   \nValgfag",
-      "sidetall": [],
+    "norsk": {
+      "innhold": "Fransk  Les og oversett side 42 til norsk.  Skriv \ni egen bok (den røde)  Du m å kunne skrive månedene på",
+      "sidetall": [
+        "s. 42"
+      ],
       "oppgaver": []
     },
     "samfunnsfag": {
-      "innhold": "Samfunnsfag",
+      "innhold": "Samfunnsfag   \n ARBEIDSPLAN for 8E uke 10  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
       "sidetall": [],
       "oppgaver": []
     },
     "krle": {
-      "innhold": "Fredag  KRLE  Les s. 60 – 63. Notér ord og uttrykk du ikke forstår.",
+      "innhold": "Fredag  KRLE  Les s. 66 - 71. Notér ord og uttrykk du ikke forstår",
       "sidetall": [
-        "s. 60"
+        "s. 66-71",
+        "s. 66"
       ],
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  Se classroom  \n ARBEIDSPLAN for 8E uke 8  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "innhold": "Matematikk  Se classroom",
       "sidetall": [],
       "oppgaver": []
     },
     "naturfag": {
-      "innhold": "Naturfag  Se til at du er ferdig med og har levert inn de to innleveringene i kapitlet. Kapittelprøve blir onsdag etter \nvinterferien.",
+      "innhold": "Naturfag  Kapittelprøve i kjemi i hverdagen.",
       "sidetall": [],
       "oppgaver": []
     },
     "kroppsøving": {
-      "innhold": "Kroppsøving  Basketball",
+      "innhold": "Kroppsøving  Baskteball",
       "sidetall": [],
       "oppgaver": []
     },
     "kunst": {
-      "innhold": "Kunst og håndverk  Popkunst  Jeg kan forstørre et utsnitt av en tegneserierute og lage et maleri av motivet.  \nFriluftsliv  Avspasering  Vi samler timer til en lengre tur senere på våren. Dere er ferdig kl. 12.00  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
+      "innhold": "Kunst / håndverk  Popkunst  Jeg kan forstørre og male et bilde i popkunst.  \nFriluftsliv  Tur eller avspasering  Det blir sendt ut en melding på vigilo til foresatte i helgen før. Tur avhenger av vær og føre.  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
       "sidetall": [],
       "oppgaver": []
     },
@@ -53,60 +56,66 @@
       "oppgaver": []
     },
     "spansk": {
-      "innhold": "Spansk  Skriv en tekst på spansk i classroom \nom et favorittfag og om et fag du ikke \nliker. Si noe om hvorfor du liker/ikke \nliker faget. Bruk teksten i hovedboken \ns.58 for å gi deg ideer om hva du kan \nskrive.  Les teksten s. 60 og øv godt på de \ntilhørende glosene",
+      "innhold": "Spansk  Repeter ukedagene og ord for fagene. \nVidere lærer du 6 ord for ting i \nklasserommet. Se arbeidsboken, der \nvi har skrevet ned noen.  (evt se s. 61 i \nboken)  Kunne alle ordene for ting i \nklasserommet (se arbeidsboken)",
       "sidetall": [
-        "s. 58",
-        "s. 60"
+        "s. 61"
       ],
       "oppgaver": []
     },
     "fransk": {
-      "innhold": "månedene på fransk.  Se side 42 i \nboken for å øve.  Skriftlig oppgave: I dag må du kunne \nskrive en tekst om deg selv og din \nfamilie.  Du får en vurdering på din tekst. \nScott forklarer mer om teksten i klassen.",
+      "innhold": "fransk til i dag. (s.42)",
       "sidetall": [
         "s. 42"
       ],
       "oppgaver": []
     },
     "tysk": {
-      "innhold": "Tysk",
-      "sidetall": [],
-      "oppgaver": []
+      "innhold": "Tysk  Det var kjekt å høre mange flotte \npresentasjoner før feriene. I dag skal \nde som ikke har presentert eller \ninnlevert fremføre. Husk at alle må \nlikevel ha klar tyskbøkene til timen.  \n Gjør oppgave 4a + 4b i arbeidsboken s. \n45.",
+      "sidetall": [
+        "s. 45"
+      ],
+      "oppgaver": [
+        "oppgave 4"
+      ]
     }
   },
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag  Vi øver og forbereder oss til onsdagens kapittelprøve.",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "prøver": [
       {
-        "beskrivelse": "KRLE  Det gamle testamente  Jeg kjenner til de historiske bøkene i Bibelen   Matematikk  Algebra  Kunne regne med bokstaver og uttrykk med alle de 4 regneartene. Naturfag  Kjemi i hverdagen  Vite hva ",
+        "beskrivelse": "KRLE  Det gamle testamentet  Jeg kjenner til kong Salomo og nedgangstidene i Kanaan   Matematikk  Algebra  Potenser og Parenteser i Algebraiske uttrykk Multiplikasjon og Divisjon av algebraiske uttryk",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Naturfag  Se til at du er ferdig med og har levert inn de to innleveringene i kapitlet. Kapittelprøve blir onsdag etter  vinterferien. Torsdag  Samfunnsfag  Forbered deg til s kriveoppgave om det mang",
+        "beskrivelse": "Naturfag  Kjemi i hverdagen  Kapittelprøve onsdag .    Kroppsøving  Basketball  Jeg kjenner til reglene for spill i basketball. Jeg kan bruke samspill på en måte som inkluderer og løfter frem andre. U",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Naturfag  Vi øver og forbereder oss til onsdagens kapittelprøve.",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Naturfag  Kapittelprøve i kjemi i hverdagen.    Torsdag  Samfunnsfag",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "presentasjoner": [
       {
-        "beskrivelse": "Naturfag  Se til at du er ferdig med og har levert inn de to innleveringene i kapitlet. Kapittelprøve blir onsdag etter  vinterferien. Torsdag  Samfunnsfag  Forbered deg til s kriveoppgave om det mang",
-        "sidetall": [],
-        "oppgaver": []
-      }
-    ],
-    "innleveringer": [
-      {
-        "beskrivelse": "Naturfag  Se til at du er ferdig med og har levert inn de to innleveringene i kapitlet. Kapittelprøve blir onsdag etter  vinterferien. Torsdag  Samfunnsfag  Forbered deg til s kriveoppgave om det mang",
+        "beskrivelse": "presentasjoner før feriene. I dag skal  de som ikke har presentert eller innlevert fremføre. Husk at alle må likevel ha klar tyskbøkene til timen.",
         "sidetall": [],
         "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 8  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvkontroll  \n- Jeg har strategier som jeg kan bruke i situasjoner som trigger meg  \n- Jeg er bevisst på hvordan mine ord og handlinger kan oppleves av andre  \n \nInfo: \n• Vi er godt i gang med leseaksjonen “Les i februar”. Elevene får låne bøker på biblioteket. Hvilken sjanger fanger din interes se mest?  \n• Ønsker dere en fin vinterferie! 😊 \n  Emne:  Mål: \nNorsk  Leseprosjekt  Kunne skrive en bokomtale  \nEngelsk  Journeys   \nSamfunnsfag  Samfunn og identitet  Kunne si noe om muligheter og utfordringer i et mangfoldig samfunn . Diskutere tiltak mot rasisme \nog diskriminering.  \nKRLE  Det gamle testamente  Jeg kjenner til de historiske bøkene i Bibelen  \nMatematikk  Algebra  Kunne regne med bokstaver og uttrykk med alle de 4 regneartene.  \nNaturfag  Kjemi i hverdagen  Vite hva det vil si at en løsninger sterk eller svak, og hvordan løsninger kan fortynnes  \nVite hva som kjenn"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 10  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg kan ta ordet og hevde mine meninger  \n- Jeg uttrykker meningene mine på en positiv måte  \n \nInfo:  \n- Denne uken blir det en skriveøkt i engelsk fredag 5. time. Ta med notater du laget til filmen “In 80 Days Around the World”  \n- Vi skal gjennomføre Spekter undersøkelsen denne uken.  \n  Emne:  Mål: \nNorsk  Sammensatte tekster  Kunne si noe om visuelle og auditive virkemidler  \nEngelsk  Journeys  Be able to write about a film / about a journey  \nSamfunnsfag  Identitet  Reflektere over hvem du er, og hvordan identitet formes  \nKRLE  Det gamle testamentet  Jeg kjenner til kong Salomo og nedgangstidene i Kanaan  \nMatematikk  Algebra  Potenser og Parenteser i Algebraiske uttrykk  \nMultiplikasjon og Divisjon av algebraiske uttrykk   \nNaturfag  Kjemi i hverdagen  Kapittelprøve onsdag .   \nKroppsøving  Basketball  Jeg kjenner til reglene for spill i basketball. "
 }
