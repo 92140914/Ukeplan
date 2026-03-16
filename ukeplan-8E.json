@@ -1,22 +1,17 @@
 {
-  "uke": 11,
+  "uke": 12,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-03-09T06:02:13.082698",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69771254",
+  "hentet_dato": "2026-03-16T06:21:16.780371",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69810296",
   "fag": {
     "norsk": {
-      "innhold": "setninger om en norsk fotballspiller . Gjør oppgave 5 s. 57: Se på bildet av \nfotballbanen s. 57, tegn den av og skriv \nbegrepene ved siden av på riktig plass",
-      "sidetall": [
-        "s. 57",
-        "s. 57"
-      ],
-      "oppgaver": [
-        "oppgave 5"
-      ]
+      "innhold": "Norsk   \n ARBEIDSPLAN for 8E uke 12  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "sidetall": [],
+      "oppgaver": []
     },
     "engelsk": {
-      "innhold": "Engelsk for.  Make sure you have a charged \nChromebook, your notebook and a \npencil when you come to class today.  See task in Classroom. Make sure that \nyou hand it in before class on Thursday.    \nALF   \nValgfag",
+      "innhold": "Engelsk for.  You will work in stations today as \nusual.  We’ll continue with the film project today.   \nALF   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
@@ -31,15 +26,17 @@
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  Ingen lekse  \n ARBEIDSPLAN for 8E uke 11  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
-      "sidetall": [],
+      "innhold": "Matematikk  Les s. 187 og 188 i boken og jobb 15 min med oppgaver s. 189 og 199. Dersom du har gjort oppgavene, er du \nferdig.",
+      "sidetall": [
+        "s. 187",
+        "s. 189"
+      ],
       "oppgaver": []
     },
     "naturfag": {
-      "innhold": "Naturfag  Les og repeter side 7 -9.",
+      "innhold": "Naturfag  Gjør ferdig les og svar 1 -4 side 37.",
       "sidetall": [
-        "s. 7-9",
-        "s. 7"
+        "s. 37"
       ],
       "oppgaver": []
     },
@@ -49,7 +46,7 @@
       "oppgaver": []
     },
     "kunst": {
-      "innhold": "Kunst / håndverk  Søm/keramikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire.  \nFriluftsliv  Avspasering   \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
+      "innhold": "Kunst og håndverk  Popkunst  Jeg kan male et bilde i popkunst.  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
       "sidetall": [],
       "oppgaver": []
     },
@@ -59,20 +56,24 @@
       "oppgaver": []
     },
     "spansk": {
-      "innhold": "Spansk  Du må kunne bøye verbet estar (som \nbetyr å befinne seg eller å føle seg). \nDet står på s. 61 i boken.  Les teksten s. 62. Lær glosene og \noversett teksten muntlig for deg selv.",
+      "innhold": "Spansk  Oppgaveboken s. 45 og oppgave 1 s. \n46. Skriv i skriveboken din.  Oppgaveboken s. 48, oppgave 4. Skriv \nhele setninger i skriveboken.",
       "sidetall": [
-        "s. 61",
-        "s. 62"
+        "s. 45",
+        "s. 46",
+        "s. 48"
       ],
-      "oppgaver": []
+      "oppgaver": [
+        "oppgave 1",
+        "oppgave 4."
+      ]
     },
     "fransk": {
-      "innhold": "Fransk  Leksen er i Classroom. Les nøye!  . Leksen er i Classroom. Les nøye!",
+      "innhold": "Fransk  På torsdag har dere en skriftlig prøve. \nGå inn på Classroom for å se hvordan \ndu kan forberede deg til prøven.  Prøve",
       "sidetall": [],
       "oppgaver": []
     },
     "tysk": {
-      "innhold": "Tysk  Til i dag skal dere kunne presentere 5",
+      "innhold": "vinteraktiviteter  Forbered deg til tyskprøven.  Prøve i tysk. Læringsmålene som du må \nkunne står på classroom.",
       "sidetall": [],
       "oppgaver": []
     }
@@ -80,43 +81,43 @@
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Info:  Onsdag er det studiedag hjmeme for 8E. Sjekk lekseplanen for oppgaver som du skal gjøre.",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag",
+        "sidetall": [],
+        "oppgaver": []
+      }
+    ],
+    "prøver": [
+      {
+        "beskrivelse": "Fransk  På torsdag har dere en skriftlig prøve.  Gå inn på Classroom for å se hvordan du kan forberede deg til prøven.  Prøve Tysk  Til i dag skal du lære deg 7",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk  Today we shall learn about famous ship disasters Naturfag",
+        "beskrivelse": "du kan forberede deg til prøven.  Prøve    Tysk  Til i dag skal du lære deg 7 vinteraktiviteter  Forbered deg til tyskprøven.  Prøve i tysk. Læringsmålene som du må kunne står på classroom.",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Matematikk  Ingen lekse   ARBEIDSPLAN for 8E uke 11 Mjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Fransk  Leksen er i Classroom. Les nøye!  . Leksen er i Classroom. Les nøye!",
+        "beskrivelse": "vinteraktiviteter  Forbered deg til tyskprøven.  Prøve i tysk. Læringsmålene som du må  kunne står på classroom.",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "presentasjoner": [
       {
-        "beskrivelse": "Norsk  Sammensatte tekster  Kunne lage en video/presentasjon om boka du har lest.   Kunne bruke visuelle og auditive virkemidler i en video/presentasjon Engelsk  JOURNEYS  Learn about the immigration ",
+        "beskrivelse": "Norsk  Presentasjon/video  Lage en presentasjon/video om boka di   Engelsk  The UK, Ireland and India  Know facts and be able to talk about the UK Samfunnsfag  Identitet  Drøfte ulike perspektiver på ",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Kunne bruke visuelle og auditive virkemidler i en video/presentasjon   Engelsk  JOURNEYS  Learn about the immigration to America, know about the risks of travel  and reflect aout the reasons why many ",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Norsk  Lever inn førsteutkastet av videoen/presentasjonen din   Samfunnsfag Engelsk  Do ex. 3 p. 173 .",
-        "sidetall": [],
+        "beskrivelse": "Norsk  Lever inn og forbered deg til å holde presentasjonen / vise videoen din   Kroppsøving  Håndball Matematikk  Les s. 187 og 188 i boken og jobb 15 min med oppgaver s. 189 og 199. Dersom du har gj",
+        "sidetall": [
+          "s. 187",
+          "s. 189"
+        ],
         "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 11  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS:  \nSelvhevdelse  \n- Jeg kan ta ordet og hevde mine meninger  \n- Jeg uttrykker meningene mine på en positiv måte  \n \nInfo:  Onsdag er det studiedag hjmeme for 8E. Sjekk lekseplanen for oppgaver som du skal gjøre.  \n \n  Emne:  Mål: \nNorsk  Sammensatte tekster  Kunne lage en video/presentasjon om boka du har lest.  \nKunne bruke visuelle og auditive virkemidler i en video/presentasjon  \nEngelsk  JOURNEYS  Learn about the immigration to America, know about the risks of travel  and reflect aout the reasons \nwhy many people decided to leave their mother countries.  \nSamfunnsfag  Identitet  Reflektere over hvordan identitet formes  \nDrøfte ulike perspektiver på identitetsutvikling  \nKRLE  GT Jeg jobber godt med prosjektet mitt  \nMatematikk    \nNaturfag  Den levende naturen  Kunne vite hvordan alt det levende i naturen samspiller med omgivelsene  \nKunne vite hva et økosystem er, og hv"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 12  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg kjenner meg selv og vet hva jeg står for  \n- Jeg ber om hjelp hvis jeg er usikker  \n \n \n \n \nInfo:  \n- På fredag starter vi opp med svømmeundervising. Oppmøte på skolen til vanlig tid. Så tar vi buss sammen til Åstveithallen. \nTilbake på skolen til storefri. Husk egnet svømmetøy, håndkle og annet nødvendig utstyr.  \n  Emne:  Mål: \nNorsk  Presentasjon/video  Lage en presentasjon/video om boka di  \nEngelsk  The UK, Ireland and \nIndia  Know facts and be able to talk about the UK  \nSamfunnsfag  Identitet  Drøfte ulike perspektiver på identitetsutvikling  \nKRLE  Historiske personer \nfra GT  Jeg jobber godt med prosjektet mitt.  \nMatematikk  Figurtall  Kunne finne figurtall videre ut fra å se på figurrekkefølger eller tallrekkefølger  \nNaturfag  Den levende naturen  Kunne vite hvordan alt det levende i naturen samspiller med omgivelsene  \nKunne vite hva et økos"
 }
