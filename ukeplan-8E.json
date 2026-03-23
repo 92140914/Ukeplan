@@ -1,17 +1,17 @@
 {
-  "uke": 12,
+  "uke": 13,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-03-16T06:21:16.780371",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69810296",
+  "hentet_dato": "2026-03-23T06:12:44.136454",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69841615",
   "fag": {
     "norsk": {
-      "innhold": "Norsk   \n ARBEIDSPLAN for 8E uke 12  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "innhold": "Norsk",
       "sidetall": [],
       "oppgaver": []
     },
     "engelsk": {
-      "innhold": "Engelsk for.  You will work in stations today as \nusual.  We’ll continue with the film project today.   \nALF   \nValgfag",
+      "innhold": "Engelsk for.  We will work on our film project both Tuesday \nand Thursday this week.  Your group has to finish the script by \nthe end of class today.   \nALF   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
@@ -21,32 +21,32 @@
       "oppgaver": []
     },
     "krle": {
-      "innhold": "Fredag  KRLE  Prosjekt",
+      "innhold": "Fredag  KRLE",
       "sidetall": [],
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  Les s. 187 og 188 i boken og jobb 15 min med oppgaver s. 189 og 199. Dersom du har gjort oppgavene, er du \nferdig.",
-      "sidetall": [
-        "s. 187",
-        "s. 189"
-      ],
+      "innhold": "Matematikk  Treff meed barnekskole 11.45 - 12.45  \nLeksen ligger på campus inkrement  \n ARBEIDSPLAN for 8E uke 13  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "sidetall": [],
       "oppgaver": []
     },
     "naturfag": {
-      "innhold": "Naturfag  Gjør ferdig les og svar 1 -4 side 37.",
+      "innhold": "Naturfag  Gjør ferdig oppgave 5 -8 side 37.",
       "sidetall": [
         "s. 37"
       ],
-      "oppgaver": []
+      "oppgaver": [
+        "oppgave 5-8",
+        "oppgave 5"
+      ]
     },
     "kroppsøving": {
-      "innhold": "Kroppsøving  Håndball",
+      "innhold": "Kroppsøving  Håndball  \nKl 11.45 blir det treff med 9c og 1. trinn i gymsalen på barneskole",
       "sidetall": [],
       "oppgaver": []
     },
     "kunst": {
-      "innhold": "Kunst og håndverk  Popkunst  Jeg kan male et bilde i popkunst.  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
+      "innhold": "Kunst og håndverk  Søm/keramikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire.  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
       "sidetall": [],
       "oppgaver": []
     },
@@ -56,24 +56,21 @@
       "oppgaver": []
     },
     "spansk": {
-      "innhold": "Spansk  Oppgaveboken s. 45 og oppgave 1 s. \n46. Skriv i skriveboken din.  Oppgaveboken s. 48, oppgave 4. Skriv \nhele setninger i skriveboken.",
+      "innhold": "Spansk  Repeter klokken. Se s. 64 og 65 i boken.Bruk \ntimeplanen som du har laget tidligere og gjør \noppgave 4, men skriv 6 setninger i skriveboken \nom når (hvilken dag og hvilket klokkeslett) du \nhar noen timer du plukker ut.  Prøve i kap 3, mi colegio. Se \nclassroom for oppsummeringsark på \nhva du skal kunne i dette kapittelet.",
       "sidetall": [
-        "s. 45",
-        "s. 46",
-        "s. 48"
+        "s. 64"
       ],
       "oppgaver": [
-        "oppgave 1",
-        "oppgave 4."
+        "oppgave 4"
       ]
     },
     "fransk": {
-      "innhold": "Fransk  På torsdag har dere en skriftlig prøve. \nGå inn på Classroom for å se hvordan \ndu kan forberede deg til prøven.  Prøve",
+      "innhold": "Fransk  Leksen til i dag finner du i Classroom. \nLytteoppgaver!  Leksen til i dag finner du i Classroom.",
       "sidetall": [],
       "oppgaver": []
     },
     "tysk": {
-      "innhold": "vinteraktiviteter  Forbered deg til tyskprøven.  Prøve i tysk. Læringsmålene som du må \nkunne står på classroom.",
+      "innhold": "Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på \nmandag, så må de gjøre det i dag. \nPåskeverksted for de andre.  Frohe Ostern!",
       "sidetall": [],
       "oppgaver": []
     }
@@ -84,40 +81,61 @@
         "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag",
         "sidetall": [],
         "oppgaver": []
+      },
+      {
+        "beskrivelse": "Matematikk  Leksen ligger på campus inkrement   Naturfag  Gjør ferdig oppgave 5 -8 side 37. Torsdag  Samfunnsfag",
+        "sidetall": [
+          "s. 37"
+        ],
+        "oppgaver": [
+          "oppgave 5-8",
+          "oppgave 5"
+        ]
+      },
+      {
+        "beskrivelse": "Leksen ligger på campus inkrement   ARBEIDSPLAN for 8E uke 13 Mjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Fransk  Leksen til i dag finner du i Classroom.  Lytteoppgaver!  Leksen til i dag finner du i Classroom. Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på mandag, så må de",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Lytteoppgaver!  Leksen til i dag finner du i Classroom.    Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på mandag, så må de gjøre det i dag. Påskeverksted for de andre. ",
+        "sidetall": [],
+        "oppgaver": []
       }
     ],
     "prøver": [
       {
-        "beskrivelse": "Fransk  På torsdag har dere en skriftlig prøve.  Gå inn på Classroom for å se hvordan du kan forberede deg til prøven.  Prøve Tysk  Til i dag skal du lære deg 7",
+        "beskrivelse": "har noen timer du plukker ut.  Prøve i kap 3, mi colegio. Se  classroom for oppsummeringsark på hva du skal kunne i dette kapittelet. Fransk  Leksen til i dag finner du i Classroom.",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "du kan forberede deg til prøven.  Prøve    Tysk  Til i dag skal du lære deg 7 vinteraktiviteter  Forbered deg til tyskprøven.  Prøve i tysk. Læringsmålene som du må kunne står på classroom.",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "vinteraktiviteter  Forbered deg til tyskprøven.  Prøve i tysk. Læringsmålene som du må  kunne står på classroom.",
+        "beskrivelse": "Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på  mandag, så må de gjøre det i dag. Påskeverksted for de andre.  Frohe Ostern! Engelsk for.  We will work on our film proj",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "presentasjoner": [
       {
-        "beskrivelse": "Norsk  Presentasjon/video  Lage en presentasjon/video om boka di   Engelsk  The UK, Ireland and India  Know facts and be able to talk about the UK Samfunnsfag  Identitet  Drøfte ulike perspektiver på ",
+        "beskrivelse": "KRLE  GT Jeg forbereder presentasjonen min godt   Matematikk Naturfag  Den levende naturen  Kunne vite hvordan alt det levende i naturen samspiller med omgivelsene Kunne vite hva et økosystem er, og h",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Norsk  Lever inn og forbered deg til å holde presentasjonen / vise videoen din   Kroppsøving  Håndball Matematikk  Les s. 187 og 188 i boken og jobb 15 min med oppgaver s. 189 og 199. Dersom du har gj",
+        "beskrivelse": "KRLE  Presentasjon   Valgfag Tirsdag  Samfunnsfag Matematikk  Oppgave 3.47, 3.48 og 3.49 s. 193 – 194. Men sitt max 20 minutter.",
         "sidetall": [
-          "s. 187",
-          "s. 189"
+          "s. 193"
         ],
-        "oppgaver": []
+        "oppgaver": [
+          "oppgave 3.47"
+        ]
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 12  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg kjenner meg selv og vet hva jeg står for  \n- Jeg ber om hjelp hvis jeg er usikker  \n \n \n \n \nInfo:  \n- På fredag starter vi opp med svømmeundervising. Oppmøte på skolen til vanlig tid. Så tar vi buss sammen til Åstveithallen. \nTilbake på skolen til storefri. Husk egnet svømmetøy, håndkle og annet nødvendig utstyr.  \n  Emne:  Mål: \nNorsk  Presentasjon/video  Lage en presentasjon/video om boka di  \nEngelsk  The UK, Ireland and \nIndia  Know facts and be able to talk about the UK  \nSamfunnsfag  Identitet  Drøfte ulike perspektiver på identitetsutvikling  \nKRLE  Historiske personer \nfra GT  Jeg jobber godt med prosjektet mitt.  \nMatematikk  Figurtall  Kunne finne figurtall videre ut fra å se på figurrekkefølger eller tallrekkefølger  \nNaturfag  Den levende naturen  Kunne vite hvordan alt det levende i naturen samspiller med omgivelsene  \nKunne vite hva et økos"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 13  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS:  \nSelvhevdelse  \n- Jeg kjenner meg selv og vet hva jeg står for  \n- Jeg ber om hjelp hvis jeg er usikker  \n \n \n \nInfo: Denn uken er det fokusuke : \n-  Det blir oppstart kick -off mandag kl 10.00 - 10.20 på barneskolen.  \n- Treff mellom 8E, 9C og 1. trinn torsdag, kl 11.45 - 12.45  i gymsalen på barneskolen.  \n- Avslutning i klassen siste time fredag.  \n \n  Emne:  Mål: \nNorsk  Sammensatte tekster  Informere, fortelle, argumentere og reflektere i ulike sjangre og for ulike formål tilpasset mottaker og \nmedium  \nBegrunne valg av uttrykksformer i sammensatte tekster  \n  \nEngelsk  The UK  Know and be able to pass on facst about the 4 countries of the UK.  \nSamfunnsfag  Identitet  Reflektere over likskapar og ulikskapar i identitetar, levesett og kulturuttrykk  \nKRLE  GT Jeg forbereder presentasjonen min godt  \nMatematikk    \nNaturfag  Den levende naturen  Kunne vite hvordan alt d"
 }
