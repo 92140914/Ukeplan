@@ -1,9 +1,9 @@
 {
-  "uke": 13,
+  "uke": 15,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-03-23T06:12:44.136454",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69841615",
+  "hentet_dato": "2026-04-06T06:56:46.506121",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69879987",
   "fag": {
     "norsk": {
       "innhold": "Norsk",
@@ -11,7 +11,7 @@
       "oppgaver": []
     },
     "engelsk": {
-      "innhold": "Engelsk for.  We will work on our film project both Tuesday \nand Thursday this week.  Your group has to finish the script by \nthe end of class today.   \nALF   \nValgfag",
+      "innhold": "Engelsk for.  We are working on our film project. \nBring your CB fully charged.  We are continuing our film project. Bring \nyour CB fully charged.   \nALF   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
@@ -26,22 +26,20 @@
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  Treff meed barnekskole 11.45 - 12.45  \nLeksen ligger på campus inkrement  \n ARBEIDSPLAN for 8E uke 13  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "innhold": "Matematikk  Oppgave 3.60 - 3.71. Det er noen sider å lese innimellom, men dette gjør vi på skolen. Dere får også tid til å \njobbe med disse oppgavene i timen før (onsdag).",
+      "sidetall": [],
+      "oppgaver": [
+        "oppgave 3.60-3.71",
+        "oppgave 3.60"
+      ]
+    },
+    "naturfag": {
+      "innhold": "Naturfag  Videre arbeid med lekseinnlevering. Se også om du er i rute med opplegget tildelt på skolenmin.cdu.no.",
       "sidetall": [],
       "oppgaver": []
     },
-    "naturfag": {
-      "innhold": "Naturfag  Gjør ferdig oppgave 5 -8 side 37.",
-      "sidetall": [
-        "s. 37"
-      ],
-      "oppgaver": [
-        "oppgave 5-8",
-        "oppgave 5"
-      ]
-    },
     "kroppsøving": {
-      "innhold": "Kroppsøving  Håndball  \nKl 11.45 blir det treff med 9c og 1. trinn i gymsalen på barneskole",
+      "innhold": "Kroppsøving  Badminton",
       "sidetall": [],
       "oppgaver": []
     },
@@ -56,21 +54,21 @@
       "oppgaver": []
     },
     "spansk": {
-      "innhold": "Spansk  Repeter klokken. Se s. 64 og 65 i boken.Bruk \ntimeplanen som du har laget tidligere og gjør \noppgave 4, men skriv 6 setninger i skriveboken \nom når (hvilken dag og hvilket klokkeslett) du \nhar noen timer du plukker ut.  Prøve i kap 3, mi colegio. Se \nclassroom for oppsummeringsark på \nhva du skal kunne i dette kapittelet.",
+      "innhold": "Spansk  No deberes  De som ikke har hatt prøven vi hadde før \npåske, må ta den i denne timen. Lekse: \nOppgaveboken s. 60+61, oppgave 1 og \n2",
       "sidetall": [
-        "s. 64"
+        "s. 60"
       ],
       "oppgaver": [
-        "oppgave 4"
+        "oppgave 1"
       ]
     },
     "fransk": {
-      "innhold": "Fransk  Leksen til i dag finner du i Classroom. \nLytteoppgaver!  Leksen til i dag finner du i Classroom.",
+      "innhold": "Classroom om klokken på fransk til i dag",
       "sidetall": [],
       "oppgaver": []
     },
     "tysk": {
-      "innhold": "Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på \nmandag, så må de gjøre det i dag. \nPåskeverksted for de andre.  Frohe Ostern!",
+      "innhold": "Tysk  Tema: Die Jahreszeiten  \nVi starter med en presentasjon om \nårstidene.  Jobb videre med presentasjonen.  Ha klar presentasjonen din til i dag, vi skal \nbruke noe av timen til å øve til fremføringen \npå torsdag.",
       "sidetall": [],
       "oppgaver": []
     }
@@ -78,64 +76,73 @@
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Påskemandag Tirsdag  Samfunnsfag Matematikk  Ingen lekse",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Matematikk  Leksen ligger på campus inkrement   Naturfag  Gjør ferdig oppgave 5 -8 side 37. Torsdag  Samfunnsfag",
+        "beskrivelse": "Matematikk  Ingen lekse   Onsdag  K&H Kroppsøvi ng Skadefri Matematikk  Oppgv 3.52 - 3.59 s. 198 -199 i boken. Vi jobber også med disse oppgavene i timen på tirsdag.",
         "sidetall": [
-          "s. 37"
+          "s. 198-199",
+          "s. 198"
+        ],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Naturfag  Videre arbeid med lekseinnlevering. Se også om du er i rute med opplegget tildelt på skolenmin.cdu.no.   Torsdag  Samfunnsfag",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "påske, må ta den i denne timen. Lekse:  Oppgaveboken s. 60+61, oppgave 1 og",
+        "sidetall": [
+          "s. 60"
         ],
         "oppgaver": [
-          "oppgave 5-8",
-          "oppgave 5"
+          "oppgave 1"
         ]
-      },
-      {
-        "beskrivelse": "Leksen ligger på campus inkrement   ARBEIDSPLAN for 8E uke 13 Mjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Fransk  Leksen til i dag finner du i Classroom.  Lytteoppgaver!  Leksen til i dag finner du i Classroom. Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på mandag, så må de",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Lytteoppgaver!  Leksen til i dag finner du i Classroom.    Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på mandag, så må de gjøre det i dag. Påskeverksted for de andre. ",
-        "sidetall": [],
-        "oppgaver": []
       }
     ],
     "prøver": [
       {
-        "beskrivelse": "har noen timer du plukker ut.  Prøve i kap 3, mi colegio. Se  classroom for oppsummeringsark på hva du skal kunne i dette kapittelet. Fransk  Leksen til i dag finner du i Classroom.",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Tysk  Prøve i tysk. Se målene på classroom!  Hvis noen ikke har tatt prøven på  mandag, så må de gjøre det i dag. Påskeverksted for de andre.  Frohe Ostern! Engelsk for.  We will work on our film proj",
-        "sidetall": [],
-        "oppgaver": []
+        "beskrivelse": "Spansk  No deberes  De som ikke har hatt prøven vi hadde før  påske, må ta den i denne timen. Lekse: Oppgaveboken s. 60+61, oppgave 1 og",
+        "sidetall": [
+          "s. 60"
+        ],
+        "oppgaver": [
+          "oppgave 1"
+        ]
       }
     ],
     "presentasjoner": [
       {
-        "beskrivelse": "KRLE  GT Jeg forbereder presentasjonen min godt   Matematikk Naturfag  Den levende naturen  Kunne vite hvordan alt det levende i naturen samspiller med omgivelsene Kunne vite hva et økosystem er, og h",
+        "beskrivelse": "Naturfag  Videre arbeid med lekseinnlevering. Se også om du er i rute med opplegget tildelt på skolenmin.cdu.no.   Torsdag  Samfunnsfag",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "KRLE  Presentasjon   Valgfag Tirsdag  Samfunnsfag Matematikk  Oppgave 3.47, 3.48 og 3.49 s. 193 – 194. Men sitt max 20 minutter.",
-        "sidetall": [
-          "s. 193"
-        ],
-        "oppgaver": [
-          "oppgave 3.47"
-        ]
+        "beskrivelse": "Vi starter med en presentasjon om  årstidene.  Jobb videre med presentasjonen.  Ha klar presentasjonen din til i dag, vi skal bruke noe av timen til å øve til fremføringen på torsdag.",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "årstidene.  Jobb videre med presentasjonen.  Ha klar presentasjonen din til i dag, vi skal  bruke noe av timen til å øve til fremføringen på torsdag. Engelsk for.  We are working on our film project.",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "bruke noe av timen til å øve til fremføringen  på torsdag. Engelsk for.  We are working on our film project. Bring your CB fully charged.  We are continuing our film project. Bring",
+        "sidetall": [],
+        "oppgaver": []
+      }
+    ],
+    "innleveringer": [
+      {
+        "beskrivelse": "Naturfag  Videre arbeid med lekseinnlevering. Se også om du er i rute med opplegget tildelt på skolenmin.cdu.no.   Torsdag  Samfunnsfag",
+        "sidetall": [],
+        "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 13  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS:  \nSelvhevdelse  \n- Jeg kjenner meg selv og vet hva jeg står for  \n- Jeg ber om hjelp hvis jeg er usikker  \n \n \n \nInfo: Denn uken er det fokusuke : \n-  Det blir oppstart kick -off mandag kl 10.00 - 10.20 på barneskolen.  \n- Treff mellom 8E, 9C og 1. trinn torsdag, kl 11.45 - 12.45  i gymsalen på barneskolen.  \n- Avslutning i klassen siste time fredag.  \n \n  Emne:  Mål: \nNorsk  Sammensatte tekster  Informere, fortelle, argumentere og reflektere i ulike sjangre og for ulike formål tilpasset mottaker og \nmedium  \nBegrunne valg av uttrykksformer i sammensatte tekster  \n  \nEngelsk  The UK  Know and be able to pass on facst about the 4 countries of the UK.  \nSamfunnsfag  Identitet  Reflektere over likskapar og ulikskapar i identitetar, levesett og kulturuttrykk  \nKRLE  GT Jeg forbereder presentasjonen min godt  \nMatematikk    \nNaturfag  Den levende naturen  Kunne vite hvordan alt d"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 15  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg kjenner meg selv og vet hva jeg står for  \n- Jeg ber om hjelp hvis jeg er usikker  \n \nInfo:  \n• Håper alle har hatt en fin påskeferie!         \n• Minner om svømming på fredag. Ta med nødvendig utstyr.  \n• Elever som har valgfaget “fysisk aktivitet og helse” må ha med gymtøy til å være både inne og ute neste mandag.  \n  Emne:  Mål: \nNorsk  Tegneserier  Vite hvilke virkemidler som brukes i tegneserier  \nEngelsk  The UK, Ireland and \nIndia  Get to knoe traditions and cultrue in the UK  \nSamfunnsfag  Identitet  Kunne si noe om digital identitet og verdien av det  \nKRLE    \nMatematikk  Ligninger  Kunne løse enkle ligninger med flytte -bytte -metoden  \nNaturfag  Den levende naturen  Kunne finne kunnskap om hvordan mennesker påvirker naturen og artene rundt seg.  \nKroppsøving  Styrketrening og \nBadminton  Kjenne til prinsippene for skadeforebyggende trening  \nK"
 }
