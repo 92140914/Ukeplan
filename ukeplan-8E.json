@@ -1,73 +1,70 @@
 {
-  "uke": 16,
+  "uke": 17,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-04-13T07:17:19.217894",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69942377",
+  "hentet_dato": "2026-04-20T07:19:24.416932",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69981021",
   "fag": {
+    "samfunnsfag": {
+      "innhold": "Samfunnsfag",
+      "sidetall": [],
+      "oppgaver": []
+    },
     "norsk": {
       "innhold": "Norsk",
       "sidetall": [],
       "oppgaver": []
     },
     "engelsk": {
-      "innhold": "Engelsk for.  We will work on our film project both \nTuesday and Thursday this week. \nPractice your lines and be ready to \nfilm.   \nALF   \nValgfag",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "samfunnsfag": {
-      "innhold": "Samfunnsfag   \n ARBEIDSPLAN for 8E uke 16  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "innhold": "Engelsk for.  We are finishing our film project today \nand starting a new topic. Remember to \nhand in script and film on Classroom  Bring your Chromebook, notebook, and \npencil to class.   \nALF   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
     "krle": {
-      "innhold": "Fredag  KRLE",
+      "innhold": "Fredag  KRLE  Presentasjon",
       "sidetall": [],
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  Gjør oppgave 3.87 - 3.93 (gjør ferdig de oppgavene du ikke ble ferdig med på skolen) . Sitt max 30 min",
+      "innhold": "Matematikk  Lekse på campus",
       "sidetall": [],
-      "oppgaver": [
-        "oppgave 3.87-3.93",
-        "oppgave 3.87"
-      ]
+      "oppgaver": []
     },
     "naturfag": {
-      "innhold": "Naturfag  Sørg for at du har gjort alle oppgavene i lekseinnleveringen og skolenmin.cdu.no",
+      "innhold": "Naturfag  Lekseinnlevering i løpet av uken",
       "sidetall": [],
       "oppgaver": []
     },
     "kroppsøving": {
-      "innhold": "Kroppsøving  Badminton",
+      "innhold": "Kroppsøving",
       "sidetall": [],
       "oppgaver": []
     },
     "kunst": {
-      "innhold": "Kunst håndverk  Popkunst  Jeg kan ferdigstille popkunsten min.  \nFriluftsliv  Tur/ fiske  Buss til terminalen, går til Lagevatnet for å fiske. Klær etter vær, sekk og ekstra mat. Avslutter i Vågsbotn ca 16  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
+      "innhold": "Kunst / håndverk  Søm/kermaikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire.  \n Avspasering/ turmat  Vi avspaserer timen på mandag, men dere har i ukelekse å planlegge mat til overnattingsturen. Se \nclassroom  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
       "sidetall": [],
       "oppgaver": []
     },
     "matte": {
-      "innhold": "Matte",
+      "innhold": "Matte  \n5 13:20",
       "sidetall": [],
       "oppgaver": []
     },
     "spansk": {
-      "innhold": "Spansk  Du må kunne bruke verbet gustar (s. \n77 i boken). Se også skriveboken din.  Les. S. 78 i hovedboken. Lær glosene \nfra voluntario – llevar. Oversett teksten \nmuntlig for deg selv.",
+      "innhold": "Spansk  Lær deg å bøye verbet ir (= å gå). Se \ns. 81 i boken, grønn rute.  Lær deg tidsuttrykkene som står på s. 81 \ni boken.",
       "sidetall": [
-        "s. 77",
-        "s. 78"
+        "s. 81",
+        "s. 81"
       ],
       "oppgaver": []
     },
     "fransk": {
-      "innhold": "fransk.",
+      "innhold": "Fransk   .",
       "sidetall": [],
       "oppgaver": []
     },
     "tysk": {
-      "innhold": "Tysk  Vi jobber videre med presentasjonen \nom en årstid . I dag skal dere presentere om årstiden \nvår. Husk at det er viktig å snakke utenat \nså mye som mulig.  Vi starter med nytt tema: “Das finde ich gut ”",
+      "innhold": "Tysk  I dag må alle presentere. Husk å øve \ngodt på presentasjonen. Sjekk uttale \nog prøve å kunne teksten utenat mest \nmulig.  Vi starter på nytt kapittel: Das finde ich \ngut.",
       "sidetall": [],
       "oppgaver": []
     }
@@ -75,40 +72,92 @@
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag  -",
+        "beskrivelse": "Avspasering/ turmat  Vi avspaserer timen på mandag, men dere har i ukelekse å planlegge mat til overnattingsturen. Se  classroom",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Naturfag  Sørg for at du har gjort alle oppgavene i lekseinnleveringen og skolenmin.cdu.no   Torsdag  Samfunnsfag",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag  Lekseinnlevering i løpet av uken",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "minutter.  Leksen ligger på Classroom. Øving på å  snakke om skolen og hverdagen på fransk. Tysk  Vi jobber videre med presentasjonen",
+        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Matematikk  Lekse på campus   Onsdag  K&H Kroppsøvi ng",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken   Torsdag  Samfunnsfag",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Matematikk  Lekse på campus   Fredag  KRLE  Presentasjon",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Matematikk  Lekse på campus   Engelsk  Do ex. 2 p. 220.",
+        "sidetall": [],
+        "oppgaver": []
+      }
+    ],
+    "prøver": [
+      {
+        "beskrivelse": "- Terminprøvene begynner uke 18.   Emne:  Mål: Norsk  Tegneserier  Kunne lage en tegneserie med ulike visuelle virkemidler Engelsk  English speaking",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "og prøve å kunne teksten utenat mest  mulig.  Vi starter på nytt kapittel: Das finde ich",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "presentasjoner": [
       {
-        "beskrivelse": "Naturfag  Sørg for at du har gjort alle oppgavene i lekseinnleveringen og skolenmin.cdu.no   Torsdag  Samfunnsfag",
+        "beskrivelse": "KRLE  GT Jeg forbereder meg godt til presentasjonen   Matematikk  Ligninger Naturfag  Den levende naturen Kroppsøving",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Tysk  Vi jobber videre med presentasjonen  om en årstid . I dag skal dere presentere om årstiden vår. Husk at det er viktig å snakke utenat så mye som mulig.  Vi starter med nytt tema: “Das finde ich ",
+        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken   Torsdag  Samfunnsfag",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Fredag  KRLE  Presentasjon",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "godt på presentasjonen. Sjekk uttale  og prøve å kunne teksten utenat mest mulig.  Vi starter på nytt kapittel: Das finde ich",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "innleveringer": [
       {
-        "beskrivelse": "Naturfag  Sørg for at du har gjort alle oppgavene i lekseinnleveringen og skolenmin.cdu.no   Torsdag  Samfunnsfag",
+        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken   Torsdag  Samfunnsfag",
         "sidetall": [],
         "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 16  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg kjenner meg selv og vet hva jeg står for  \n- Jeg ber om hjelp hvis jeg er usikker  \n \nInfo:  \n \n• På fredag skal vi svømme med klær. Ta med bukse,genser,sokker og gjerne sko i tillegg til vanlig badetøy.  \n  Emne:  Mål: \nNorsk  Tegneserier  Kjenne til ulike virkemidler i en tegneserie. Lage en egen tegneserie.  \nEngelsk  The UK  Be able to talk about thngs typical of Britain  \nSamfunnsfag  Identitet  Kunne reflektere  rundt  og drøfte problemstillinger knyttet til identitet  \nKRLE    \nMatematikk  Ligninger  Kunne stille opp enkle ligninger (føre) og løse dem  \nNaturfag  Den levende naturen  Kunne vite hvordan alt det levende i naturen samspiller med omgivelsene  \nKunne vite hva et økosystem er, og hva det består av  \nKunne finne kunnskap om hvordan mennesker påvirker naturen og artene rundt seg  \nKroppsøving  Badminton  Kjenne til reglene for spill i bad"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 17  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg tør å si nei!  \n \nOrdenselever:  \nZoja:tar boss , vasker tavle, trekker tilbake gardienen  \nSeline , Mariell:  koster , minner elevene på å sette stolene på vipp under pulten  \n \nInfo:  \n- Vi skal på besøk til OneOcean i byen. Klassen reiser mellom 09.00 og 10.00 og kommer tilbake mellom 12.00 og 13.00.  \n- Fra neste uke blir det en timeplanendring. Det blir følgende endringer:  \no Mattetimen blir flyttet  fra 4. time onsdag til 04. time fredag . \no Engelsktimen blir flyttet fra 4. time fredag til 3. time fredag.  \no UV timen blir flyttet fra siste time fredag til 4. time onsdag . \no Samfunnsfag  blir flyttet  fra fredag 3. time til fredag 5. time.  \n- Svømming:  Denne uken skal vi svømme med klær. Ta med genser,bukse,og gjerne sko til å svømme med i tillegg til vanlig \nbadetøy.  \n- Terminprøvene begynner uke 18.  \n  Emne:  Mål: \nNorsk  Tegneserier  Kunn"
 }
