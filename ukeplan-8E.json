@@ -1,37 +1,40 @@
 {
-  "uke": 17,
+  "uke": 18,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-04-20T07:19:24.416932",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V69981021",
+  "hentet_dato": "2026-04-27T07:36:49.500898",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70019827",
   "fag": {
-    "samfunnsfag": {
-      "innhold": "Samfunnsfag",
-      "sidetall": [],
-      "oppgaver": []
-    },
     "norsk": {
-      "innhold": "Norsk",
-      "sidetall": [],
+      "innhold": "Fransk  Oversett side 56 til norsk i din egen \narbeidsbok, ikke på data. Bruk \ngloseliten ved siden av teksten til \nhjelp.  Lær deg minst 10 gloser fra side 56 \nutenat.  Du m å kunne skrive dem til i \ndag",
+      "sidetall": [
+        "s. 56",
+        "s. 56"
+      ],
       "oppgaver": []
     },
     "engelsk": {
-      "innhold": "Engelsk for.  We are finishing our film project today \nand starting a new topic. Remember to \nhand in script and film on Classroom  Bring your Chromebook, notebook, and \npencil to class.   \nALF   \nValgfag",
+      "innhold": "Engelsk for.  Writing session: It is important that you \nbring your Chromebook to class today.  Drømmeturné hele dagen.  \n  \nALF   \nValgfag",
+      "sidetall": [],
+      "oppgaver": []
+    },
+    "samfunnsfag": {
+      "innhold": "Torsdag  Samfunnsfag   \n \nMOTs drømmedag",
       "sidetall": [],
       "oppgaver": []
     },
     "krle": {
-      "innhold": "Fredag  KRLE  Presentasjon",
+      "innhold": "KRLE   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  Lekse på campus",
+      "innhold": "Matematikk  \nFredag   \n \n \n \n1. Mai - FRI \n \n \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag",
       "sidetall": [],
       "oppgaver": []
     },
     "naturfag": {
-      "innhold": "Naturfag  Lekseinnlevering i løpet av uken",
+      "innhold": "Naturfag",
       "sidetall": [],
       "oppgaver": []
     },
@@ -41,7 +44,7 @@
       "oppgaver": []
     },
     "kunst": {
-      "innhold": "Kunst / håndverk  Søm/kermaikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire.  \n Avspasering/ turmat  Vi avspaserer timen på mandag, men dere har i ukelekse å planlegge mat til overnattingsturen. Se \nclassroom  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
+      "innhold": "Kunst og håndverk  Selvportrett  Jeg kan lage et selvportrett.  \n ARBEIDSPLAN for 8E uke 18  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \n \nDag Fag Lekser",
       "sidetall": [],
       "oppgaver": []
     },
@@ -51,20 +54,14 @@
       "oppgaver": []
     },
     "spansk": {
-      "innhold": "Spansk  Lær deg å bøye verbet ir (= å gå). Se \ns. 81 i boken, grønn rute.  Lær deg tidsuttrykkene som står på s. 81 \ni boken.",
+      "innhold": "Spansk  Les teksten s. 82 og lær tilhørende \ngloser. Oversett teksten muntlig.  Utgår pga MOT drømmedag",
       "sidetall": [
-        "s. 81",
-        "s. 81"
+        "s. 82"
       ],
       "oppgaver": []
     },
-    "fransk": {
-      "innhold": "Fransk   .",
-      "sidetall": [],
-      "oppgaver": []
-    },
     "tysk": {
-      "innhold": "Tysk  I dag må alle presentere. Husk å øve \ngodt på presentasjonen. Sjekk uttale \nog prøve å kunne teksten utenat mest \nmulig.  Vi starter på nytt kapittel: Das finde ich \ngut.",
+      "innhold": "Tysk  Lær deg navn til 10 ting som du kan \nha på pizza.  Drømmeturné hele dagen.",
       "sidetall": [],
       "oppgaver": []
     }
@@ -72,92 +69,11 @@
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Avspasering/ turmat  Vi avspaserer timen på mandag, men dere har i ukelekse å planlegge mat til overnattingsturen. Se  classroom",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag  Lekseinnlevering i løpet av uken",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Matematikk  Lekse på campus   Onsdag  K&H Kroppsøvi ng",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken   Torsdag  Samfunnsfag",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Matematikk  Lekse på campus   Fredag  KRLE  Presentasjon",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Matematikk  Lekse på campus   Engelsk  Do ex. 2 p. 220.",
-        "sidetall": [],
-        "oppgaver": []
-      }
-    ],
-    "prøver": [
-      {
-        "beskrivelse": "- Terminprøvene begynner uke 18.   Emne:  Mål: Norsk  Tegneserier  Kunne lage en tegneserie med ulike visuelle virkemidler Engelsk  English speaking",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "og prøve å kunne teksten utenat mest  mulig.  Vi starter på nytt kapittel: Das finde ich",
-        "sidetall": [],
-        "oppgaver": []
-      }
-    ],
-    "presentasjoner": [
-      {
-        "beskrivelse": "KRLE  GT Jeg forbereder meg godt til presentasjonen   Matematikk  Ligninger Naturfag  Den levende naturen Kroppsøving",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken   Torsdag  Samfunnsfag",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Fredag  KRLE  Presentasjon",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "godt på presentasjonen. Sjekk uttale  og prøve å kunne teksten utenat mest mulig.  Vi starter på nytt kapittel: Das finde ich",
-        "sidetall": [],
-        "oppgaver": []
-      }
-    ],
-    "innleveringer": [
-      {
-        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Naturfag  Lekseinnlevering i løpet av uken   Torsdag  Samfunnsfag",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk  Today we shall prepare for our writing session nest week. Naturfag",
         "sidetall": [],
         "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 17  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg tør å si nei!  \n \nOrdenselever:  \nZoja:tar boss , vasker tavle, trekker tilbake gardienen  \nSeline , Mariell:  koster , minner elevene på å sette stolene på vipp under pulten  \n \nInfo:  \n- Vi skal på besøk til OneOcean i byen. Klassen reiser mellom 09.00 og 10.00 og kommer tilbake mellom 12.00 og 13.00.  \n- Fra neste uke blir det en timeplanendring. Det blir følgende endringer:  \no Mattetimen blir flyttet  fra 4. time onsdag til 04. time fredag . \no Engelsktimen blir flyttet fra 4. time fredag til 3. time fredag.  \no UV timen blir flyttet fra siste time fredag til 4. time onsdag . \no Samfunnsfag  blir flyttet  fra fredag 3. time til fredag 5. time.  \n- Svømming:  Denne uken skal vi svømme med klær. Ta med genser,bukse,og gjerne sko til å svømme med i tillegg til vanlig \nbadetøy.  \n- Terminprøvene begynner uke 18.  \n  Emne:  Mål: \nNorsk  Tegneserier  Kunn"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 18  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg tør å si nei!  \n \n \n \nInfo:  \nDet blir MOT sin d rømmeturné hele dagen torsdag 30.04.  \nFredag 1. mai er det arbeidernes dag og skolefri  \nFagdag i norsk onsdag 29. April. Ha med fulladet CB og en næringsrik matpakke  \nFagdag i engelsk mandag 04. Mai (uke 19) . Ha med fulladet CB og en næringsrik matpakke.  \n  Emne:  Mål: \nNorsk  Skrivetrening  Kunne skrive tekster med struktur  \nKunne svare på oppgaver om tekstforståelse  \nEngelsk  Preparation for our \nwriting session  Be able to write gtexts according to given tasks  \nSamfunnsfag  Den industrielle \nrevolusjonen  Kunne si noe om hva som var typisk for livet på 1800 -tallet  \nKRLE    \nMatematikk  Ligninger  Kunne løse ligninger med flytte -bytte og multiplikasjons - og divisjonsmetoden  \nNaturfag    \nKroppsøving    \nUV   \nKunst og håndverk  Selvportrett  Jeg kan lage et selvportrett.  \n ARBEIDSPLAN for 8"
 }
