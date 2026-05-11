@@ -1,25 +1,26 @@
 {
-  "uke": 18,
+  "uke": 20,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-04-27T07:36:49.500898",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70019827",
+  "hentet_dato": "2026-05-11T08:28:22.687077",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70104597",
   "fag": {
     "norsk": {
-      "innhold": "Fransk  Oversett side 56 til norsk i din egen \narbeidsbok, ikke på data. Bruk \ngloseliten ved siden av teksten til \nhjelp.  Lær deg minst 10 gloser fra side 56 \nutenat.  Du m å kunne skrive dem til i \ndag",
+      "innhold": "Spansk  Les s. 84 -85 (på norsk). Les også \ngjennom s. 86 (en repetisjon på hva \ndu skal kunne i kapitlet)  Día de la acensión de Cristo",
       "sidetall": [
-        "s. 56",
-        "s. 56"
+        "s. 84-85",
+        "s. 84",
+        "s. 86"
       ],
       "oppgaver": []
     },
     "engelsk": {
-      "innhold": "Engelsk for.  Writing session: It is important that you \nbring your Chromebook to class today.  Drømmeturné hele dagen.  \n  \nALF   \nValgfag",
+      "innhold": "Engelsk for.     \nALF Til gruppen som skal være på verkstedet:  \n Husk å ta med sko som egner seg til å gå i. Vi skal gå stien opp til gapahuken for \nå se på et arbeid vi skal utføre der senere i vår.   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
     "samfunnsfag": {
-      "innhold": "Torsdag  Samfunnsfag   \n \nMOTs drømmedag",
+      "innhold": "Samfunnsfag  I dag skal dere holde mini -presentasjonene om oppfinnelser under den industrielle revolusjonen. Forbered \ndere til presentasjonen før timen.  \nUV Skriv ned notater i følelsesdagbok (du fikk kopi)",
       "sidetall": [],
       "oppgaver": []
     },
@@ -29,51 +30,72 @@
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  \nFredag   \n \n \n \n1. Mai - FRI \n \n \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag",
+      "innhold": "Matematikk  Øv til mattetentamen. Dere får del 2 neste tirsdag 3 og 4 time. Del 1 blir samme uke men en mattetime  \nOnsdag  K&H",
       "sidetall": [],
       "oppgaver": []
     },
     "naturfag": {
-      "innhold": "Naturfag",
+      "innhold": "Naturfag   \nTorsdag   \n \n \nFRI \nFredag   \n \n \n \n \n \nFRI \n \n \n ARBEIDSPLAN for 8E uke 20  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag",
       "sidetall": [],
       "oppgaver": []
     },
     "kroppsøving": {
-      "innhold": "Kroppsøving",
+      "innhold": "Kroppsøving  Lek rene på og utvikle ferdigheter i varierte bevegelsesaktiviteter  \nUV Emosjoner  Kunne analysere emosjoner hos seg selv og andre",
       "sidetall": [],
       "oppgaver": []
     },
     "kunst": {
-      "innhold": "Kunst og håndverk  Selvportrett  Jeg kan lage et selvportrett.  \n ARBEIDSPLAN for 8E uke 18  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \n \nDag Fag Lekser",
+      "innhold": "Kunst og håndverk  Selvportrett  Jeg kan lage et selvportrett.  \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20",
       "sidetall": [],
       "oppgaver": []
     },
     "matte": {
-      "innhold": "Matte  \n5 13:20",
+      "innhold": "13:10  Valgfag/KRLE  Matte  UV \n \n5 13:20",
       "sidetall": [],
       "oppgaver": []
     },
-    "spansk": {
-      "innhold": "Spansk  Les teksten s. 82 og lær tilhørende \ngloser. Oversett teksten muntlig.  Utgår pga MOT drømmedag",
-      "sidetall": [
-        "s. 82"
-      ],
+    "fransk": {
+      "innhold": "Fransk  Classroom: Gjennomfør “Refleksive \nverb”: Øverom 1 til 8  Jour férié.",
+      "sidetall": [],
       "oppgaver": []
     },
     "tysk": {
-      "innhold": "Tysk  Lær deg navn til 10 ting som du kan \nha på pizza.  Drømmeturné hele dagen.",
-      "sidetall": [],
+      "innhold": "Tysk  Husk å ta med prøven din!  \nTil i dag skal du kunne bøye verbet \n“essen” (s. 58 i arbeidsboken ) Christie Himmelfahrt  Til i dag skal du kunne bøye verbene \n“mögen” og “sein” (se öving",
+      "sidetall": [
+        "s. 58"
+      ],
       "oppgaver": []
     }
   },
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk  Today we shall prepare for our writing session nest week. Naturfag",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk  Today you chall pick 3 different topics about India and try to find more information about them . You shall share with the class / the group what you found out. Natur",
+        "sidetall": [],
+        "oppgaver": []
+      }
+    ],
+    "prøver": [
+      {
+        "beskrivelse": "Tysk  Husk å ta med prøven din!   Til i dag skal du kunne bøye verbet “essen” (s. 58 i arbeidsboken ) Christie Himmelfahrt  Til i dag skal du kunne bøye verbene “mögen” og “sein” (se öving",
+        "sidetall": [
+          "s. 58"
+        ],
+        "oppgaver": []
+      }
+    ],
+    "presentasjoner": [
+      {
+        "beskrivelse": "Samfunnsfag  I dag skal dere holde mini -presentasjonene om oppfinnelser under den industrielle revolusjonen. Forbered  dere til presentasjonen før timen. UV Skriv ned notater i følelsesdagbok (du fik",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "dere til presentasjonen før timen.   UV Skriv ned notater i følelsesdagbok (du fikk kopi) Naturfag Torsdag",
         "sidetall": [],
         "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 18  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Selvhevdelse  \n- Jeg tør å si nei!  \n \n \n \nInfo:  \nDet blir MOT sin d rømmeturné hele dagen torsdag 30.04.  \nFredag 1. mai er det arbeidernes dag og skolefri  \nFagdag i norsk onsdag 29. April. Ha med fulladet CB og en næringsrik matpakke  \nFagdag i engelsk mandag 04. Mai (uke 19) . Ha med fulladet CB og en næringsrik matpakke.  \n  Emne:  Mål: \nNorsk  Skrivetrening  Kunne skrive tekster med struktur  \nKunne svare på oppgaver om tekstforståelse  \nEngelsk  Preparation for our \nwriting session  Be able to write gtexts according to given tasks  \nSamfunnsfag  Den industrielle \nrevolusjonen  Kunne si noe om hva som var typisk for livet på 1800 -tallet  \nKRLE    \nMatematikk  Ligninger  Kunne løse ligninger med flytte -bytte og multiplikasjons - og divisjonsmetoden  \nNaturfag    \nKroppsøving    \nUV   \nKunst og håndverk  Selvportrett  Jeg kan lage et selvportrett.  \n ARBEIDSPLAN for 8"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 20  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: PALS: Ansvarlighet  \n \nJeg bryr meg og gir beskjed hvis jeg ser eller opplever negativ atferd  \n \nInfo:  \n- Denne uken er det kun 3 skoledager. Både torsdag (Kristi himmelfartsdagen) og fredag (planleggingsdag) er fri foe elevene.  \n- Neste gang blir det svømming fredag 22.mai.  \n \n \n  Emne:  Mål: \nNorsk  Sidemål  Kunne si noe om plottet i romanen Dagen om natta  \nKunne de viktigste reglene i nynorsk  \nEngelsk  India  Be able to find out information about three self -chosen themes about India and report that to the \nclass.  \nSamfunnsfag  Den industrielle \nrevolusjonen  Kunne si noe om en oppfinnelse under den industrielle revolusjonen  \nKRLE    \nMatematikk  Tentamen  Kunne emner vi har hatt i 8.trinn (vi lager en oversikt og repeterer)  \nNaturfag  Den levende naturen  Ha kunnskap om alle punkter på målarket  \nKroppsøving  Lek rene på og utvikle ferdigheter i varierte bevegel"
 }
