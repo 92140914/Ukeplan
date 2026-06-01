@@ -1,64 +1,78 @@
 {
-  "uke": 22,
+  "uke": 23,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-05-25T09:01:28.321166",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70189388",
+  "hentet_dato": "2026-06-01T10:26:33.481922",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70228686",
   "fag": {
-    "engelsk": {
-      "innhold": "Engelsk for.  Studiedag hjemme  We will finish the movie and prepare \nfor the mini talks.   \nALF   \nValgfag",
-      "sidetall": [],
-      "oppgaver": []
-    },
     "norsk": {
       "innhold": "Norsk",
       "sidetall": [],
       "oppgaver": []
     },
+    "engelsk": {
+      "innhold": "Engelsk for.  We are having a mini talk about the \nmovie “Rabbit proof fence”.  We are having a mini talk about the \nmovie “Rabbit proof fence”.   \nALF   \nValgfag",
+      "sidetall": [],
+      "oppgaver": []
+    },
     "samfunnsfag": {
-      "innhold": "Samfunnsfag  Minner om fotballtrøye -fredag        Støtt en god sak ved å ta på deg en fotballtrøye, om du har en liggende \nhjemme.  \n \n \n ARBEIDSPLAN for 8E uke 22  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag",
+      "innhold": "Samfunnsfag   \n \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag  \n ARBEIDSPLAN for 8 E uke 23  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "sidetall": [],
+      "oppgaver": []
+    },
+    "krle": {
+      "innhold": "Fredag  KRLE  Forberedelse",
       "sidetall": [],
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk",
-      "sidetall": [],
-      "oppgaver": []
+      "innhold": "Matematikk  Les s. 251 – 253 og gjør oppgave 4.12 s. 254",
+      "sidetall": [
+        "s. 251",
+        "s. 254"
+      ],
+      "oppgaver": [
+        "oppgave 4.12"
+      ]
     },
     "naturfag": {
-      "innhold": "Naturfag  Naturfagsprøve !",
+      "innhold": "Naturfag",
       "sidetall": [],
       "oppgaver": []
     },
     "kroppsøving": {
-      "innhold": "Kroppsøving  Basketball",
+      "innhold": "Kroppsøving  Vi er ute på fotballbanen og har for skjellige aktiviteter. Husk utegymtøy!",
       "sidetall": [],
       "oppgaver": []
     },
     "kunst": {
-      "innhold": "Kunst og håndverk  Selvportrett  Jeg kan laget et selvportrett.  \n \n \n Time  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20  \n09:20   \n2. pinsedag  \n \nElevfri   \n \nStudiedag hjemme  K & H",
+      "innhold": "Kunst og håndverk  Søm/keramikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire.  \n ARBEIDSPLAN for 8 E uke 23  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \n \n \n \nDag Fag Lekser",
       "sidetall": [],
       "oppgaver": []
     },
     "matte": {
-      "innhold": "Matte   Pass på at du har fått gjort ferdig disse oppgavene: 4.101 - 4.105 s. 158 – 162. Vi har startet på nytt kap, om \nkoordinatsystem og funksjoner.",
+      "innhold": "Matte  Gjør ferdig oppgave 4.15 - 4. 18 s. 260 - 261",
       "sidetall": [
-        "s. 158"
+        "s. 260-261",
+        "s. 260"
       ],
-      "oppgaver": []
-    },
-    "krle": {
-      "innhold": "Fredag  KRLE",
-      "sidetall": [],
-      "oppgaver": []
+      "oppgaver": [
+        "oppgave 4.15-4.",
+        "oppgave 4.15"
+      ]
     },
     "spansk": {
-      "innhold": "Spansk  Fri PRØVE  i kap 4. Målark ligger på \nclassroom. Husk at gloser til kap ikke \nskal pugges, kun leses gjennom. Vi har \nheller ikke hatt om navn på dyr, så det \nfår du ikke.",
-      "sidetall": [],
-      "oppgaver": []
+      "innhold": "Spansk  Gjør oppgave 2 og 3 s. 91 i boken \n(nytt kapittel)  Repeter tallene fra 1 -100 (se s. 91 i \nboken)",
+      "sidetall": [
+        "s. 91",
+        "s. 91"
+      ],
+      "oppgaver": [
+        "oppgave 2"
+      ]
     },
     "fransk": {
-      "innhold": "Fransk   . Les side 64 i boken og gjør oppgave 1 \npå side 65",
+      "innhold": "Fransk  Fra forrige uke: Les side 64 i boken og \ngjør oppgave 1 på side 65  \nSe på leksen til torsdag  \n Muntlig høring. Se beskrivelsen i \nClassroom",
       "sidetall": [
         "s. 64",
         "s. 65"
@@ -68,48 +82,47 @@
       ]
     },
     "tysk": {
-      "innhold": "Tysk  Hjemmeskole  Se på glosene s. 73 og skriv ned  / \noversett  10 verb som beskriver \nmatlagingsteknikker  (f. Eks kneten – \nkna). Pugg dem til i dag.",
-      "sidetall": [
-        "s. 73"
-      ],
+      "innhold": "Tysk  Til i dag skal dere oversette skriftlig  \noppskriften om Flammkuchen. Dere \nskal skrive fra hånd i skriveboken  De som vil kan baken en Flammkuchen \ntil i dag og ta den med til timen.",
+      "sidetall": [],
       "oppgaver": []
     }
   },
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag   Time  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag 1 08:20",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Se på leksen til torsdag   Muntlig høring. Se beskrivelsen i Classroom Tysk  Til i dag skal dere oversette skriftlig",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "prøver": [
       {
-        "beskrivelse": "- Naturfagsprøve onsdag 27.mai , spanskprøve torsdag 28. mai   - Fotballtrøye -fredag 29.mai for å støtte barnekreftforeningen! Ta på valgfri fotballtrøye for å støtte en god sak! 😊 - 16. og 17. juni ",
+        "beskrivelse": "KRLE  Jødedom  Jeg forbereder meg godt til prøven   Matematikk  Funksjoner  Kunne lese av ulike grafer, og kunne forstå koordinatsystem og koordinater Naturfag  Mennesket og naturen  Forstå menneskets",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Naturfag  Prøve  Være godt forberedt til prøve på onsdag   Kroppsøving  Basketball  skuddteknikk UV Mine styrker og kvaliteter  Kjenne seg selv og vite hva man er god til og hvordan man kan utvide kom",
+        "beskrivelse": "Friluftsliv  Teori  En oppsummering av året og en liten test.   Kunst og håndverk  Søm/keramikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire. ARBEIDSPLAN for 8 E uke 23 Mjølkeråen skole, Ma",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Naturfag : Øv til prøven i morgen   Onsdag  K&H",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Naturfag  Naturfagsprøve !  Torsdag  Samfunnsfag",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Spansk  Fri PRØVE  i kap 4. Målark ligger på  classroom. Husk at gloser til kap ikke skal pugges, kun leses gjennom. Vi har heller ikke hatt om navn på dyr, så det",
-        "sidetall": [],
-        "oppgaver": []
+        "beskrivelse": "Engelsk  I dag skal vi ta lytteprøve.   Matte  Gjør ferdig oppgave 4.15 - 4. 18 s. 260 - 261 Samfunnsfag",
+        "sidetall": [
+          "s. 260-261",
+          "s. 260"
+        ],
+        "oppgaver": [
+          "oppgave 4.15-4.",
+          "oppgave 4.15"
+        ]
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 22  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Ansvarlighet  \n \nJeg bidrar til at andre har det tryg t og trives på skolen.  \nJeg tar ansvar for mine egne valg.  \n \nInfo:  \n- Mandag er  det pinsemandag og skolefri  \n- Tirsdag 22.05  blir det studiedag hjemme. Dere skal få oppgaver i engelsk, KRLE og gym. Sjekk ukeplan en / classroom for oppgaver . \n- Naturfagsprøve onsdag 27.mai , spanskprøve torsdag 28. mai  \n- Fotballtrøye -fredag 29.mai for å støtte barnekreftforeningen! Ta på valgfri fotballtrøye for å støtte en god sak! 😊 \n- 16. og 17. juni blir det jobbskygging for alle 8. klassene. Det er viktig at dere finner ut i god tid hvem dere skal følge på jobb.  \n  Emne:  Mål: \nNorsk  Sidemål  Kunne reglene for substantiv - og verbbøying på nynorsk.  \nEngelsk  India  Be able to talk about and answer questions about chosen topics about India  \nSamfunnsfag  Den industrielle \nrevolusjonen  Kunne årsaker til og konsekvenser av"
+  "rå_tekst": " ARBEIDSPLAN for 8 E uke 23  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Ansvarlighet  \n \nJeg bidrar til at andre har det trygt og trives på skolen.  \nJeg tar ansvar for mine egne valg.  \n \nInfo:  \n- Minner om at det blir jobbskygging 16. og 17. juni for alle på 8. trinn.  \nDet er viktig at dere finner ut i god tid hvem dere skal følge på jobb.  \n  Emne:  Mål: \nNorsk  Sidemål og \nskjønnlitterære tekster  Kunne si noe om plottet, tema og budskap i  Dagen om natta.  \nKunne hovedregelen for verb på nynorsk  \nEngelsk  Listen to text  Be able to understand oral English  \nSamfunnsfag  Den industrielle \nrevolusjonen  Kunne si noe om årsaker til og konsekvenser av den industrielle revolusjonen  \nKRLE  Jødedom  Jeg forbereder meg godt til prøven  \nMatematikk  Funksjoner  Kunne lese av ulike grafer, og kunne forstå koordinatsystem og koordinater  \nNaturfag  Mennesket og naturen  Forstå menneskets plass i naturen og hvordan vi er avhengig av den  \nKroppsøv"
 }
