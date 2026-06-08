@@ -1,39 +1,34 @@
 {
-  "uke": 23,
+  "uke": 24,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-06-01T10:26:33.481922",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70228686",
+  "hentet_dato": "2026-06-08T09:26:42.158612",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70274867",
   "fag": {
+    "samfunnsfag": {
+      "innhold": "Samfunnsfag  Vi leverer inn bøkene. Se gjennom at du har alt, og at bøkene ser ok ut.  \n \n ARBEIDSPLAN for 8E uke 24  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag",
+      "sidetall": [],
+      "oppgaver": []
+    },
     "norsk": {
       "innhold": "Norsk",
       "sidetall": [],
       "oppgaver": []
     },
     "engelsk": {
-      "innhold": "Engelsk for.  We are having a mini talk about the \nmovie “Rabbit proof fence”.  We are having a mini talk about the \nmovie “Rabbit proof fence”.   \nALF   \nValgfag",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "samfunnsfag": {
-      "innhold": "Samfunnsfag   \n \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag  \n ARBEIDSPLAN for 8 E uke 23  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30",
+      "innhold": "Engelsk for.   Be prepared to have a talk about the \nmovie “Rabbit proof fence”.   \nALF   \nValgfag",
       "sidetall": [],
       "oppgaver": []
     },
     "krle": {
-      "innhold": "Fredag  KRLE  Forberedelse",
+      "innhold": "Fredag  KRLE  PRØVE I JØDEDOMMEN",
       "sidetall": [],
       "oppgaver": []
     },
     "matematikk": {
-      "innhold": "Matematikk  Les s. 251 – 253 og gjør oppgave 4.12 s. 254",
-      "sidetall": [
-        "s. 251",
-        "s. 254"
-      ],
-      "oppgaver": [
-        "oppgave 4.12"
-      ]
+      "innhold": "Matematikk  Lekse på campus . Se hele videoen før du starter på oppgaver. Sitt tilsammen ca 30 min",
+      "sidetall": [],
+      "oppgaver": []
     },
     "naturfag": {
       "innhold": "Naturfag",
@@ -41,48 +36,30 @@
       "oppgaver": []
     },
     "kroppsøving": {
-      "innhold": "Kroppsøving  Vi er ute på fotballbanen og har for skjellige aktiviteter. Husk utegymtøy!",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "kunst": {
-      "innhold": "Kunst og håndverk  Søm/keramikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire.  \n ARBEIDSPLAN for 8 E uke 23  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \n \n \n \nDag Fag Lekser",
+      "innhold": "Kroppsøving  Utegym!",
       "sidetall": [],
       "oppgaver": []
     },
     "matte": {
-      "innhold": "Matte  Gjør ferdig oppgave 4.15 - 4. 18 s. 260 - 261",
-      "sidetall": [
-        "s. 260-261",
-        "s. 260"
-      ],
-      "oppgaver": [
-        "oppgave 4.15-4.",
-        "oppgave 4.15"
-      ]
+      "innhold": "Matte  Lekse på campus. Se hele videoen før du starter på oppgaver. Sitt tilsammen ca 30 min",
+      "sidetall": [],
+      "oppgaver": []
     },
     "spansk": {
-      "innhold": "Spansk  Gjør oppgave 2 og 3 s. 91 i boken \n(nytt kapittel)  Repeter tallene fra 1 -100 (se s. 91 i \nboken)",
+      "innhold": "Spansk  Bergenfest  Les teksten s.92. Pugg glosene til. \nRepeter fargene s 93",
       "sidetall": [
-        "s. 91",
-        "s. 91"
+        "s. 92",
+        "s. 93"
       ],
-      "oppgaver": [
-        "oppgave 2"
-      ]
+      "oppgaver": []
     },
     "fransk": {
-      "innhold": "Fransk  Fra forrige uke: Les side 64 i boken og \ngjør oppgave 1 på side 65  \nSe på leksen til torsdag  \n Muntlig høring. Se beskrivelsen i \nClassroom",
-      "sidetall": [
-        "s. 64",
-        "s. 65"
-      ],
-      "oppgaver": [
-        "oppgave 1"
-      ]
+      "innhold": "Fransk  Bergensfest  .Muntlige høringer. Se Classroom for \nkrav og beskrivelse",
+      "sidetall": [],
+      "oppgaver": []
     },
     "tysk": {
-      "innhold": "Tysk  Til i dag skal dere oversette skriftlig  \noppskriften om Flammkuchen. Dere \nskal skrive fra hånd i skriveboken  De som vil kan baken en Flammkuchen \ntil i dag og ta den med til timen.",
+      "innhold": "Tysk  Bergenfest  I dag skal vi lage et lite rollespill om å \nvære på pizzarestaurant.",
       "sidetall": [],
       "oppgaver": []
     }
@@ -90,39 +67,43 @@
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk Naturfag   Time  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag 1 08:20",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk  Til i dag må dere huske å ta med kontrakten for jobbskygging Naturfag Norsk  Skriveøkt på nynorsk. CB kommer til å være i eksamensmodus, men dere har fremdeles tilgan",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Se på leksen til torsdag   Muntlig høring. Se beskrivelsen i Classroom Tysk  Til i dag skal dere oversette skriftlig",
+        "beskrivelse": "Matematikk  Lekse på campus . Se hele videoen før du starter på oppgaver. Sitt tilsammen ca 30 min   Fredag  KRLE  PRØVE I JØDEDOMMEN Kroppsøving  Utegym! Engelsk  Use your first name and make an acro",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Matte  Lekse på campus. Se hele videoen før du starter på oppgaver. Sitt tilsammen ca 30 min",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "prøver": [
       {
-        "beskrivelse": "KRLE  Jødedom  Jeg forbereder meg godt til prøven   Matematikk  Funksjoner  Kunne lese av ulike grafer, og kunne forstå koordinatsystem og koordinater Naturfag  Mennesket og naturen  Forstå menneskets",
+        "beskrivelse": "KRLE  Jødedommen  Jeg gjør det så bra jeg kan på prøven   Matematikk Naturfag  Mennesket og naturen  Ha kunnskap om hvordan  samfunn et vårt påvirker ulike arter og øksystemer på jorden Kroppsøving  U",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Friluftsliv  Teori  En oppsummering av året og en liten test.   Kunst og håndverk  Søm/keramikk  Jeg kan sy et handlenett. Jeg kan lage en kopp i leire. ARBEIDSPLAN for 8 E uke 23 Mjølkeråen skole, Ma",
+        "beskrivelse": "Norsk  Skriveøkt på nynorsk. CB kommer til å være i eksamensmodus, men dere har fremdeles tilgang til  ordbokene.no, Clarify og andre hjelpemidler. Lykke til",
         "sidetall": [],
         "oppgaver": []
       },
       {
-        "beskrivelse": "Engelsk  I dag skal vi ta lytteprøve.   Matte  Gjør ferdig oppgave 4.15 - 4. 18 s. 260 - 261 Samfunnsfag",
-        "sidetall": [
-          "s. 260-261",
-          "s. 260"
-        ],
-        "oppgaver": [
-          "oppgave 4.15-4.",
-          "oppgave 4.15"
-        ]
+        "beskrivelse": "Torsdag  Samfunnsfag  Prøve i samfunnsfag i andre time. Dere finner målark i Classroom.",
+        "sidetall": [],
+        "oppgaver": []
+      },
+      {
+        "beskrivelse": "Fredag  KRLE  PRØVE I JØDEDOMMEN   Kroppsøving  Utegym! Engelsk  Use your first name and make an acrostic poem of it: find a positive adjective with each letter of our name. Write the acrostic poem on",
+        "sidetall": [],
+        "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8 E uke 23  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Ansvarlighet  \n \nJeg bidrar til at andre har det trygt og trives på skolen.  \nJeg tar ansvar for mine egne valg.  \n \nInfo:  \n- Minner om at det blir jobbskygging 16. og 17. juni for alle på 8. trinn.  \nDet er viktig at dere finner ut i god tid hvem dere skal følge på jobb.  \n  Emne:  Mål: \nNorsk  Sidemål og \nskjønnlitterære tekster  Kunne si noe om plottet, tema og budskap i  Dagen om natta.  \nKunne hovedregelen for verb på nynorsk  \nEngelsk  Listen to text  Be able to understand oral English  \nSamfunnsfag  Den industrielle \nrevolusjonen  Kunne si noe om årsaker til og konsekvenser av den industrielle revolusjonen  \nKRLE  Jødedom  Jeg forbereder meg godt til prøven  \nMatematikk  Funksjoner  Kunne lese av ulike grafer, og kunne forstå koordinatsystem og koordinater  \nNaturfag  Mennesket og naturen  Forstå menneskets plass i naturen og hvordan vi er avhengig av den  \nKroppsøv"
+  "rå_tekst": " ARBEIDSPLAN for 8E uke 24  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Ansvarlighet   \n  \nJeg bidrar til at andre har det trygt og trives på skolen.   \nJeg tar ansvar for mine egne valg.   \n \nInfo:  \n- Tirsdag skal vi på Lepramuseet og på Bergenfest UNG. Elevene møter ved inngangen til togstasjonen i Bergen sentrum \nklokka 09:45 . Vi skal være på omvisning i omtrent en time før vi rusler bort til Bergenhus festning for Marstein -konsert. \nKonserten er ferdig ca. 13:00.  Vi ønsker beskjed om din ungdom skal ta følge med lærer fra og/eller tilbake til skolen . \n- Onsdag skal elevene ha studiedag hjemme.  Opplegg finner du i Classroom eller på ukeplanen.  Ikke innlevert arbeid gir \nfravær.   \n- Torsdag  gjennomfører vi en vurderingsøkt i samfunnsfag. Målark finner du i Classroom.  \n- Fredag skal elevene levere inn lærebøkene sine. Ta med alle bøkene på skolen , og sjekk at de ser ok ut før du leverer de \ninn. Dersom bøkene ikke leveres , må de ers"
 }
