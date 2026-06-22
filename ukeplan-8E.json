@@ -1,91 +1,25 @@
 {
-  "uke": 25,
+  "uke": 26,
   "år": 2026,
   "klasse": "8E",
-  "hentet_dato": "2026-06-15T11:18:19.263085",
-  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70317461",
-  "fag": {
-    "norsk": {
-      "innhold": "Norsk",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "engelsk": {
-      "innhold": "Engelsk for.     \nALF   \nValgfag",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "samfunnsfag": {
-      "innhold": "Samfunnsfag   \n \n \n ARBEIDSPLAN for 8E uke 25  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \nVALGFAG/SPRÅK/ALF  \nFag Tirsdag  Torsdag  Til  neste tirsdag",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "krle": {
-      "innhold": "Fredag  KRLE",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "matematikk": {
-      "innhold": "Matematikk  Lekse på campus. Dette er ting dere får på prøven i morgen . Sitt minst 30 min. Se også på det andre som \nligger ute om funksjoner.",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "naturfag": {
-      "innhold": "Naturfag",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "kroppsøving": {
-      "innhold": "Kroppsøving",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "matte": {
-      "innhold": "Matte  Prøve i funksjoner på campus",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "spansk": {
-      "innhold": "Spansk",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "fransk": {
-      "innhold": "Fransk   .",
-      "sidetall": [],
-      "oppgaver": []
-    },
-    "tysk": {
-      "innhold": "Tysk  Alle må ha med ferdig meny til i dag. \nVi skal øve oss på rollespill.  Dere kan \ngjeren skrive ned teksten og deretter \nøve dere til å fremføre.  I dag skal alle gruppene fremføre \nrollespill de har laget siste time.  Aktivitetsdag",
-      "sidetall": [],
-      "oppgaver": []
-    }
-  },
+  "hentet_dato": "2026-06-22T10:43:58.130422",
+  "kilde_url": "https://www.bergen.kommune.no/api/rest/filer/V70394057",
+  "fag": {},
   "kategorier": {
     "lekser": [
       {
-        "beskrivelse": "Dag Fag Lekser   Mandag  Engelsk  Sjekk om du har gjort alle øvinger fra fredagstimen i classroom. Naturfag",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Matematikk  Lekse på campus. Dette er ting dere får på prøven i morgen . Sitt minst 30 min. Se også på det andre som  ligger ute om funksjoner. Fredag  KRLE Kroppsøving",
+        "beskrivelse": "Dag Fag Lekser   Mandag  Ta med Chromebook og lader  om du ikke har levert det De som ikke har hatt matteprøve, skal ha det på mandag.",
         "sidetall": [],
         "oppgaver": []
       }
     ],
     "prøver": [
       {
-        "beskrivelse": "Matematikk  Lekse på campus. Dette er ting dere får på prøven i morgen . Sitt minst 30 min. Se også på det andre som  ligger ute om funksjoner. Fredag  KRLE Kroppsøving",
-        "sidetall": [],
-        "oppgaver": []
-      },
-      {
-        "beskrivelse": "Matte  Prøve i funksjoner på campus   Samfunnsfag",
+        "beskrivelse": "De som ikke har hatt matteprøve, skal ha det på mandag.",
         "sidetall": [],
         "oppgaver": []
       }
     ]
   },
-  "rå_tekst": " ARBEIDSPLAN for 8E uke 25  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS: Ansvarlighet   \n  \nJeg bidrar til at andre har det trygt og trives på skolen.   \nJeg tar ansvar for mine egne valg.   \n \nInfo:  \n- Jobbskygging tirsdag og onsdag denne uken. Husk å fylle ut arket du fikk i UV faget. Vi ser frem til å hære fra deres \nopplevelser!  \n  Emne:  Mål: \nNorsk  Tekst i kontekst  Lese og reflektere over tekster i ulike kontekster  \nEngelsk  India  Be able to use adjektives in texts / be able to inte rprete a literary text  \nSamfunnsfag  Det industrialiserte \nsamfunnet  Kunne oppsummere relevante poeng knyttet til det industrialiserte samfunnet  \nReflektere over egen læring  \nKRLE    \nMatematikk  Funksjoner  Kunne bruke geogebra til å lage grafer til funksjonsuttrykk  \nNaturfag    \nKroppsøving    \n \n \n \n \n Time  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20  \n09:20  Engelsk  ALF K & H  \n Samfunnsfag  KRLE  \n2 09.30  \n10:30  Naturfag  ALF/Språk"
+  "rå_tekst": " ARBEIDSPLAN for 8 E uke 26  \nMjølkeråen skole, Marikollen 30b, 5136 Mjølkeråen, tlf. 53 03 57 30  \n   \n \n \nPALS:  \nJeg bidrar til at andre har det trygt og trives på skolen.  \nJeg tar ansvar for mine egne valg.  \nMandag avspaserer alle siste time valgfag. Dagen avsluttes derfor 13:10. Dette har sammenheng med at alle skal møte klokka 08:20 på tirsdag .  \nOnsdag har vi to timer avslutning i klassen. Dagen avsluttes 10:30.  \n \n \nTime  Tid Mandag  Tirsdag  Onsdag  Torsdag  Fredag  \n1 08:20  \n09:20  Levere \nChromebook + \nrydde/vaske \nklasserom og \nskap   \nOppmøte: 08:20  \n \nAktivitetsdag med \n8. trinn. Ta med \ngrillmaten du \nønsker å grille til \nlunsj.  \n \nDagen avsluttes \n13:10  \n  \nOppmøte: 08:20  \n \nAvslutning med \nklassen. Ta med \nnoe godt du kan \nspise til frokost \nsammen med \nklassen.  \n \nDagen avsluttes \n10:30   \n \n \n \nSommerferie         \n \nØnsker alle en fin sommer!  2 09.30  \n10:30   \nFilm \n \n3 11:00  \n12:00  \n4 12:10  \n13:10  Konsert med 10. \ntrinn  \n \nDagen avsluttes \nca. 13:1"
 }
